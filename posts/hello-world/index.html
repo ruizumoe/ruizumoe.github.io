@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  dir="ltr"
+  
+><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<title>Hugo博客搭建 | Ruizu Blog</title>
+
+<meta name="generator" content="Hugo Eureka 0.9.3" />
+<link rel="stylesheet" href="https://ruizumoe.github.io/css/eureka.min.9cec6350e37e534b0338fa9a085bf06855de3b0f2dcf857e792e5e97b07ea905d4d5513db554cbc26a9c3da622bae92d.css">
+<script defer src="https://ruizumoe.github.io/js/eureka.min.fa9a6bf6d7a50bb635b4cca7d2ba5cf3dfb095ae3798773f1328f7950028b48c17d06276594e1b5f244a25a6c969a705.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload"
+  href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&amp;family=Noto&#43;Serif&#43;SC:wght@400;600;700&amp;display=swap"
+  as="style" onload="this.onload=null;this.rel='stylesheet'">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.4.0/build/styles/base16/solarized-light.min.css"
+   media="print"
+  onload="this.media='all';this.onload=null" crossorigin>
+<script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.4.0/build/highlight.min.js"
+   crossorigin></script>
+  <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.4.0/build/languages/dart.min.js"
+     crossorigin></script>
+<link rel="stylesheet" href="https://ruizumoe.github.io/css/highlightjs.min.2958991528e43eb6fc9b8c4f2b8e052f79c4010718e1d1e888a777620e9ee63021c2c57ec7417a3108019bb8c41943e6.css" media="print" onload="this.media='all';this.onload=null">
+
+
+<script defer type="text/javascript" src="https://ruizumoe.github.io/js/fontawesome.min.fbf58334762fcb42c16e0593596bb7b04a0c32bf8e0cdd596701a58706a96ef120cb2abab225e9591ee227ffd9043e5a.js"></script>
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.css"
+   integrity="sha384-MlJdn/WNKDGXveldHDdyRP1R4CTHr3FeuDNfhsLPYrq2t0UBkUdK2jyTnXPEK1NQ"  media="print"
+  onload="this.media='all';this.onload=null" crossorigin>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/katex.min.js" 
+  integrity="sha384-VQ8d8WVFw0yHhCk5E8I86oOhv48xLpnDZx5T9GogA/Y84DcCKWXDmSDfn13bzFZY"  crossorigin></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.2/dist/contrib/auto-render.min.js"
+   integrity="sha384-&#43;XBljXPPiv&#43;OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR"  crossorigin></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+        { left: "\\(", right: "\\)", display: false },
+        { left: "\\[", right: "\\]", display: true }
+      ],
+    });
+  });
+</script>
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/mermaid@8.14.0/dist/mermaid.min.js" 
+  integrity="sha384-atOyb0FxAgN9LyAc6PEf9BjgwLISyansgdH8/VXQH8p2o5vfrRgmGIJ2Sg22L0A0"  crossorigin></script>
+
+
+<link rel="icon" type="image/png" sizes="32x32" href="https://ruizumoe.github.io/images/icon_hu64421c6c7700f606f0ad45d807017b09_5843_32x32_fill_box_center_3.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://ruizumoe.github.io/images/icon_hu64421c6c7700f606f0ad45d807017b09_5843_180x180_fill_box_center_3.png">
+
+<meta name="description"
+  content="本文章用于展示本次搭建Hugo博客的过程">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1 ,
+      "name":"文章",
+      "item":"https://ruizumoe.github.io/posts/"},{
+      "@type": "ListItem",
+      "position": 2 ,
+      "name":"Hugo博客搭建",
+      "item":"https://ruizumoe.github.io/posts/hello-world/"}]
+}
+</script>
+
+
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://ruizumoe.github.io/posts/hello-world/"
+    },
+    "headline": "Hugo博客搭建 | Ruizu Blog","datePublished": "2022-06-26T22:04:41+08:00",
+    "dateModified": "2022-06-26T22:04:41+08:00",
+    "wordCount":  663 ,
+    "author": {
+        "@type": "Person",
+        "name": "Ruizu"
+    },
+    "publisher": {
+        "@type": "Person",
+        "name": "WANG Chucheng",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://ruizumoe.github.io/images/icon.png"
+        }
+        },
+    "description": "\u003cp\u003e本文章用于展示本次搭建Hugo博客的过程\u003c\/p\u003e"
+}
+</script><meta property="og:title" content="Hugo博客搭建 | Ruizu Blog" />
+<meta property="og:type" content="article" />
+
+
+<meta property="og:image" content="https://ruizumoe.github.io/images/icon.png">
+
+
+<meta property="og:url" content="https://ruizumoe.github.io/posts/hello-world/" />
+
+
+
+
+<meta property="og:description" content="本文章用于展示本次搭建Hugo博客的过程" />
+
+
+
+
+<meta property="og:locale" content="en" />
+
+
+
+
+<meta property="og:site_name" content="Ruizu Blog" />
+
+
+
+
+
+
+<meta property="article:published_time" content="2022-06-26T22:04:41&#43;08:00" />
+
+
+<meta property="article:modified_time" content="2022-06-26T22:04:41&#43;08:00" />
+
+
+
+<meta property="article:section" content="posts" />
+
+
+
+
+
+  <body class="flex min-h-screen flex-col">
+    <header
+      class="min-h-16 pl-scrollbar bg-secondary-bg fixed z-50 flex w-full items-center shadow-sm"
+    >
+      <div class="mx-auto w-full max-w-screen-xl"><script>
+    let storageColorScheme = localStorage.getItem("lightDarkMode")
+    if (((storageColorScheme == 'Auto' || storageColorScheme == null) && window.matchMedia("(prefers-color-scheme: dark)").matches) || storageColorScheme == "Dark") {
+        document.getElementsByTagName('html')[0].classList.add('dark')
+    }
+</script>
+<nav class="flex items-center justify-between flex-wrap px-4 py-4 md:py-0">
+    <a href="/" class="me-6 text-primary-text text-xl font-bold">Ruizu Blog</a>
+    <button id="navbar-btn" class="md:hidden flex items-center px-3 py-2" aria-label="Open Navbar">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div id="target"
+        class="hidden block md:flex md:grow md:justify-between md:items-center w-full md:w-auto text-primary-text z-20">
+        <div class="md:flex md:h-16 text-sm md:grow pb-4 md:pb-0 border-b md:border-b-0">
+            <a href="/#about" class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2  border-transparent  me-4">关于我</a>
+            <a href="/posts/" class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2  selected-menu-item  me-4">文章</a>
+            <a href="/docs/" class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2  border-transparent  me-4">文档</a>
+        </div>
+
+        <div class="flex">
+            <div class="relative pt-4 md:pt-0">
+                <div class="cursor-pointer hover:text-eureka" id="lightDarkMode">
+                    <i class="fas fa-adjust"></i>
+                </div>
+                <div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-30" id="is-open">
+                </div>
+                <div class="absolute flex flex-col start-0 md:start-auto end-auto md:end-0 hidden bg-secondary-bg w-48 rounded py-2 border border-tertiary-bg cursor-pointer z-40"
+                    id='lightDarkOptions'>
+                    <span class="px-4 py-1 hover:text-eureka" name="Light">Light</span>
+                    <span class="px-4 py-1 hover:text-eureka" name="Dark">Dark</span>
+                    <span class="px-4 py-1 hover:text-eureka" name="Auto">Auto</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-0" id="is-open-mobile">
+    </div>
+
+</nav>
+<script>
+    
+    let element = document.getElementById('lightDarkMode')
+    if (storageColorScheme == null || storageColorScheme == 'Auto') {
+        document.addEventListener('DOMContentLoaded', () => {
+            window.matchMedia("(prefers-color-scheme: dark)").addEventListener('change', switchDarkMode)
+        })
+    } else if (storageColorScheme == "Light") {
+        element.firstElementChild.classList.remove('fa-adjust')
+        element.firstElementChild.setAttribute("data-icon", 'sun')
+        element.firstElementChild.classList.add('fa-sun')
+    } else if (storageColorScheme == "Dark") {
+        element.firstElementChild.classList.remove('fa-adjust')
+        element.firstElementChild.setAttribute("data-icon", 'moon')
+        element.firstElementChild.classList.add('fa-moon')
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        getcolorscheme();
+        switchBurger();
+    });
+</script>
+</div>
+    </header>
+    <main class="grow pt-16">
+        <div class="pl-scrollbar">
+          <div class="mx-auto w-full max-w-screen-xl lg:px-4 xl:px-8">
+  
+  
+  <div class="grid grid-cols-2 gap-4 lg:grid-cols-8 lg:pt-12">
+    <div
+      class=" bg-secondary-bg col-span-2 rounded px-6 py-8 lg:col-span-6"
+    >
+      <article class="prose">
+  <h1 class="mb-4">Hugo博客搭建</h1>
+
+  <div
+  class="text-tertiary-text not-prose mt-2 flex flex-row flex-wrap items-center"
+>
+  <div class="me-6 my-2">
+    <i class="fas fa-calendar me-1"></i>
+    <span
+      >2022-06-26</span
+    >
+  </div>
+  <div class="me-6 my-2">
+    <i class="fas fa-clock me-1"></i>
+    <span>2 min read</span>
+  </div>
+
+  
+
+  
+</div>
+
+
+  
+  
+
+  <p>本文章用于展示本次搭建Hugo博客的过程</p>
+<h2 id="一下载hugo安装包">一、下载Hugo安装包</h2>
+<p>github地址 <a href="https://github.com/gohugoio/hugo/releases">hugoGitHub地址</a></p>
+<p>由于部分主题是基于拓展版本的Hugo编写，因此此处选择最新版的extention版本<code>hugo_extended_0.101.0_Windows-64bit.zip</code></p>
+<p>将下载完成压缩包进行解压，得到对应的<code>hugo.exe</code>文件，并将该文件写入系统环境变量中</p>
+<p><img src="/images/image-20220626194353622.png" alt="环境变量"></p>
+<p>写入环境变量后直接使用<code>cmd</code> 命令执行 <code>hugo version</code>，出现以下版本信息即安装成功。</p>
+<p><img src="/images/image-20220626195134659.png" alt="安装成功"></p>
+<h2 id="二使用hugo来生成博客">二、使用Hugo来生成博客</h2>
+<h3 id="直接生成博客">直接生成博客</h3>
+<p>由于hugo会直接在命令行当前目录下生成博客内容，因此我们需要在使用<code>cmd</code>时找好需要的位置。</p>
+<p>然后使用命令行<code>hugo new site XXX(博客名称)</code> 即可生成对应的博客</p>
+<p><img src="/images/image-20220626195826159.png" alt="image-20220626195826159"></p>
+<p>出现以上信息表示博客生成成功</p>
+<h2 id="三下载并设置主题">三、下载并设置主题</h2>
+<p>hugo官方主题地址：<a href="https://themes.gohugo.io/">主题地址</a></p>
+<p>本文使用 <strong>Eureka</strong> 模板  gitHub地址为：<a href="https://github.com/wangchucheng/hugo-eureka">Eureka</a></p>
+<h3 id="31-使用git-submodules安装">3.1 使用Git Submodules安装</h3>
+<p>在hugo项目的根路径下运行命令</p>
+<pre><code>git submodule add https://github.com/wangchucheng/hugo-eureka.git themes/eureka
+</code></pre>
+<p>此时将在我们的根路径下得到对应的<code>thems/eureka</code>目录，该目录为我们作为模板的子模块。在配置中需要对该内容进行修改。</p>
+<p>接下来，将<a href="https://github.com/wangchucheng/hugo-eureka/tree/master/exampleSite">exampleSite</a>中的<code>config</code>文件夹复制到项目根目录下，对<code>config</code>文件夹的内容进行配置。</p>
+<p>最后将<code>config/_default/config.yaml</code>中的<code>theme: eureka</code>取消注释并将<code>theme: wangchucheng.com/hugo-eureka</code>注释。配置后删除原先的<code>config.toml</code>文件即可。</p>
+<p>完成以上步骤后使用以下命令即可在浏览器中预览项目</p>
+</article>
+
+
+      
+
+      
+
+
+
+      
+        <div class="py-2">
+  
+    <div class="my-8 flex flex-col items-center md:flex-row">
+      <a href="https://ruizumoe.github.io/authors/ruizu/" class="md:me-4 text-primary-text h-24 w-24">
+        
+        
+          <img
+            src="https://ruizumoe.github.io/images/myIcon.webp"
+            class="bg-primary-bg w-full rounded-full"
+            alt="Avatar"
+          />
+        
+      </a>
+      <div class="mt-4 w-full md:mt-0 md:w-auto">
+        <a
+          href="https://ruizumoe.github.io/authors/ruizu/"
+          class="mb-2 block border-b pb-1 text-lg font-bold"
+        >
+          <h3>刘莛杨</h3>
+        </a>
+        <span class="block pb-2">一个想要做游戏的玩家.</span>
+        
+          
+          
+          
+          
+          <a href="" class="me-2">
+            <i class="&lt;nil&gt; fa-&lt;nil&gt;"></i>
+          </a>
+        
+      </div>
+    </div>
+  
+</div>
+
+      
+
+      
+
+      
+
+
+
+    </div>
+    
+      <div class="col-span-2">
+        
+        
+          <div
+  class="
+    bg-primary-bg
+   prose sticky top-16 z-10 hidden px-6 py-4 lg:block"
+>
+  <h3>On This Page</h3>
+</div>
+<div
+  class="sticky-toc  hidden px-6 pb-6 lg:block"
+>
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#一下载hugo安装包">一、下载Hugo安装包</a></li>
+    <li><a href="#二使用hugo来生成博客">二、使用Hugo来生成博客</a>
+      <ul>
+        <li><a href="#直接生成博客">直接生成博客</a></li>
+      </ul>
+    </li>
+    <li><a href="#三下载并设置主题">三、下载并设置主题</a>
+      <ul>
+        <li><a href="#31-使用git-submodules安装">3.1 使用Git Submodules安装</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+</div>
+<script>
+  window.addEventListener("DOMContentLoaded", () => {
+    enableStickyToc();
+  });
+</script>
+
+        
+      </div>
+    
+
+    
+    
+  </div>
+
+  
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        hljs.highlightAll();
+      });
+    </script>
+
+          </div>
+        </div>
+      
+    </main>
+    <footer class="pl-scrollbar">
+      <div class="mx-auto w-full max-w-screen-xl"><div class="text-center p-6 pin-b">
+    <p class="text-sm text-tertiary-text">&copy; 2021 <a href="https://ruizumoe.site">Liu Ty</a>
+ &middot;  Powered by the <a href="https://github.com/wangchucheng/hugo-eureka" class="hover:text-eureka">Eureka</a> theme for <a href="https://gohugo.io" class="hover:text-eureka">Hugo</a></p>
+</div></div>
+    </footer>
+  </body>
+</html>

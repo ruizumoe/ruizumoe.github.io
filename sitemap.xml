@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://ruizumoe.github.io/authors/</loc>
+    <lastmod>2022-06-26T22:04:41+08:00</lastmod>
+  </url><url>
+    <loc>https://ruizumoe.github.io/posts/hello-world/</loc>
+    <lastmod>2022-06-26T22:04:41+08:00</lastmod>
+  </url><url>
+    <loc>https://ruizumoe.github.io/</loc>
+    <lastmod>2022-06-26T22:04:41+08:00</lastmod>
+  </url><url>
+    <loc>https://ruizumoe.github.io/authors/ruizu/</loc>
+    <lastmod>2022-06-26T22:04:41+08:00</lastmod>
+  </url><url>
+    <loc>https://ruizumoe.github.io/posts/</loc>
+    <lastmod>2022-06-26T22:04:41+08:00</lastmod>
+  </url><url>
+    <loc>https://ruizumoe.github.io/categories/</loc>
+  </url><url>
+    <loc>https://ruizumoe.github.io/docs/</loc>
+  </url><url>
+    <loc>https://ruizumoe.github.io/authors/example-author/</loc>
+  </url><url>
+    <loc>https://ruizumoe.github.io/authors/hugo-authors/</loc>
+  </url><url>
+    <loc>https://ruizumoe.github.io/series/</loc>
+  </url><url>
+    <loc>https://ruizumoe.github.io/tags/</loc>
+  </url>
+</urlset>
