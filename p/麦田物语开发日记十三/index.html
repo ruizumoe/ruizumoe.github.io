@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='完成游戏音效的控制'>
+<title>麦田物语开发日记(十三)</title>
+
+<link rel='canonical' href='https://ruizumoe.github.io/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E5%8D%81%E4%B8%89/'>
+
+<link rel="stylesheet" href="/scss/style.min.5be32ca3f6e1a997c75795c4359147cc6d4fbd34948c0acd51e31d237033978a.css"><meta property='og:title' content='麦田物语开发日记(十三)'>
+<meta property='og:description' content='完成游戏音效的控制'>
+<meta property='og:url' content='https://ruizumoe.github.io/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E5%8D%81%E4%B8%89/'>
+<meta property='og:site_name' content='Ruizumoe&#39;Blog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='麦田物语' /><meta property='article:tag' content='音效制作' /><meta property='article:tag' content='对象池' /><meta property='article:published_time' content='2023-03-05T19:16:45&#43;08:00'/><meta property='article:modified_time' content='2023-03-05T19:16:45&#43;08:00'/><meta property='og:image' content='https://ruizumoe.github.io/img/story_of_wheat_field/wheatField.jpg' />
+<meta name="twitter:title" content="麦田物语开发日记(十三)">
+<meta name="twitter:description" content="完成游戏音效的控制"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://ruizumoe.github.io/img/story_of_wheat_field/wheatField.jpg' />
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hucf3d7386933de54e98ba7bb3fdb993f3_828119_300x0_resize_box_3.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Ruizumoe&#39;Blog</a></h1>
+            <h2 class="site-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='https://github.com/ruizumoe'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href=''
+                        target="_blank"
+                        title="Twitter"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>Dark Mode</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#创建声音数据结构在不同场景出现不同音源">创建声音数据结构，在不同场景出现不同音源</a></li>
+    <li><a href="#使用audiomixer实现音效控制和转换">使用AudioMixer实现音效控制和转换</a></li>
+    <li><a href="#单个音效的增加">单个音效的增加</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E5%8D%81%E4%B8%89/">
+                
+                    <img src="/img/story_of_wheat_field/wheatField.jpg" loading="lazy" alt="Featured image of post 麦田物语开发日记(十三)" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/unity/" style="background-color: #2a9d8f; color: #fff;">
+                Unity
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E5%8D%81%E4%B8%89/">麦田物语开发日记(十三)</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            完成游戏音效的控制
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Mar 05, 2023</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    4 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="制作游戏音效">制作游戏音效</h1>
+<h2 id="创建声音数据结构在不同场景出现不同音源">创建声音数据结构，在不同场景出现不同音源</h2>
+<p>在<code>MainCamera</code>中有玩家能听到的音源，因此只需要保证在对应场景能正常切换不同音源即可。</p>
+<p>因此需要一个专门管理音源的控制器<code>AudioManager</code>，由于会出现环境音和背景音乐，因此在<code>AudioManager</code>下增加两个音源的控制器<code>Game Music</code>和<code>Ambient Music</code>，在两个音源控制器上需要一个音源组件<code>Audio Source</code>。</p>
+<p>由于不同动作触发的音效不同，且音调等内容都需要修改，因此需要一个特别的数据结构来存放所有音源<code>SoundDetails</code></p>
+<p>除了管理音源的数据，还需要一个数据结构<code>SceneSound</code>来处理不同情况下使用的音源（包括背景音乐和环境音）。</p>
+<p>然后在切换场景的时候获得背景音等，然后调用播放函数</p>
+<p><strong>声音数据结构</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="na">[CreateAssetMenu(fileName = &#34;SoundDetailsList_SO&#34;, menuName = &#34;Sound/SoundDetailsList&#34;)]</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">SoundDetailsList_SO</span> <span class="p">:</span> <span class="n">ScriptableObject</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">SoundDetails</span><span class="p">&gt;</span> <span class="n">soundDetailsList</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">SoundDetails</span> <span class="n">GetSoundDetails</span><span class="p">(</span><span class="n">SoundName</span> <span class="n">soundName</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">soundDetailsList</span><span class="p">.</span><span class="n">Find</span><span class="p">(</span><span class="n">s</span> <span class="p">=&gt;</span> <span class="n">s</span><span class="p">.</span><span class="n">soundName</span> <span class="p">==</span> <span class="n">soundName</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="na">
+</span></span></span><span class="line"><span class="cl"><span class="na">[System.Serializable]</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">SoundDetails</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">SoundName</span> <span class="n">soundName</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">AudioClip</span> <span class="n">soundClip</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="cm">/* 音源的特殊设定 */</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [UnityEngine.Range(0.1f, 1.5f)]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">float</span> <span class="n">soundPitchMin</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [UnityEngine.Range(0.1f, 1.5f)]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">float</span> <span class="n">soundPitchMax</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [UnityEngine.Range(0.1f, 1f)]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">float</span> <span class="n">soundVolume</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>以上数据结构用于存放每个音乐名对应的音乐信息，即声音片段</p>
+<p><strong>场景音乐管理数据结构</strong></p>
+<p>该数据结构用于管理每个场景需要的所有音乐信息</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="na">[CreateAssetMenu(fileName = &#34;SceneSoundList_SO&#34;, menuName = &#34;Sound/SceneSoundList&#34;)]</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">SceneSoundList_SO</span> <span class="p">:</span> <span class="n">ScriptableObject</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">SceneSoundItem</span><span class="p">&gt;</span> <span class="n">sceneSoundItemList</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">SceneSoundItem</span> <span class="n">GetSceneSoundItem</span><span class="p">(</span><span class="kt">string</span> <span class="n">sceneName</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">sceneSoundItemList</span><span class="p">.</span><span class="n">Find</span><span class="p">(</span><span class="n">s</span> <span class="p">=&gt;</span> <span class="n">s</span><span class="p">.</span><span class="n">sceneName</span> <span class="p">==</span> <span class="n">sceneName</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="na">
+</span></span></span><span class="line"><span class="cl"><span class="na">[System.Serializable]</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">SceneSoundItem</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [SceneName]</span><span class="k">public</span> <span class="kt">string</span> <span class="n">sceneName</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">SoundName</span> <span class="n">ambientMusic</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">SoundName</span> <span class="n">sceneMusic</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>音乐管理控制器</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">AudioManager</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [Header(&#34;音乐库&#34;)]</span> <span class="k">public</span> <span class="n">SoundDetailsList_SO</span> <span class="n">soundDetailsData</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">SceneSoundList_SO</span> <span class="n">sceneSoundData</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">AudioSource</span> <span class="n">ambientSource</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">AudioSource</span> <span class="n">gameSource</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="kt">float</span> <span class="n">MusicStartSecond</span> <span class="p">=&gt;</span> <span class="n">Random</span><span class="p">.</span><span class="n">Range</span><span class="p">(</span><span class="m">3f</span><span class="p">,</span> <span class="m">5f</span><span class="p">);</span>  <span class="cm">/* 播放音乐的等待时间 */</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">Coroutine</span> <span class="n">_soundRoutine</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">OnEnable</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">EventHandler</span><span class="p">.</span><span class="n">AfterSceneLoadEvent</span> <span class="p">+=</span> <span class="n">OnAfterSceneLoadEvent</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">OnDisable</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">EventHandler</span><span class="p">.</span><span class="n">AfterSceneLoadEvent</span> <span class="p">-=</span> <span class="n">OnAfterSceneLoadEvent</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cp">#region 注册事件</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">OnAfterSceneLoadEvent</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/* 切换场景并获得当前场景的对应音乐 */</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">string</span> <span class="n">sceneName</span> <span class="p">=</span> <span class="n">SceneManager</span><span class="p">.</span><span class="n">GetActiveScene</span><span class="p">().</span><span class="n">name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">SceneSoundItem</span> <span class="n">sceneSound</span> <span class="p">=</span> <span class="n">sceneSoundData</span><span class="p">.</span><span class="n">GetSceneSoundItem</span><span class="p">(</span><span class="n">sceneName</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">sceneSound</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">SoundDetails</span> <span class="n">ambient</span> <span class="p">=</span> <span class="n">soundDetailsData</span><span class="p">.</span><span class="n">GetSoundDetails</span><span class="p">(</span><span class="n">sceneSound</span><span class="p">.</span><span class="n">ambientMusic</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">SoundDetails</span> <span class="n">music</span> <span class="p">=</span> <span class="n">soundDetailsData</span><span class="p">.</span><span class="n">GetSoundDetails</span><span class="p">(</span><span class="n">sceneSound</span><span class="p">.</span><span class="n">sceneMusic</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">_soundRoutine</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">StopCoroutine</span><span class="p">(</span><span class="n">_soundRoutine</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_soundRoutine</span> <span class="p">=</span> <span class="n">StartCoroutine</span><span class="p">(</span><span class="n">PlaySoundRoutine</span><span class="p">(</span><span class="n">music</span><span class="p">,</span> <span class="n">ambient</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="err">#</span><span class="n">endregion</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cp">#region 播放音乐</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">IEnumerator</span> <span class="n">PlaySoundRoutine</span><span class="p">(</span><span class="n">SoundDetails</span> <span class="n">music</span><span class="p">,</span> <span class="n">SoundDetails</span> <span class="n">ambient</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">music</span> <span class="p">!=</span> <span class="k">null</span> <span class="p">&amp;&amp;</span> <span class="n">ambient</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">PlayAmbientClip</span><span class="p">(</span><span class="n">ambient</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="k">yield</span> <span class="k">return</span> <span class="k">new</span> <span class="n">WaitForSeconds</span><span class="p">(</span><span class="n">MusicStartSecond</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">PlayMusicClip</span><span class="p">(</span><span class="n">music</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">PlayMusicClip</span><span class="p">(</span><span class="n">SoundDetails</span> <span class="n">soundDetails</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">gameSource</span><span class="p">.</span><span class="n">clip</span> <span class="p">=</span> <span class="n">soundDetails</span><span class="p">.</span><span class="n">soundClip</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">gameSource</span><span class="p">.</span><span class="n">isActiveAndEnabled</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">gameSource</span><span class="p">.</span><span class="n">Play</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">PlayAmbientClip</span><span class="p">(</span><span class="n">SoundDetails</span> <span class="n">soundDetails</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ambientSource</span><span class="p">.</span><span class="n">clip</span> <span class="p">=</span> <span class="n">soundDetails</span><span class="p">.</span><span class="n">soundClip</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">ambientSource</span><span class="p">.</span><span class="n">isActiveAndEnabled</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">ambientSource</span><span class="p">.</span><span class="n">Play</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="err">#</span><span class="n">endregion</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>在该管理代码中，主要是需要通过获得当前的场景信息来获取场景需要的音乐文件，然后将这些音乐文件赋值给音源管理组件，然后执行播放功能。</p>
+<p>在该部分使用了协程来保证切换场景后声音的等待时间出现。在此处如果要关闭一个特定的协程，需要先定义一个协程变量，然后关闭该协程，而生成则是直接赋值。</p>
+<blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">_soundRoutine</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> <span class="n">StopCoroutine</span><span class="p">(</span><span class="n">_soundRoutine</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">_soundRoutine</span> <span class="p">=</span> <span class="n">StartCoroutine</span><span class="p">(</span><span class="n">PlaySoundRoutine</span><span class="p">(</span><span class="n">music</span><span class="p">,</span> <span class="n">ambient</span><span class="p">));</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></blockquote>
+<p><strong>后续将通过额外的功能来无缝衔接音乐</strong></p>
+<h2 id="使用audiomixer实现音效控制和转换">使用AudioMixer实现音效控制和转换</h2>
+<p><strong>打开AudioMixer面板</strong></p>
+<p><code>Window栏-&gt;AudioMixer</code></p>
+<p><strong>创建AudioMixer</strong></p>
+<p>在项目窗口中右键创建</p>
+<p><strong>AudioMixer内容</strong></p>
+<p><img src="/WFImg/image-20230227194043065.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20230227194043065"
+	
+	
+></p>
+<p><code>Snapshots</code>可以作为某组音量内容的整体方案</p>
+<p><code>Group</code>用于管理音轨，子音轨收到父音轨管理</p>
+<p>如果需要通过代码控制音轨，则需要在音轨的<code>Inspector</code>中将音轨暴露出来，然后再音源中选择指定的音轨输出。</p>
+<p>然后在<code>AudioManager.cs</code>中使用<code>AudioMixer</code>组件来控制具体的音轨的数值</p>
+<img src="/WFImg/image-20230227204247717.png" alt="image-20230227204247717" style="zoom:50%;" />
+<p><strong>代码修改部分</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">PlayMusicClip</span><span class="p">(</span><span class="n">SoundDetails</span> <span class="n">soundDetails</span><span class="p">,</span> <span class="kt">float</span> <span class="n">transitionTime</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">gameAudioMixer</span><span class="p">.</span><span class="n">SetFloat</span><span class="p">(</span><span class="s">&#34;MusicVolume&#34;</span><span class="p">,</span> <span class="n">ConvertSoundVolume</span><span class="p">(</span><span class="n">soundDetails</span><span class="p">.</span><span class="n">soundVolume</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="n">gameSource</span><span class="p">.</span><span class="n">clip</span> <span class="p">=</span> <span class="n">soundDetails</span><span class="p">.</span><span class="n">soundClip</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">gameSource</span><span class="p">.</span><span class="n">isActiveAndEnabled</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">gameSource</span><span class="p">.</span><span class="n">Play</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/* 切换到当前快照需要的时间 */</span>
+</span></span><span class="line"><span class="cl">    <span class="n">normalSnapshot</span><span class="p">.</span><span class="n">TransitionTo</span><span class="p">(</span><span class="n">transitionTime</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">PlayAmbientClip</span><span class="p">(</span><span class="n">SoundDetails</span> <span class="n">soundDetails</span><span class="p">,</span> <span class="kt">float</span> <span class="n">transitionTime</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">gameAudioMixer</span><span class="p">.</span><span class="n">SetFloat</span><span class="p">(</span><span class="s">&#34;AmbientVolume&#34;</span><span class="p">,</span> <span class="n">ConvertSoundVolume</span><span class="p">(</span><span class="n">soundDetails</span><span class="p">.</span><span class="n">soundVolume</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ambientSource</span><span class="p">.</span><span class="n">clip</span> <span class="p">=</span> <span class="n">soundDetails</span><span class="p">.</span><span class="n">soundClip</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">ambientSource</span><span class="p">.</span><span class="n">isActiveAndEnabled</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ambientSource</span><span class="p">.</span><span class="n">Play</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ambientSnapshot</span><span class="p">.</span><span class="n">TransitionTo</span><span class="p">(</span><span class="n">transitionTime</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="单个音效的增加">单个音效的增加</h2>
+<p>为了增加单个音效的，不能为每一个<code>prefab</code>添加音源，因此建立一个能够存放音源GO的线程池，每当得到一个GO的时候播放特定的音源。</p>
+<blockquote>
+<p>由于目前Unity自带对象池get音源<code>prefab</code>的方式有BUG，必须第二次get才能播放音效，因此需要使用传统的创建对象池的方法，即自己编写代码获取线程</p>
+</blockquote>
+<ul>
+<li>基础方法创建线程池</li>
+</ul>
+<p><strong>创建音源预制体</strong></p>
+<p>创建音源预制体后，为其增加初始化控制代码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="na">[RequireComponent(typeof(AudioSource))]</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">Sound</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [SerializeField]</span> <span class="k">private</span> <span class="n">AudioSource</span> <span class="n">audioSource</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">void</span> <span class="n">SetAudio</span><span class="p">(</span><span class="n">SoundDetails</span> <span class="n">soundDetails</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">audioSource</span><span class="p">.</span><span class="n">clip</span> <span class="p">=</span> <span class="n">soundDetails</span><span class="p">.</span><span class="n">soundClip</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">audioSource</span><span class="p">.</span><span class="n">volume</span> <span class="p">=</span> <span class="n">AudioManager</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">ConvertSoundVolume</span><span class="p">(</span><span class="n">soundDetails</span><span class="p">.</span><span class="n">soundVolume</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">audioSource</span><span class="p">.</span><span class="n">pitch</span> <span class="p">=</span> <span class="n">Random</span><span class="p">.</span><span class="n">Range</span><span class="p">(</span><span class="n">soundDetails</span><span class="p">.</span><span class="n">soundPitchMin</span><span class="p">,</span> <span class="n">soundDetails</span><span class="p">.</span><span class="n">soundPitchMax</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>此时的<code>audioSource</code>是当前预制体自己的音源组件</p>
+</blockquote>
+<p>然后将该GO作为预制体存入<code>PoolManager</code>中，然后使用一个新的事件当触发播放音效的时候就获得线程池中的GO，并初始化。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">// PoolManager.cs</span>
+</span></span><span class="line"><span class="cl"><span class="cm">/* 有BUG的方法 */</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">InitSoundEffect</span><span class="p">(</span><span class="n">ParticleEffectType</span> <span class="n">effectType</span><span class="p">,</span> <span class="n">SoundDetails</span> <span class="n">soundDetails</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">_poolEffectDic</span><span class="p">.</span><span class="n">ContainsKey</span><span class="p">(</span><span class="n">effectType</span><span class="p">.</span><span class="n">ToString</span><span class="p">()))</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ObjectPool</span><span class="p">&lt;</span><span class="n">GameObject</span><span class="p">&gt;</span> <span class="n">soundPool</span> <span class="p">=</span> <span class="n">_poolEffectDic</span><span class="p">[</span><span class="n">effectType</span><span class="p">.</span><span class="n">ToString</span><span class="p">()];</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">var</span> <span class="n">soundObj</span> <span class="p">=</span> <span class="n">soundPool</span><span class="p">.</span><span class="n">Get</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">soundObj</span><span class="p">.</span><span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">Sound</span><span class="p">&gt;().</span><span class="n">SetAudio</span><span class="p">(</span><span class="n">soundDetails</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">StartCoroutine</span><span class="p">(</span><span class="n">ReleaseSoundRoutine</span><span class="p">(</span><span class="n">soundPool</span><span class="p">,</span> <span class="n">soundObj</span><span class="p">,</span> <span class="n">soundDetails</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="n">IEnumerator</span> <span class="n">ReleaseSoundRoutine</span><span class="p">(</span><span class="n">ObjectPool</span><span class="p">&lt;</span><span class="n">GameObject</span><span class="p">&gt;</span> <span class="n">pool</span><span class="p">,</span><span class="n">GameObject</span> <span class="n">soundObj</span><span class="p">,</span> <span class="n">SoundDetails</span> <span class="n">soundDetails</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">yield</span> <span class="k">return</span> <span class="k">new</span> <span class="n">WaitForSeconds</span><span class="p">(</span><span class="n">soundDetails</span><span class="p">.</span><span class="n">soundClip</span><span class="p">.</span><span class="n">length</span><span class="p">);</span>    <span class="c1">// 音乐长度</span>
+</span></span><span class="line"><span class="cl">    <span class="n">pool</span><span class="p">.</span><span class="n">Release</span><span class="p">(</span><span class="n">soundObj</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>设置事件触发</strong></p>
+<p>建立事件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">// EventHandle.cs</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">static</span> <span class="k">event</span> <span class="n">Action</span><span class="p">&lt;</span><span class="n">ParticleEffectType</span><span class="p">,</span> <span class="n">SoundDetails</span><span class="p">&gt;</span> <span class="n">InitSoundEffectEvent</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">static</span> <span class="k">void</span> <span class="n">CallInitSoundEffectEvent</span><span class="p">(</span><span class="n">ParticleEffectType</span> <span class="n">particleEffectType</span><span class="p">,</span> <span class="n">SoundDetails</span> <span class="n">soundDetails</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">InitSoundEffectEvent</span><span class="p">?.</span><span class="n">Invoke</span><span class="p">(</span><span class="n">particleEffectType</span><span class="p">,</span> <span class="n">soundDetails</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>为<code>Cropdetails</code>设置音效名称，然后通过<code>SoundManager.cs</code>获得音效具体数据</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">// dataCollection.cs</span>
+</span></span><span class="line"><span class="cl"><span class="na">[Space]</span> <span class="p">[</span><span class="n">Header</span><span class="p">(</span><span class="s">&#34;音效名称&#34;</span><span class="p">)]</span> <span class="k">public</span> <span class="n">SoundName</span> <span class="n">soundName</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>为每一种作物添加音效（由于作物，石头，杂草的处理是分开的，因此添加音效也要在不同地方</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">// Crop.cs</span>
+</span></span><span class="line"><span class="cl"><span class="cm">/*音效*/</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">currentCropDetails</span><span class="p">.</span><span class="n">soundName</span> <span class="p">!=</span> <span class="n">SoundName</span><span class="p">.</span><span class="n">None</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 更新后的内容 EventHandler.CallPlaySoundEvent(currentCropDetails.soundName);</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">var</span> <span class="n">soundDetails</span> <span class="p">=</span> <span class="n">AudioManager</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">soundDetailsData</span><span class="p">.</span><span class="n">GetSoundDetails</span><span class="p">(</span><span class="n">currentCropDetails</span><span class="p">.</span><span class="n">soundName</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">EventHandler</span><span class="p">.</span><span class="n">CallInitSoundEffectEvent</span><span class="p">(</span><span class="n">ParticleEffectType</span><span class="p">.</span><span class="n">Sound</span><span class="p">,</span> <span class="n">soundDetails</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>代码完成创建线程池的工作（解决Unity自带线程池问题）</strong></p>
+<p>使用队列的方式，预先建造一个含有20个音源对象的队列，每次都从该队列中获取音源预制体</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="cm">/* 使用队列自建线程池 */</span>
+</span></span><span class="line"><span class="cl"><span class="cm">/*初始化对象池*/</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">CreatSoundPool</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">var</span> <span class="n">soundParent</span> <span class="p">=</span> <span class="k">new</span> <span class="n">GameObject</span><span class="p">(</span><span class="n">ParticleEffectType</span><span class="p">.</span><span class="n">Sound</span><span class="p">.</span><span class="n">ToString</span><span class="p">()).</span><span class="n">transform</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">soundParent</span><span class="p">.</span><span class="n">SetParent</span><span class="p">(</span><span class="n">transform</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="m">20</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">GameObject</span> <span class="n">obj</span> <span class="p">=</span> <span class="n">Instantiate</span><span class="p">(</span><span class="n">prefabList</span><span class="p">.</span><span class="n">Find</span><span class="p">(</span><span class="n">p</span> <span class="p">=&gt;</span> <span class="n">p</span><span class="p">.</span><span class="n">name</span> <span class="p">==</span> <span class="n">ParticleEffectType</span><span class="p">.</span><span class="n">Sound</span><span class="p">.</span><span class="n">ToString</span><span class="p">()),</span> <span class="n">soundParent</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">obj</span><span class="p">.</span><span class="n">SetActive</span><span class="p">(</span><span class="k">false</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_soundQueue</span><span class="p">.</span><span class="n">Enqueue</span><span class="p">(</span><span class="n">obj</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cm">/*对象元素获取方法*/</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="n">GameObject</span> <span class="n">GetSoundPoolObj</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">_soundQueue</span><span class="p">.</span><span class="n">Count</span> <span class="p">&lt;</span> <span class="m">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">CreatSoundPool</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">_soundQueue</span><span class="p">.</span><span class="n">Dequeue</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">InitSoundEffect</span><span class="p">(</span><span class="n">ParticleEffectType</span> <span class="n">effectType</span><span class="p">,</span> <span class="n">SoundDetails</span> <span class="n">soundDetails</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">_poolEffectDic</span><span class="p">.</span><span class="n">ContainsKey</span><span class="p">(</span><span class="n">effectType</span><span class="p">.</span><span class="n">ToString</span><span class="p">()))</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">var</span> <span class="n">soundObj</span> <span class="p">=</span> <span class="n">GetSoundPoolObj</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">soundObj</span><span class="p">.</span><span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">Sound</span><span class="p">&gt;().</span><span class="n">SetAudio</span><span class="p">(</span><span class="n">soundDetails</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">soundObj</span><span class="p">.</span><span class="n">SetActive</span><span class="p">(</span><span class="k">true</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">StartCoroutine</span><span class="p">(</span><span class="n">ReleaseSoundObj</span><span class="p">(</span><span class="n">soundObj</span><span class="p">,</span> <span class="n">soundDetails</span><span class="p">.</span><span class="n">soundClip</span><span class="p">.</span><span class="n">length</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="n">IEnumerator</span> <span class="n">ReleaseSoundObj</span><span class="p">(</span><span class="n">GameObject</span> <span class="n">obj</span><span class="p">,</span> <span class="kt">float</span> <span class="n">duration</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">yield</span> <span class="k">return</span> <span class="k">new</span> <span class="n">WaitForSeconds</span><span class="p">(</span><span class="n">duration</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">obj</span><span class="p">.</span><span class="n">SetActive</span><span class="p">(</span><span class="k">false</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_soundQueue</span><span class="p">.</span><span class="n">Enqueue</span><span class="p">(</span><span class="n">obj</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>增加脚步音效</li>
+</ul>
+<p>为人物动画帧添加事件，然后该事件调用一个单独播放音效的事件，该事件由<code>AudioManager</code>注册，在该注册函数中会获取当前单独播放音效事件声音名称，然后获取音效内容，并呼叫真正的音效初始化事件(<code>PoolManager注册</code>)</p>
+<p><strong>人物的动画事件</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">AnimationEvent</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">void</span> <span class="n">FootStepSound</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">EventHandler</span><span class="p">.</span><span class="n">CallPlaySoundEvent</span><span class="p">(</span><span class="n">SoundName</span><span class="p">.</span><span class="n">FootStepSoft</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>直接播放音效事件的注册，获得音效名称后，调用<code>CallInitSoundEffectEvent</code>事件，让<code>PoolManager</code>创建音效事件。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">// AudioManager.cs</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// 直接播放音效事件</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;param name=&#34;soundName&#34;&gt;音效名称&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">OnPlaySoundEvent</span><span class="p">(</span><span class="n">SoundName</span> <span class="n">soundName</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">SoundDetails</span> <span class="n">soundDetails</span> <span class="p">=</span> <span class="n">soundDetailsData</span><span class="p">.</span><span class="n">GetSoundDetails</span><span class="p">(</span><span class="n">soundName</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">soundDetails</span> <span class="k">is</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">EventHandler</span><span class="p">.</span><span class="n">CallInitSoundEffectEvent</span><span class="p">(</span><span class="n">ParticleEffectType</span><span class="p">.</span><span class="n">Sound</span><span class="p">,</span> <span class="n">soundDetails</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD/">麦田物语</a>
+        
+            <a href="/tags/%E9%9F%B3%E6%95%88%E5%88%B6%E4%BD%9C/">音效制作</a>
+        
+            <a href="/tags/%E5%AF%B9%E8%B1%A1%E6%B1%A0/">对象池</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E5%85%AB/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="/img/story_of_wheat_field/wheatField.jpg" loading="lazy" data-key="" data-hash="/img/story_of_wheat_field/wheatField.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">麦田物语开发日记(八)</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E5%8D%81%E4%BA%94/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="/img/story_of_wheat_field/wheatField.jpg" loading="lazy" data-key="" data-hash="/img/story_of_wheat_field/wheatField.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">麦田物语开发日记(十五)</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E5%8D%81%E4%BA%8C/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="/img/story_of_wheat_field/wheatField.jpg" loading="lazy" data-key="" data-hash="/img/story_of_wheat_field/wheatField.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">麦田物语开发日记(十二)</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E5%8D%81%E4%B8%80/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="/img/story_of_wheat_field/wheatField.jpg" loading="lazy" data-key="" data-hash="/img/story_of_wheat_field/wheatField.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">麦田物语开发日记(十一)</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E5%8D%81%E5%9B%9B/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="/img/story_of_wheat_field/wheatField.jpg" loading="lazy" data-key="" data-hash="/img/story_of_wheat_field/wheatField.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">麦田物语开发日记(十四)</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2023 Ruizumoe&#39;Blog
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.16.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

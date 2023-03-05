@@ -1,0 +1,2346 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='完成瓦片地图的事件处理'>
+<title>麦田物语开发日记(七)</title>
+
+<link rel='canonical' href='https://ruizumoe.github.io/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E4%B8%83/'>
+
+<link rel="stylesheet" href="/scss/style.min.5be32ca3f6e1a997c75795c4359147cc6d4fbd34948c0acd51e31d237033978a.css"><meta property='og:title' content='麦田物语开发日记(七)'>
+<meta property='og:description' content='完成瓦片地图的事件处理'>
+<meta property='og:url' content='https://ruizumoe.github.io/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E4%B8%83/'>
+<meta property='og:site_name' content='Ruizumoe&#39;Blog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='麦田物语' /><meta property='article:tag' content='瓦片地图' /><meta property='article:published_time' content='2023-03-05T19:16:38&#43;08:00'/><meta property='article:modified_time' content='2023-03-05T19:16:38&#43;08:00'/><meta property='og:image' content='https://ruizumoe.github.io/img/story_of_wheat_field/wheatField.jpg' />
+<meta name="twitter:title" content="麦田物语开发日记(七)">
+<meta name="twitter:description" content="完成瓦片地图的事件处理"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://ruizumoe.github.io/img/story_of_wheat_field/wheatField.jpg' />
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hucf3d7386933de54e98ba7bb3fdb993f3_828119_300x0_resize_box_3.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Ruizumoe&#39;Blog</a></h1>
+            <h2 class="site-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='https://github.com/ruizumoe'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href=''
+                        target="_blank"
+                        title="Twitter"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>Dark Mode</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#鼠标图标的变化">鼠标图标的变化</a></li>
+    <li><a href="#设置瓦片地图的地图事件">设置瓦片地图的地图事件</a></li>
+    <li><a href="#生成地图信息">生成地图信息</a></li>
+    <li><a href="#根据网格信息处理处理鼠标图片">根据网格信息处理处理鼠标图片</a></li>
+    <li><a href="#实现鼠标选中物品后的场景点击事件">实现鼠标选中物品后的场景点击事件</a></li>
+    <li><a href="#实现物品被扔出的效果">实现物品被扔出的效果</a></li>
+    <li><a href="#实现挖坑效果">实现挖坑效果</a></li>
+    <li><a href="#设置使用工具的动画">设置使用工具的动画</a></li>
+    <li><a href="#实现地图信息随事件变化">实现地图信息随事件变化</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E4%B8%83/">
+                
+                    <img src="/img/story_of_wheat_field/wheatField.jpg" loading="lazy" alt="Featured image of post 麦田物语开发日记(七)" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/unity/" style="background-color: #2a9d8f; color: #fff;">
+                Unity
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E4%B8%83/">麦田物语开发日记(七)</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            完成瓦片地图的事件处理
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Mar 05, 2023</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    11 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="游戏内容">游戏内容</h1>
+<h2 id="鼠标图标的变化">鼠标图标的变化</h2>
+<p>使用一个图片来跟随鼠标移动，用该方式来表示鼠标的变化</p>
+<blockquote>
+<p>由于是跨场景赋值，Manager是主场景，而UI是另一个场景，因此不能直接用层次窗口拖拽的方式，需要通过tag去查找我们的canvas的内容</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">System</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">System.Collections</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">System.Collections.Generic</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">UnityEngine</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">UnityEngine.EventSystems</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">UnityEngine.UI</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">CursorManager</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">Sprite</span> <span class="n">normal</span><span class="p">,</span> <span class="n">tool</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">item</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">Sprite</span> <span class="n">_currentSprite</span><span class="p">;</span>      <span class="c1">// 临时承接下一帧应该使用的图标</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">Image</span> <span class="n">_cursorImage</span><span class="p">;</span>     <span class="c1">// 实际的图标的图片</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">RectTransform</span> <span class="n">_cursorCanvas</span><span class="p">;</span>        <span class="c1">// 通过代码获得画布的内容</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">Start</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/*跨场景获取鼠标图片的信息*/</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_cursorCanvas</span> <span class="p">=</span> <span class="n">GameObject</span><span class="p">.</span><span class="n">FindGameObjectWithTag</span><span class="p">(</span><span class="s">&#34;CursorCanvas&#34;</span><span class="p">).</span><span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">RectTransform</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_cursorImage</span> <span class="p">=</span> <span class="n">_cursorCanvas</span><span class="p">.</span><span class="n">GetChild</span><span class="p">(</span><span class="m">0</span><span class="p">).</span><span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">Image</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_currentSprite</span> <span class="p">=</span> <span class="n">normal</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 当快捷栏的物品被选取时，鼠标图案会相应更改</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">OnEnable</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">EventHandler</span><span class="p">.</span><span class="n">ItemSelectedEvent</span> <span class="p">+=</span> <span class="n">OnItemSelectCursorImage</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">OnDisable</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">EventHandler</span><span class="p">.</span><span class="n">ItemSelectedEvent</span> <span class="p">-=</span> <span class="n">OnItemSelectCursorImage</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">Update</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">_cursorCanvas</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_cursorImage</span><span class="p">.</span><span class="n">transform</span><span class="p">.</span><span class="n">position</span> <span class="p">=</span> <span class="n">Input</span><span class="p">.</span><span class="n">mousePosition</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="cm">/* 只有当鼠标与非UI互动时才修改鼠标样式 */</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(!</span><span class="n">InteractWithUI</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">SetCursorImage</span><span class="p">(</span><span class="n">_currentSprite</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">SetCursorImage</span><span class="p">(</span><span class="n">normal</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">SetCursorImage</span><span class="p">(</span><span class="n">Sprite</span> <span class="n">cursorSprite</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_cursorImage</span><span class="p">.</span><span class="n">sprite</span> <span class="p">=</span> <span class="n">cursorSprite</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_cursorImage</span><span class="p">.</span><span class="n">color</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Color</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">1</span><span class="p">);</span> <span class="c1">//保证原色</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">OnItemSelectCursorImage</span><span class="p">(</span><span class="n">ItemDetails</span> <span class="n">itemDetail</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">isSelected</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/*将临时图标修改为当前选取的物品类型对应的图标*/</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">isSelected</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">_currentSprite</span> <span class="p">=</span> <span class="n">itemDetail</span><span class="p">.</span><span class="n">itemType</span> <span class="k">switch</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">ItemType</span><span class="p">.</span><span class="n">Seed</span> <span class="p">=&gt;</span> <span class="n">seed</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">ItemType</span><span class="p">.</span><span class="n">Commodity</span> <span class="p">=&gt;</span> <span class="n">item</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">ItemType</span><span class="p">.</span><span class="n">ChopTool</span> <span class="p">=&gt;</span> <span class="n">tool</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">ItemType</span><span class="p">.</span><span class="n">HoeTool</span> <span class="p">=&gt;</span> <span class="n">tool</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">ItemType</span><span class="p">.</span><span class="n">WaterTool</span> <span class="p">=&gt;</span> <span class="n">tool</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">ItemType</span><span class="p">.</span><span class="n">BreakTool</span> <span class="p">=&gt;</span> <span class="n">tool</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">ItemType</span><span class="p">.</span><span class="n">ReapTool</span> <span class="p">=&gt;</span> <span class="n">tool</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">ItemType</span><span class="p">.</span><span class="n">Furniture</span> <span class="p">=&gt;</span> <span class="n">tool</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">_</span> <span class="p">=&gt;</span> <span class="n">normal</span>
+</span></span><span class="line"><span class="cl">            <span class="p">};</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">_currentSprite</span> <span class="p">=</span> <span class="n">normal</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// 当前鼠标是否在与UI互动</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// &lt;returns&gt;&lt;/returns&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="kt">bool</span> <span class="n">InteractWithUI</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/*通过当前UI的事件系统判断, 如果指针覆盖于UI的go上，鼠标为默认央视*/</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">EventSystem</span><span class="p">.</span><span class="n">current</span> <span class="p">!=</span> <span class="k">null</span> <span class="p">&amp;&amp;</span> <span class="n">EventSystem</span><span class="p">.</span><span class="n">current</span><span class="p">.</span><span class="n">IsPointerOverGameObject</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="设置瓦片地图的地图事件">设置瓦片地图的地图事件</h2>
+<p>方案1：设置每一个瓦片继承自一个<code>tileGO</code>类似<code>ruleTile</code>的形式，然后这个GO有什么属性，瓦片地图就会有什么属性（缺点：每个瓦爿都需要内容，瓦片过多时影响性能）</p>
+<p>方案2：使用Unity提供的2D extra中的<code>grid information</code>组件来解决，该组件代码能够为对应位置的瓦片设置对应的属性（int, float等，没有bool）。（问题同上）</p>
+<p>方案3：编写一个事件系统，能够让我们以绘制<code>collision</code>类似的方式去绘制信息，然后通过代码自动拿到绘制的信息存储到SO文件中，然后通过专门的代码去处理这些信息。</p>
+<p>**思路：**首先需要设置每个Tile应该有的具体信息（坐标，事件类型，以及事件是否能被执行的变量），然后制作一个SO文件，为每个地图指定SO文件应该包含的的内容。</p>
+<p>最后设计一个代码，该代码能够在<code>tilemap</code>的绘制完成后，将绘制的信息保存到SO文件中，即当我们手动关闭<code>Grid Propertie</code>的子物体的时候，进行保存。</p>
+<p><strong>特殊函数</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="n">Application</span><span class="p">.</span><span class="n">IsActive</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>	<span class="c1">//是否在运行</span>
+</span></span><span class="line"><span class="cl"><span class="n">tileMap</span><span class="p">.</span><span class="n">cellBounds</span><span class="p">;</span>	<span class="c1">// 压缩地图，获得当前GO下绘制的tileMap内容</span>
+</span></span><span class="line"><span class="cl"><span class="n">tileMap</span><span class="p">.</span><span class="n">cellBounds</span><span class="p">.</span><span class="n">min</span><span class="p">,</span> <span class="n">max</span><span class="p">;</span>		<span class="c1">// 获得压缩后地图的左下角和右上角坐标</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>设计每个瓦片应该含有的信息</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="na">[System.Serializable]</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">TileProperties</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">Vector2Int</span> <span class="n">tileCoordinate</span><span class="p">;</span> <span class="cm">/*网格的坐标*/</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">GridType</span> <span class="n">gridType</span><span class="p">;</span>   <span class="cm">/*该网格的具体类型*/</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">bool</span> <span class="n">boolTypeValue</span><span class="p">;</span> <span class="cm">/*该类型是否可用*/</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">enum</span> <span class="n">GridType</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Diggable</span><span class="p">,</span> <span class="n">DropItem</span><span class="p">,</span> <span class="n">PlaceFurniture</span><span class="p">,</span> <span class="n">NpcObstacle</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>构建SO文件</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="c1">// MapData_SO.cs</span>
+</span></span><span class="line"><span class="cl"><span class="na">[CreateAssetMenu(fileName = &#34;MapData_SO&#34;, menuName = &#34;Map/MapData&#34;)]</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">MapData_SO</span> <span class="p">:</span> <span class="n">ScriptableObject</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [SceneName]</span><span class="k">public</span> <span class="kt">string</span> <span class="n">sceneName</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">TileProperties</span><span class="p">&gt;</span> <span class="n">tileProperties</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>设计自动将绘制信息读取到SO文件的代码</li>
+</ul>
+<blockquote>
+<p>由于该部分内容是在编辑窗口运行的代码，在实际运行中不能直接执行，因此需要在该代码前写<code>[ExecuteInEditMode]</code></p>
+<p>并且设置该部分代码需要在GO关闭的时候运行，因此需要在代码的<code>OnEnable</code>和<code>OnDisable</code>部分处理</p>
+<p>在SO文件中，每次修改后，如果不直接保存，则下一次打开会直接丢失数据，因此需要在代码中设置<code>EditorUtility.SetDirty(mapDataSo);</code>来保存加载好的So文件</p>
+</blockquote>
+<p><img src="/WFImg/image-20230131013328127.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20230131013328127"
+	
+	
+></p>
+<p>该图片为压缩图片后的到的数据信息</p>
+<blockquote>
+<p>注意该代码需要每一个Property的GO都挂载，并加载内容</p>
+</blockquote>
+<p><img src="/WFImg/image-20230131013731042.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20230131013731042"
+	
+	
+></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span><span class="lnt">84
+</span><span class="lnt">85
+</span><span class="lnt">86
+</span><span class="lnt">87
+</span><span class="lnt">88
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">System</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">System.Collections</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">System.Collections.Generic</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">UnityEditor</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">UnityEngine</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">using</span> <span class="nn">UnityEngine.Tilemaps</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="na">
+</span></span></span><span class="line"><span class="cl"><span class="na">[ExecuteInEditMode]</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">GridMap</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/*设置当挂载该脚本的瓦片GO关闭时，将该GO下的所有有信息的瓦片全部存储在对应的GO中*/</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">MapData_SO</span> <span class="n">mapDataSo</span><span class="p">;</span>  <span class="cm">/*存储的So文件*/</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">GridType</span> <span class="n">gridType</span><span class="p">;</span> <span class="cm">/*当前GO对应的类型*/</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">Tilemap</span> <span class="n">_currentTilemap</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="cm">/*由于是在GO开启和关闭的时候绘制，因此需要使用OnEnable和 OnDisable*/</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">OnEnable</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/*只有当程序没有运行的时候，才能执行此处的代码*/</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(!</span><span class="n">Application</span><span class="p">.</span><span class="n">IsPlaying</span><span class="p">(</span><span class="k">this</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">_currentTilemap</span> <span class="p">=</span> <span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">Tilemap</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">            <span class="cm">/*为了便于不断的绘制，因此设计，开启GO就重新绘制，关闭GO就存储*/</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">mapDataSo</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">mapDataSo</span><span class="p">.</span><span class="n">tileProperties</span><span class="p">.</span><span class="n">Clear</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cm">/*关闭后存储绘制的内容*/</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">OnDisable</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/*只有当程序没有运行的时候，才能执行此处的代码*/</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(!</span><span class="n">Application</span><span class="p">.</span><span class="n">IsPlaying</span><span class="p">(</span><span class="k">this</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">_currentTilemap</span> <span class="p">=</span> <span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">Tilemap</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">            <span class="cm">/*从整个界面中，遍历所有以及绘制了的瓦片，然后将其内容存储进入SO文件中*/</span>
+</span></span><span class="line"><span class="cl">            <span class="n">UpdateTileProperties</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">            <span class="cm">/*只有当在编辑窗口的时候，才能保存数据*/</span>
+</span></span><span class="line"><span class="cl"><span class="cp">#if UNITY_EDITOR</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">mapDataSo</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">EditorUtility</span><span class="p">.</span><span class="n">SetDirty</span><span class="p">(</span><span class="n">mapDataSo</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="err">#</span><span class="n">endif</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// 将所有绘制内容存储进入SO中</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">UpdateTileProperties</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_currentTilemap</span><span class="p">.</span><span class="n">CompressBounds</span><span class="p">();</span>   <span class="cm">/*压缩范围，获取当前绘制瓦片的左下角和右上角返回*/</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(!</span><span class="n">Application</span><span class="p">.</span><span class="n">IsPlaying</span><span class="p">(</span><span class="k">this</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">mapDataSo</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="cm">/*议会制范围可能有空*/</span>
+</span></span><span class="line"><span class="cl">                <span class="cm">/*已绘制范围的左下角位置*/</span>
+</span></span><span class="line"><span class="cl">                <span class="n">Vector3Int</span> <span class="n">startPos</span> <span class="p">=</span> <span class="n">_currentTilemap</span><span class="p">.</span><span class="n">cellBounds</span><span class="p">.</span><span class="n">min</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="cm">/*已绘制范围的右上角位置*/</span>
+</span></span><span class="line"><span class="cl">                <span class="n">Vector3Int</span> <span class="n">endPos</span> <span class="p">=</span> <span class="n">_currentTilemap</span><span class="p">.</span><span class="n">cellBounds</span><span class="p">.</span><span class="n">max</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">x</span> <span class="p">=</span> <span class="n">startPos</span><span class="p">.</span><span class="n">x</span><span class="p">;</span> <span class="n">x</span> <span class="p">&lt;</span> <span class="n">endPos</span><span class="p">.</span><span class="n">x</span><span class="p">;</span> <span class="n">x</span><span class="p">++)</span>
+</span></span><span class="line"><span class="cl">                <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">y</span> <span class="p">=</span> <span class="n">startPos</span><span class="p">.</span><span class="n">y</span><span class="p">;</span> <span class="n">y</span> <span class="p">&lt;</span> <span class="n">endPos</span><span class="p">.</span><span class="n">y</span><span class="p">;</span> <span class="n">y</span><span class="p">++)</span>
+</span></span><span class="line"><span class="cl">                    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                        <span class="cm">/*获得当前坐标下瓦片的的内容*/</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">TileBase</span> <span class="n">tile</span> <span class="p">=</span> <span class="n">_currentTilemap</span><span class="p">.</span><span class="n">GetTile</span><span class="p">(</span><span class="k">new</span> <span class="n">Vector3Int</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="m">0</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                        <span class="cm">/*如果该位置是绘制了内容的*/</span>
+</span></span><span class="line"><span class="cl">                        <span class="k">if</span> <span class="p">(</span><span class="n">tile</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                            <span class="n">TileProperties</span> <span class="n">newTile</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TileProperties</span>
+</span></span><span class="line"><span class="cl">                            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                                <span class="n">tileCoordinate</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Vector2Int</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">                                <span class="n">gridType</span> <span class="p">=</span> <span class="k">this</span><span class="p">.</span><span class="n">gridType</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                <span class="n">boolTypeValue</span> <span class="p">=</span> <span class="k">true</span>
+</span></span><span class="line"><span class="cl">                            <span class="p">};</span>
+</span></span><span class="line"><span class="cl">                            <span class="n">mapDataSo</span><span class="p">.</span><span class="n">tileProperties</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">newTile</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">                    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="生成地图信息">生成地图信息</h2>
+<p>创建一个管理类，用于管理地图信息，方便后续的内容获得地图信息。</p>
+<p><strong>思路：</strong> 首先需要创建一个管理该瓦片所有信息的类，包含所有在<code>tileMapData</code>中存储的某一种<code>Property</code>的属性，以及未来可能会使用的信息(是否被挖掘，是否被浇水，种了什么种子，已经长了多少天，上一次收割后隔了多少天)</p>
+<p>然后对整个<code>mapdata</code>进行遍历，将里面存放的内容初始化好后，全部读取进入一个字典中。</p>
+<p>为了鼠标能够对这些地图信息进行识别地图信息，因此需要先设置在<code>CursorManager</code>中设置好地图的整体信息，然后让鼠标能够正常获取这些坐标信息，一边后续将鼠标信息和字典的信息进行比对</p>
+<ul>
+<li>管理<code>mapData</code>信息</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">GridMapManager</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">MapData_SO</span><span class="p">&gt;</span> <span class="n">mapDataSos</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="n">TileDetails</span><span class="p">&gt;</span> <span class="n">_tileDetailsMap</span> 
+</span></span><span class="line"><span class="cl">        <span class="p">=</span> <span class="k">new</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="n">TileDetails</span><span class="p">&gt;();</span>    <span class="cm">/*获得所有瓦片的具体信息*/</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cm">/*初始化所有瓦片的信息*/</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">Start</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">foreach</span> <span class="p">(</span><span class="n">MapData_SO</span> <span class="n">mapData</span> <span class="k">in</span> <span class="n">mapDataSos</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">InitTileDetailsMap</span><span class="p">(</span><span class="n">mapData</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">InitTileDetailsMap</span><span class="p">(</span><span class="n">MapData_SO</span> <span class="n">mapDataSo</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">mapDataSo</span><span class="p">.</span><span class="n">tileProperties</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">foreach</span> <span class="p">(</span><span class="n">TileProperties</span> <span class="n">tileProperty</span> <span class="k">in</span> <span class="n">mapDataSo</span><span class="p">.</span><span class="n">tileProperties</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                
+</span></span><span class="line"><span class="cl">                <span class="kt">int</span> <span class="n">tileX</span> <span class="p">=</span> <span class="n">tileProperty</span><span class="p">.</span><span class="n">tileCoordinate</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="kt">int</span> <span class="n">tileY</span> <span class="p">=</span> <span class="n">tileProperty</span><span class="p">.</span><span class="n">tileCoordinate</span><span class="p">.</span><span class="n">y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                <span class="kt">string</span> <span class="n">tileDetailKey</span> <span class="p">=</span> <span class="n">tileX</span> <span class="p">+</span> <span class="sc">&#39;x&#39;</span> <span class="p">+</span> <span class="n">tileY</span> <span class="p">+</span> <span class="sc">&#39;y&#39;</span> <span class="p">+</span> <span class="n">mapDataSo</span><span class="p">.</span><span class="n">sceneName</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                
+</span></span><span class="line"><span class="cl">                <span class="cm">/* 对数据进行处理，并将数据存放或更新进入map */</span>
+</span></span><span class="line"><span class="cl">                <span class="n">TileDetails</span> <span class="n">tileDetails</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TileDetails</span>
+</span></span><span class="line"><span class="cl">                <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">gridPos</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Vector2Int</span><span class="p">(</span><span class="n">tileX</span><span class="p">,</span> <span class="n">tileY</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">                <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="p">(</span><span class="n">GetTileDetails</span><span class="p">(</span><span class="n">tileDetailKey</span><span class="p">)</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">tileDetails</span> <span class="p">=</span> <span class="n">_tileDetailsMap</span><span class="p">[</span><span class="n">tileDetailKey</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">                    
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">                
+</span></span><span class="line"><span class="cl">                <span class="cm">/*更新数据*/</span>
+</span></span><span class="line"><span class="cl">                <span class="k">switch</span> <span class="p">(</span><span class="n">tileProperty</span><span class="p">.</span><span class="n">gridType</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">case</span> <span class="n">GridType</span><span class="p">.</span><span class="n">Diggable</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">tileDetails</span><span class="p">.</span><span class="n">canDig</span> <span class="p">=</span> <span class="n">tileProperty</span><span class="p">.</span><span class="n">boolTypeValue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                        <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">case</span> <span class="n">GridType</span><span class="p">.</span><span class="n">DropItem</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">tileDetails</span><span class="p">.</span><span class="n">canDrop</span> <span class="p">=</span> <span class="n">tileProperty</span><span class="p">.</span><span class="n">boolTypeValue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                        <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">case</span> <span class="n">GridType</span><span class="p">.</span><span class="n">PlaceFurniture</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">tileDetails</span><span class="p">.</span><span class="n">canPlaceFurniture</span> <span class="p">=</span> <span class="n">tileProperty</span><span class="p">.</span><span class="n">boolTypeValue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                        <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">case</span> <span class="n">GridType</span><span class="p">.</span><span class="n">NpcObstacle</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">tileDetails</span><span class="p">.</span><span class="n">isNpcObstacle</span> <span class="p">=</span> <span class="n">tileProperty</span><span class="p">.</span><span class="n">boolTypeValue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                        <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">                
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="p">(</span><span class="n">GetTileDetails</span><span class="p">(</span><span class="n">tileDetailKey</span><span class="p">)</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">_tileDetailsMap</span><span class="p">[</span><span class="n">tileDetailKey</span><span class="p">]</span> <span class="p">=</span> <span class="n">tileDetails</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">                <span class="k">else</span>
+</span></span><span class="line"><span class="cl">                <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">_tileDetailsMap</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">tileDetailKey</span><span class="p">,</span> <span class="n">tileDetails</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">                
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">TileDetails</span> <span class="n">GetTileDetails</span><span class="p">(</span><span class="kt">string</span> <span class="n">key</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">_tileDetailsMap</span><span class="p">.</span><span class="n">ContainsKey</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">_tileDetailsMap</span><span class="p">[</span><span class="n">key</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>让鼠标能够识别地图信息的前提（获取鼠标的坐标）</li>
+</ul>
+<p>因此先要获得摄像机的坐标已经当前地图的坐标，由于地图会随着场景切换而改变，因此需要在场景切换后才能获取该坐标</p>
+<p>同时获取世界坐标的功能应该是实时更新的，因此摄像头理论上应该实时改变</p>
+<p><strong>重点函数</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="n">Camera</span><span class="p">.</span><span class="n">main</span><span class="p">.</span><span class="n">ScreenToWorld</span><span class="p">(</span><span class="k">new</span> <span class="n">Vector3</span><span class="p">(</span><span class="n">Input</span><span class="p">.</span><span class="n">mousePosition</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">Input</span><span class="p">.</span><span class="n">mousePosition</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="p">-</span><span class="n">_mainCamera</span><span class="p">.</span><span class="n">transform</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">z</span><span class="p">));</span> <span class="c1">//鼠标坐标) z轴是因为摄像机距离屏幕有一定距离</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 通过世界坐标转化为网格坐标</span>
+</span></span><span class="line"><span class="cl"><span class="n">Vector3Int</span>  <span class="p">=</span> <span class="n">Grid</span><span class="p">.</span><span class="n">WorldToCell</span><span class="p">(</span><span class="err">世界坐标</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">     
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">// 该函数需要在CursorManager.cs中的Update中调用</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">CheckCursorValid</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/* 获得世界坐标和网格坐标*/</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_mouseWorldPos</span> <span class="p">=</span> <span class="n">_mainCamera</span><span class="p">.</span><span class="n">ScreenToWorldPoint</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="k">new</span> <span class="n">Vector3</span><span class="p">(</span><span class="n">Input</span><span class="p">.</span><span class="n">mousePosition</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">Input</span><span class="p">.</span><span class="n">mousePosition</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="p">-</span><span class="n">_mainCamera</span><span class="p">.</span><span class="n">transform</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">z</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_mouseGridPos</span> <span class="p">=</span> <span class="n">_currentGrid</span><span class="p">.</span><span class="n">WorldToCell</span><span class="p">(</span><span class="n">_mouseWorldPos</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&#34;mouseWorld::&#34;</span> <span class="p">+</span> <span class="n">_mouseWorldPos</span> <span class="p">+</span> <span class="s">&#34;  mouseGird::&#34;</span> <span class="p">+</span> <span class="n">_mouseGridPos</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>注意由于获得网格坐标我们是在切换场景后才启动的，但是刚刚加入场景的时候，并没有发生场景切换，即此时并没有得到网格坐标，但是在<code>CursorManager</code>中，获取网格坐标是实时更新的，因此会发送报错</p>
+<p>该处的错误需要将在加载初始场景以后，才能执行加载场景后的事件，但是由于加载场景是使用异步加载完成的，因此会导致在加载的过程中，就调用加载后事件了，因此需要通过协程来保证先后顺序，即通过<code>yield return</code>先加载场景，然后再调用加载场景后的时间，因此需要将<code>start</code>函数以协程执行</p>
+<p>协程的含义就是遇到<code>yield return</code>就让出时间片，先不执行后续内容，等<code>yield return</code>执行完成后再执行后续内容</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">// TransitionManager.cs</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="n">IEnumerator</span> <span class="n">Start</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="k">yield</span> <span class="k">return</span>  <span class="n">LoadSceneSetActive</span><span class="p">(</span><span class="n">startSceneName</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">sceneFaderCanvasGroup</span> <span class="p">=</span> <span class="n">FindObjectOfType</span><span class="p">&lt;</span><span class="n">CanvasGroup</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl"><span class="cm">/*由于将start改为了协程，可以调用场景加载后事件了了*/</span>
+</span></span><span class="line"><span class="cl"><span class="n">EventHandler</span><span class="p">.</span><span class="n">CallAfterSceneLoadEvent</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></blockquote>
+<blockquote>
+<p>上述内容理解：由于yield return的存在，当进行到该start的时候，会先完成场景的加载，然后在场景加载完成后<code>EventHandler.CallAfterSceneLoadEvent();</code>才能被被正常调用</p>
+</blockquote>
+<h2 id="根据网格信息处理处理鼠标图片">根据网格信息处理处理鼠标图片</h2>
+<p>根据地图信息来显示鼠标是可用还是不可用</p>
+<p>**思路：**先获得网格字典中的信息，并将网格字典中的信息和当前选取内容进行比较，从而决定当前鼠标的样式以及当前鼠标是否可使用。</p>
+<p>因此首先需要设计鼠标可用和不可用的样式，然后从<code>GridMapManager</code>中获取内容，将当前物品的信息和地图信息进行比较，然后将物品的信息和人物位置进行比较，最终确定鼠标的状态。</p>
+<ul>
+<li>设置鼠标的图案</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">SetCursorValid</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_cursorImage</span><span class="p">.</span><span class="n">color</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Color</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">1</span><span class="p">,</span> <span class="m">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">SetCursorInvalid</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_cursorImage</span><span class="p">.</span><span class="n">color</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Color</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0.4f</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="c1">// 获取GridMapManager的信息，此时需要将GridMapManager改为单例模式</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// 通过鼠标的GRID坐标来获取当前地图的信息</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;param name=&#34;mousePos&#34;&gt;鼠标的GRID坐标&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;returns&gt;&lt;/returns&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="n">TileDetails</span> <span class="n">GetTileDetailsByMousePos</span><span class="p">(</span><span class="n">Vector3Int</span> <span class="n">mousePos</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">string</span> <span class="n">tileMapKey</span> <span class="p">=</span> <span class="n">mousePos</span><span class="p">.</span><span class="n">x</span> <span class="p">+</span> <span class="s">&#34;x&#34;</span> <span class="p">+</span> <span class="n">mousePos</span><span class="p">.</span><span class="n">y</span> <span class="p">+</span> <span class="s">&#34;y&#34;</span> <span class="p">+</span> <span class="n">SceneManager</span><span class="p">.</span><span class="n">GetActiveScene</span><span class="p">().</span><span class="n">name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">GetTileDetails</span><span class="p">(</span><span class="n">tileMapKey</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>处理鼠标图案的情况</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// 实时检测鼠标的位置，并获取地图信息</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">CheckCursorValid</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/* 获得世界坐标和网格坐标*/</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_mouseWorldPos</span> <span class="p">=</span> <span class="n">_mainCamera</span><span class="p">.</span><span class="n">ScreenToWorldPoint</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="k">new</span> <span class="n">Vector3</span><span class="p">(</span><span class="n">Input</span><span class="p">.</span><span class="n">mousePosition</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">Input</span><span class="p">.</span><span class="n">mousePosition</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="p">-</span><span class="n">_mainCamera</span><span class="p">.</span><span class="n">transform</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">z</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_mouseGridPos</span> <span class="p">=</span> <span class="n">_currentGrid</span><span class="p">.</span><span class="n">WorldToCell</span><span class="p">(</span><span class="n">_mouseWorldPos</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="cm">/*获得人物信息，用于比较人物和鼠标位置, 如果不满足使用范围则 不允许使用*/</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">Vector3Int</span> <span class="n">playerGridPos</span> <span class="p">=</span> <span class="n">_currentGrid</span><span class="p">.</span><span class="n">WorldToCell</span><span class="p">(</span><span class="n">playerTransform</span><span class="p">.</span><span class="n">position</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">Mathf</span><span class="p">.</span><span class="n">Abs</span><span class="p">(</span><span class="n">playerGridPos</span><span class="p">.</span><span class="n">x</span> <span class="p">-</span> <span class="n">_mouseGridPos</span><span class="p">.</span><span class="n">x</span><span class="p">)</span> <span class="p">&gt;</span> <span class="n">_currentItem</span><span class="p">.</span><span class="n">itemUseRadius</span> <span class="p">||</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Mathf</span><span class="p">.</span><span class="n">Abs</span><span class="p">(</span><span class="n">playerGridPos</span><span class="p">.</span><span class="n">y</span> <span class="p">-</span> <span class="n">_mouseGridPos</span><span class="p">.</span><span class="n">y</span><span class="p">)</span> <span class="p">&gt;</span> <span class="n">_currentItem</span><span class="p">.</span><span class="n">itemUseRadius</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">SetCursorInvalid</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="cm">/*检测当前选取的物品是否满足使用要求*/</span>
+</span></span><span class="line"><span class="cl">    <span class="n">TileDetails</span> <span class="n">tileDetails</span> <span class="p">=</span> <span class="n">GridMapManager</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">GetTileDetailsByMousePos</span><span class="p">(</span><span class="n">_mouseGridPos</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">tileDetails</span> <span class="p">!=</span> <span class="k">null</span> <span class="p">&amp;&amp;</span> <span class="n">_cursorEnable</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">switch</span> <span class="p">(</span><span class="n">_currentItem</span><span class="p">.</span><span class="n">itemType</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">case</span> <span class="n">ItemType</span><span class="p">.</span><span class="n">Commodity</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="p">(</span><span class="n">tileDetails</span><span class="p">.</span><span class="n">canDrop</span> <span class="p">&amp;&amp;</span> <span class="n">_currentItem</span><span class="p">.</span><span class="n">canDropped</span><span class="p">)</span> <span class="n">SetCursorValid</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">                <span class="k">else</span> <span class="n">SetCursorInvalid</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">                <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">SetCursorInvalid</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>该过程需要获得人物信息以及当前选取的物品信息，因此需要在对应的事件中获取内容，并且只有当选中某个物品的时候，图标才能被改变形态，其他时候都不能被改变。</p>
+</blockquote>
+<h2 id="实现鼠标选中物品后的场景点击事件">实现鼠标选中物品后的场景点击事件</h2>
+<p>当鼠标点击后，然后将选取的物品信息和点的坐标，传递给需要的代码</p>
+<p>因此需要一个鼠标的点击事件，然后触发人物的动画，接着再去执行对应的的代码（扔东西，或者树木摇晃）</p>
+<p>由于很多内容涉及到要修改地图信息，因此可以将扔东西等代码放在<code>GridMapManager</code>中执行</p>
+<ul>
+<li>检测点击事件，保证当前位置是可以点击的，然后触发点击事件</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">void</span> <span class="n">CheckPlayerInput</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">Input</span><span class="p">.</span><span class="n">GetMouseButtonDown</span><span class="p">(</span><span class="m">0</span><span class="p">)</span> <span class="p">&amp;&amp;</span> <span class="n">_cursorPositionValid</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/*调用点击事件，并传递当前点击的坐标以及当前触发点击的物品类型*/</span>
+</span></span><span class="line"><span class="cl">        <span class="n">EventHandler</span><span class="p">.</span><span class="n">CallMouseClickedEvent</span><span class="p">(</span><span class="n">_mouseWorldPos</span><span class="p">,</span> <span class="n">_currentItem</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>此后人物的脚本应该能接受到该事件，然后完成相应的动画，并在此触发其他事件用以驱动其他代码</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">// player.cs中挂载的事件</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">OnMouseClickedEvent</span><span class="p">(</span><span class="n">Vector3</span> <span class="n">clickWorldPos</span><span class="p">,</span> <span class="n">ItemDetails</span> <span class="n">itemDetails</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/*todo 执行对应的动画*/</span>
+</span></span><span class="line"><span class="cl">    <span class="n">EventHandler</span><span class="p">.</span><span class="n">CallExecuteActionAfterAnimationEvent</span><span class="p">(</span><span class="n">clickWorldPos</span><span class="p">,</span> <span class="n">itemDetails</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>完成丢弃功能，暂时在<code>GridMapManager.cs</code>中执行</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="c1">// GridMapManager.cs </span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 获得_currentGrid需要通过注册场景切换后事件的方法，然后直接FindObjectOfType&lt;Gird&gt;寻找</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">OnExecuteActionAfterAnimationEvent</span><span class="p">(</span><span class="n">Vector3</span> <span class="n">mouseWorldPos</span><span class="p">,</span> <span class="n">ItemDetails</span> <span class="n">itemDetails</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/*触发将物品丢弃事件，并需要更新InventoryManager中存储的物品信息，且更新UI*/</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Vector3Int</span> <span class="n">mouseGridPos</span> <span class="p">=</span> <span class="n">_currentGrid</span><span class="p">.</span><span class="n">WorldToCell</span><span class="p">(</span><span class="n">mouseWorldPos</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">TileDetails</span> <span class="n">currentTile</span> <span class="p">=</span> <span class="n">GetTileDetailsByMousePos</span><span class="p">(</span><span class="n">mouseGridPos</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">currentTile</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/*Todo携带物品完成不同事件*/</span>
+</span></span><span class="line"><span class="cl">        <span class="k">switch</span> <span class="p">(</span><span class="n">itemDetails</span><span class="p">.</span><span class="n">itemType</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">case</span> <span class="n">ItemType</span><span class="p">.</span><span class="n">Commodity</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="n">EventHandler</span><span class="p">.</span><span class="n">CallDropItemInSceneEvent</span><span class="p">(</span><span class="n">itemDetails</span><span class="p">.</span><span class="n">itemID</span><span class="p">,</span> <span class="n">mouseGridPos</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>在<code>InventoryManager.cs</code>中实现物品丢弃功能的数据更改，在<code>itemManager.cs</code>实现物品丢弃的地面生成</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">// InventoryManager.cs</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">RemoveItem</span><span class="p">(</span><span class="kt">int</span> <span class="n">itemID</span><span class="p">,</span> <span class="kt">int</span> <span class="n">removeAmount</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/*通过Id获取当前物品在背包中的位置，并判断对应位置的数量*/</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">itemIndexInBag</span> <span class="p">=</span> <span class="n">GetItemIndexInBag</span><span class="p">(</span><span class="n">itemID</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">playerBag</span><span class="p">.</span><span class="n">inventoryItemList</span><span class="p">[</span><span class="n">itemIndexInBag</span><span class="p">].</span><span class="n">itemAmount</span> <span class="p">&gt;</span> <span class="n">removeAmount</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">var</span> <span class="n">amount</span> <span class="p">=</span> <span class="n">playerBag</span><span class="p">.</span><span class="n">inventoryItemList</span><span class="p">[</span><span class="n">itemIndexInBag</span><span class="p">].</span><span class="n">itemAmount</span> <span class="p">-</span> <span class="n">removeAmount</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/*更新数据*/</span>
+</span></span><span class="line"><span class="cl">        <span class="n">playerBag</span><span class="p">.</span><span class="n">inventoryItemList</span><span class="p">[</span><span class="n">itemIndexInBag</span><span class="p">]</span> <span class="p">=</span>
+</span></span><span class="line"><span class="cl">            <span class="k">new</span> <span class="n">InventoryItem</span><span class="p">()</span> <span class="p">{</span> <span class="n">itemID</span> <span class="p">=</span> <span class="n">itemID</span><span class="p">,</span> <span class="n">itemAmount</span> <span class="p">=</span> <span class="n">amount</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">playerBag</span><span class="p">.</span><span class="n">inventoryItemList</span><span class="p">[</span><span class="n">itemIndexInBag</span><span class="p">].</span><span class="n">itemAmount</span> <span class="p">==</span> <span class="n">removeAmount</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">playerBag</span><span class="p">.</span><span class="n">inventoryItemList</span><span class="p">[</span><span class="n">itemIndexInBag</span><span class="p">]</span> <span class="p">=</span> <span class="k">new</span> <span class="n">InventoryItem</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">EventHandler</span><span class="p">.</span><span class="n">CallUpdateInventoryUI</span><span class="p">(</span><span class="n">InventoryLocation</span><span class="p">.</span><span class="n">Player</span><span class="p">,</span> <span class="n">playerBag</span><span class="p">.</span><span class="n">inventoryItemList</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// 当丢弃某一个物品时候触发的时间</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;param name=&#34;itemID&#34;&gt;丢弃物品的ID&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;param name=&#34;pos&#34;&gt;丢弃的坐标&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">OnDropItemInSceneEvent</span><span class="p">(</span><span class="kt">int</span> <span class="n">itemID</span><span class="p">,</span> <span class="n">Vector3</span> <span class="n">pos</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">RemoveItem</span><span class="p">(</span><span class="n">itemID</span><span class="p">,</span><span class="m">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>由于丢弃完成所有物品后，格子高亮应该也要清除，并放手，物品不能再被选取，因此需要修改中的清空界面的代码，该段代码是在<code>InventoryUI.cs</code>中调用的<code>SlotUI.cs</code>的<code>UpdateEmptySlot</code>方法，因此需要修改此处。</p>
+<p>注意高亮的更新方法是是<code>slotui</code>的父级GO<code>InventoryUI</code>，以便于高亮一个以后，其他高亮消失</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="c1">// SlotUI.cs</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">void</span> <span class="n">UpdateEmptySlot</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">isSelected</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">isSelected</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">inventoryUI</span><span class="p">.</span><span class="n">UpdateSlotHighlight</span><span class="p">(-</span><span class="m">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">EventHandler</span><span class="p">.</span><span class="n">CallItemSelectedEvent</span><span class="p">(</span><span class="n">slotItemDetails</span><span class="p">,</span> <span class="n">isSelected</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">slotItemDetails</span> <span class="p">=</span> <span class="k">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">slotImg</span><span class="p">.</span><span class="n">enabled</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">amountText</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">btn</span><span class="p">.</span><span class="n">interactable</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>由于我们将<code>slotItemDetails = null;</code>设置为了Null，那么相应的所有以<code>slotItemDetails</code> 的数量来判断的地方都要修改，包括<code>slotui</code>以及显示物品信息的窗口</p>
+<h2 id="实现物品被扔出的效果">实现物品被扔出的效果</h2>
+<p><strong>思路</strong>：利用生成物品的移动和阴影来完成视觉差的体验，即物品从人物身边过去，而物品从人物脚底直线过去</p>
+<ul>
+<li>首先需要一个获得阴影的代码，让阴影能够获得本身物品的样子</li>
+<li>然后对物体本身使用每一帧更新物体的位置和阴影</li>
+<li>最后在<code>itemManager.cs</code>重写丢弃事件的触发代码</li>
+</ul>
+<blockquote>
+<p>由于物体的弹跳需要利用视觉差，因此实际阴影的移动是跟随主物体本身移动的，而物体本身的<code>sprite</code>则从人物头部投出，逐渐到达目标地点</p>
+</blockquote>
+<p><strong>阴影代码</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">// ItemShadow.cs</span>
+</span></span><span class="line"><span class="cl"><span class="na">[RequireComponent(typeof(SpriteRenderer))]</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">ItemShadow</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">SpriteRenderer</span> <span class="n">baseSprite</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">SpriteRenderer</span> <span class="n">_shadowSprite</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">Awake</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_shadowSprite</span> <span class="p">=</span> <span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">SpriteRenderer</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">Start</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_shadowSprite</span><span class="p">.</span><span class="n">sprite</span> <span class="p">=</span> <span class="n">baseSprite</span><span class="p">.</span><span class="n">sprite</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_shadowSprite</span><span class="p">.</span><span class="n">color</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Color</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0.3f</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>物体的移动代码</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">// ItemBounce.cs</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">ItemBounce</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">Transform</span> <span class="n">Player</span> <span class="p">=&gt;</span> <span class="n">FindObjectOfType</span><span class="p">&lt;</span><span class="n">Player</span><span class="p">&gt;().</span><span class="n">transform</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">float</span> <span class="n">gravity</span> <span class="p">=</span> <span class="p">-</span><span class="m">3.5f</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">Transform</span> <span class="n">_spriteTransform</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">BoxCollider2D</span> <span class="n">_collider2D</span><span class="p">;</span>  <span class="cm">/*碰撞体，保证人物在丢弃过程中，人物不能捡起*/</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cm">/*移动过程需要的参数*/</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="kt">bool</span> <span class="n">_inGround</span><span class="p">;</span> <span class="cm">/*是否到达地面*/</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">Vector3</span> <span class="n">_targetPos</span><span class="p">;</span> <span class="cm">/*物体的目标位置*/</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">Vector2</span> <span class="n">_direction</span><span class="p">;</span> <span class="cm">/*物体前进的方向*/</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="kt">float</span> <span class="n">_distance</span><span class="p">;</span>    <span class="cm">/*物体和目标地点的距离*/</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">Awake</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_spriteTransform</span> <span class="p">=</span> <span class="n">transform</span><span class="p">.</span><span class="n">GetChild</span><span class="p">(</span><span class="m">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_collider2D</span> <span class="p">=</span> <span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">BoxCollider2D</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_collider2D</span><span class="p">.</span><span class="n">enabled</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">Update</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Bounce</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// 对物体需要移动的初始变量进行赋值</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// &lt;param name=&#34;targetPos&#34;&gt;物体的目标距离&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// &lt;param name=&#34;dir&#34;&gt;物体的目标方向&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">void</span> <span class="n">InitBounceItem</span><span class="p">(</span><span class="n">Vector3</span> <span class="n">targetPos</span><span class="p">,</span> <span class="n">Vector2</span> <span class="n">dir</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_collider2D</span><span class="p">.</span><span class="n">enabled</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_targetPos</span> <span class="p">=</span> <span class="n">targetPos</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_direction</span> <span class="p">=</span> <span class="n">dir</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_inGround</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_distance</span> <span class="p">=</span> <span class="n">Vector3</span><span class="p">.</span><span class="n">Distance</span><span class="p">(</span><span class="n">transform</span><span class="p">.</span><span class="n">position</span><span class="p">,</span> <span class="n">targetPos</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="cm">/*保证初始位置在人物的头顶*/</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_spriteTransform</span><span class="p">.</span><span class="n">position</span> <span class="p">+=</span> <span class="n">Vector3</span><span class="p">.</span><span class="n">up</span> <span class="p">*</span> <span class="m">1.75f</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// 物品弹跳的过程（移动过程）</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">Bounce</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_inGround</span> <span class="p">=</span> <span class="n">_spriteTransform</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">y</span> <span class="p">&lt;=</span> <span class="n">transform</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">Vector3</span><span class="p">.</span><span class="n">Distance</span><span class="p">(</span><span class="n">transform</span><span class="p">.</span><span class="n">position</span><span class="p">,</span> <span class="n">_targetPos</span><span class="p">)</span> <span class="p">&gt;</span> <span class="m">0.1f</span> <span class="p">&amp;&amp;</span> <span class="p">!</span><span class="n">_inGround</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="cm">/*平面移动*/</span>
+</span></span><span class="line"><span class="cl">            <span class="n">transform</span><span class="p">.</span><span class="n">position</span> <span class="p">+=</span> <span class="p">(</span><span class="n">Vector3</span><span class="p">)</span><span class="n">_direction</span> <span class="p">*</span> <span class="n">_distance</span> <span class="p">*</span> <span class="p">-</span><span class="n">gravity</span> <span class="p">*</span> <span class="n">Time</span><span class="p">.</span><span class="n">deltaTime</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(!</span><span class="n">_inGround</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">_spriteTransform</span><span class="p">.</span><span class="n">position</span> <span class="p">+=</span> <span class="n">Vector3</span><span class="p">.</span><span class="n">up</span> <span class="p">*</span> <span class="m">4f</span> <span class="p">*</span> <span class="n">gravity</span> <span class="p">*</span> <span class="n">Time</span><span class="p">.</span><span class="n">deltaTime</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">_spriteTransform</span><span class="p">.</span><span class="n">position</span> <span class="p">=</span> <span class="n">transform</span><span class="p">.</span><span class="n">position</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">_collider2D</span><span class="p">.</span><span class="n">enabled</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="实现挖坑效果">实现挖坑效果</h2>
+<p>为了实现挖坑的图片合理，需要指定绘制瓦片地图的规则</p>
+<ul>
+<li>
+<p>创建<code>RuleTile</code>的方法，类似于创建空物体的方法在<code>Creat-&gt;2d-&gt;Tile-&gt;ruleTile</code></p>
+</li>
+<li>
+<p>创建好<code>Tile</code>规则以后，需要能绘制对应的挖地和浇水的瓦片，因此也需要通过标签来找到对应的瓦片地图</p>
+</li>
+<li>
+<p>然后再<code>GridMapManager.cs</code>中实现当携带工具点击可以挖地或浇水时候的功能，此时需要构建对应的瓦片，因此需要引入对应的瓦片地图的规则，并通过代码获取对应的瓦片地图。</p>
+</li>
+<li>
+<p>当可以执行对应的功能的时候，使用<code>TileMap</code>自带的函数<code>TileMap.setTile</code>来设置对应的规则，</p>
+</li>
+<li>
+<p>最后在对应的位置设置<code>TileDetiles</code>的具体内容</p>
+</li>
+</ul>
+<p><strong>GridMapManager的设置</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="na">[Header(&#34;瓦片地图规则&#34;)]</span> 
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="n">RuleTile</span> <span class="n">digRuleTile</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="n">RuleTile</span> <span class="n">waterRuleTile</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="n">Tilemap</span> <span class="n">_digTileMap</span><span class="p">;</span>    <span class="cm">/*获得场景的可挖掘地图信息*/</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="n">Tilemap</span> <span class="n">_waterTileMap</span><span class="p">;</span>  <span class="cm">/*获得场景的可浇水地图信息*/</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cm">/*挖地事件*/</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">case</span> <span class="n">ItemType</span><span class="p">.</span><span class="n">HoeTool</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">SetDigTileMap</span><span class="p">(</span><span class="n">currentTile</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">currentTile</span><span class="p">.</span><span class="n">canDig</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">currentTile</span><span class="p">.</span><span class="n">canDrop</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">currentTile</span><span class="p">.</span><span class="n">daySinceDig</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                        <span class="c1">// todo 音效</span>
+</span></span><span class="line"><span class="cl">                        <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">case</span> <span class="n">ItemType</span><span class="p">.</span><span class="n">WaterTool</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">SetWaterTile</span><span class="p">(</span><span class="n">currentTile</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">currentTile</span><span class="p">.</span><span class="n">daySinceWater</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                        <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">SetDigTileMap</span><span class="p">(</span><span class="n">TileDetails</span> <span class="n">tileDetails</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Vector3Int</span> <span class="n">targetTilePos</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Vector3Int</span><span class="p">(</span><span class="n">tileDetails</span><span class="p">.</span><span class="n">gridPos</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">tileDetails</span><span class="p">.</span><span class="n">gridPos</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="m">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">_digTileMap</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_digTileMap</span><span class="p">.</span><span class="n">SetTile</span><span class="p">(</span><span class="n">targetTilePos</span><span class="p">,</span> <span class="n">digRuleTile</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">SetWaterTile</span><span class="p">(</span><span class="n">TileDetails</span> <span class="n">tileDetails</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Vector3Int</span> <span class="n">targetTilePos</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Vector3Int</span><span class="p">(</span><span class="n">tileDetails</span><span class="p">.</span><span class="n">gridPos</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">tileDetails</span><span class="p">.</span><span class="n">gridPos</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="m">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">_waterTileMap</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_waterTileMap</span><span class="p">.</span><span class="n">SetTile</span><span class="p">(</span><span class="n">targetTilePos</span><span class="p">,</span> <span class="n">waterRuleTile</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="设置使用工具的动画">设置使用工具的动画</h2>
+<p>整体思路是在原<code>baseController</code>的基础上，增加新的<code>BlendTree</code>，从而增加不同的状态动画，同时为新的动画添加动画动作，同时设置工具的专门的动画，以实现在不同工具下的动画动作</p>
+<ul>
+<li>
+<p>设置工具的<code>AnimatorOverride</code>动画，且都基于<code>baseController</code></p>
+</li>
+<li>
+<p>为<code>baseController</code>设置工作的四个方向动画，并使用专门的变量来控制这些方向</p>
+</li>
+<li>
+<p>为所有基于<code>baseController</code>的工具动画设置对应的动画片段，并修改角色动画的修改关系</p>
+</li>
+<li>
+<p>编写人物触发点击事件时候的动画代码，设置动画的执行过程</p>
+</li>
+</ul>
+<img src="/WFImg/image-20230201223739203.png" alt="image-20230201223739203" style="zoom:50%;" />
+<img src="/WFImg/image-20230201223749058.png" alt="image-20230201223749058" style="zoom:50%;" />
+<p>然后设置在人物栏专门添加工具GO，并为其增加动画控制器。</p>
+<blockquote>
+<p>在<code>AnimatorOverride.cs</code>中该部分逻辑主要是获取当前所持物品的信息，然后找出该物品信息对应的的<code>PartType</code>，找出该需要改变的所有人物拥有的部分（身体，手臂，工具），为这些部分的所有动画控制器更换动画。</p>
+</blockquote>
+<p>修改人物点击事件的代码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">// player.cs</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">OnMouseClickedEvent</span><span class="p">(</span><span class="n">Vector3</span> <span class="n">clickWorldPos</span><span class="p">,</span> <span class="n">ItemDetails</span> <span class="n">itemDetails</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">_useTool</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>   <span class="c1">// 在使用工具则不能点击</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="cm">/*todo 执行对应的动画*/</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">itemDetails</span><span class="p">.</span><span class="n">itemType</span> <span class="p">!=</span> <span class="n">ItemType</span><span class="p">.</span><span class="n">Seed</span> <span class="p">&amp;&amp;</span> <span class="n">itemDetails</span><span class="p">.</span><span class="n">itemType</span> <span class="p">!=</span> <span class="n">ItemType</span><span class="p">.</span><span class="n">Furniture</span> <span class="p">&amp;&amp;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">itemDetails</span><span class="p">.</span><span class="n">itemType</span> <span class="p">!=</span> <span class="n">ItemType</span><span class="p">.</span><span class="n">Commodity</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_mouseX</span> <span class="p">=</span> <span class="n">clickWorldPos</span><span class="p">.</span><span class="n">x</span> <span class="p">-</span> <span class="n">transform</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_mouseY</span> <span class="p">=</span> <span class="n">clickWorldPos</span><span class="p">.</span><span class="n">y</span> <span class="p">-</span> <span class="n">transform</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="cm">/*保证不会出现斜方向的动画*/</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">Mathf</span><span class="p">.</span><span class="n">Abs</span><span class="p">(</span><span class="n">_mouseX</span><span class="p">)</span> <span class="p">&gt;</span> <span class="n">Mathf</span><span class="p">.</span><span class="n">Abs</span><span class="p">(</span><span class="n">_mouseY</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">_mouseY</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">_mouseX</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">StartCoroutine</span><span class="p">(</span><span class="n">UseToolRoutine</span><span class="p">(</span><span class="n">clickWorldPos</span><span class="p">,</span> <span class="n">itemDetails</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">EventHandler</span><span class="p">.</span><span class="n">CallExecuteActionAfterAnimationEvent</span><span class="p">(</span><span class="n">clickWorldPos</span><span class="p">,</span> <span class="n">itemDetails</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// 执行使用工具的动画，由于是一边动画，一边完成事件，因此要用协程</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;param name=&#34;mouseWorldPos&#34;&gt;鼠标点击的位置&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;param name=&#34;itemDetails&#34;&gt;使用的物品&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;returns&gt;&lt;/returns&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="n">IEnumerator</span> <span class="n">UseToolRoutine</span><span class="p">(</span><span class="n">Vector3</span> <span class="n">mouseWorldPos</span><span class="p">,</span> <span class="n">ItemDetails</span> <span class="n">itemDetails</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_useTool</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_inputDisable</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">yield</span> <span class="k">return</span> <span class="k">null</span><span class="p">;</span>      <span class="c1">// 保证此时已经不能移动和使用工具</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="cm">/*执行动画, 由于在AnimatorOverride.cs中，选择物品就修改动画，因此此时直接执行即可*/</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 将身上所有的动画都按需求执行</span>
+</span></span><span class="line"><span class="cl">    <span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">anim</span> <span class="k">in</span> <span class="n">_animations</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">anim</span><span class="p">.</span><span class="n">SetTrigger</span><span class="p">(</span><span class="s">&#34;useTool&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">anim</span><span class="p">.</span><span class="n">SetFloat</span><span class="p">(</span><span class="s">&#34;MouseX&#34;</span><span class="p">,</span> <span class="n">_mouseX</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">anim</span><span class="p">.</span><span class="n">SetFloat</span><span class="p">(</span><span class="s">&#34;MouseY&#34;</span><span class="p">,</span> <span class="n">_mouseY</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 动画执行到一定程度，触发动作的具体代码</span>
+</span></span><span class="line"><span class="cl">    <span class="k">yield</span> <span class="k">return</span> <span class="k">new</span> <span class="n">WaitForSeconds</span><span class="p">(</span><span class="m">0.45f</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">EventHandler</span><span class="p">.</span><span class="n">CallExecuteActionAfterAnimationEvent</span><span class="p">(</span><span class="n">mouseWorldPos</span><span class="p">,</span> <span class="n">itemDetails</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1">// 等待动画完成</span>
+</span></span><span class="line"><span class="cl">    <span class="k">yield</span> <span class="k">return</span> <span class="k">new</span> <span class="n">WaitForSeconds</span><span class="p">(</span><span class="m">0.35f</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_inputDisable</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_useTool</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="实现地图信息随事件变化">实现地图信息随事件变化</h2>
+<p>由于每次切换场景瓦片地图数据会消失，但字典中的地图信息保留，因此就需要读取字典信息，并根据内部的内容，将瓦片地图重新绘制</p>
+<ul>
+<li>
+<p>保存瓦片地图数据（通过每次执行完事件后更新字典信息完成）</p>
+</li>
+<li>
+<p>对地图数据进行<code>refresh</code>（每次切换场景，情况所有地图信息，并从字典中重新加载地图信息）</p>
+</li>
+<li>
+<p>增加时间对地图信息的影响，每过一天，更新地图信息，并重新绘制地图</p>
+</li>
+</ul>
+<p><strong>保存瓦片地图的字典信息</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">UpdateGridMap</span><span class="p">(</span><span class="n">TileDetails</span> <span class="n">tileDetails</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">string</span> <span class="n">key</span> <span class="p">=</span> <span class="n">tileDetails</span><span class="p">.</span><span class="n">gridPos</span><span class="p">.</span><span class="n">x</span> <span class="p">+</span> <span class="s">&#34;x&#34;</span> <span class="p">+</span> <span class="n">tileDetails</span><span class="p">.</span><span class="n">gridPos</span><span class="p">.</span><span class="n">y</span> <span class="p">+</span> <span class="s">&#34;y&#34;</span> <span class="p">+</span> <span class="n">SceneManager</span><span class="p">.</span><span class="n">GetActiveScene</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">_tileDetailsMap</span><span class="p">.</span><span class="n">ContainsKey</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_tileDetailsMap</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="p">=</span> <span class="n">tileDetails</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>重绘网格信息</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// 删除地图的瓦片信息，并重新生成画面</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">RefreshGridMap</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">_digTileMap</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_digTileMap</span><span class="p">.</span><span class="n">ClearAllTiles</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">_waterTileMap</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_waterTileMap</span><span class="p">.</span><span class="n">ClearAllTiles</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">DisplayMap</span><span class="p">(</span><span class="n">SceneManager</span><span class="p">.</span><span class="n">GetActiveScene</span><span class="p">().</span><span class="n">name</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// 重新生成当前地图的所有绘制内容</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;param name=&#34;sceneName&#34;&gt;&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">DisplayMap</span><span class="p">(</span><span class="kt">string</span> <span class="n">sceneName</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">tileMapDic</span> <span class="k">in</span> <span class="n">_tileDetailsMap</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// workflow 显示当前地图的后期绘制的瓦片</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/*找到当前场景的所有瓦片数据*/</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">string</span> <span class="n">key</span> <span class="p">=</span> <span class="n">tileMapDic</span><span class="p">.</span><span class="n">Key</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">key</span><span class="p">.</span><span class="n">Contains</span><span class="p">(</span><span class="n">sceneName</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">tileMapDic</span><span class="p">.</span><span class="n">Value</span><span class="p">.</span><span class="n">daySinceDig</span> <span class="p">&gt;</span> <span class="p">-</span><span class="m">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="n">SetDigTileMap</span><span class="p">(</span><span class="n">tileMapDic</span><span class="p">.</span><span class="n">Value</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">tileMapDic</span><span class="p">.</span><span class="n">Value</span><span class="p">.</span><span class="n">daySinceWater</span> <span class="p">&gt;</span> <span class="p">-</span><span class="m">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="n">SetWaterTile</span><span class="p">(</span><span class="n">tileMapDic</span><span class="p">.</span><span class="n">Value</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// todo 种子的瓦片操作</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>设置每日更新事件</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// 每天更新的事件</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;param name=&#34;day&#34;&gt;当前的天数&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;param name=&#34;season&#34;&gt;当期的季节&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">OnGameDayEvent</span><span class="p">(</span><span class="kt">int</span> <span class="n">day</span><span class="p">,</span> <span class="n">Season</span> <span class="n">season</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/*将所有场景的瓦片信息中，有日期更新的数据都进行更新*/</span>
+</span></span><span class="line"><span class="cl">    <span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">tileDic</span> <span class="k">in</span> <span class="n">_tileDetailsMap</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">tileDic</span><span class="p">.</span><span class="n">Value</span><span class="p">.</span><span class="n">daySinceDig</span> <span class="p">&gt;</span> <span class="p">-</span><span class="m">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">tileDic</span><span class="p">.</span><span class="n">Value</span><span class="p">.</span><span class="n">daySinceDig</span><span class="p">++;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">tileDic</span><span class="p">.</span><span class="n">Value</span><span class="p">.</span><span class="n">daySinceWater</span> <span class="p">&gt;</span> <span class="p">-</span><span class="m">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">tileDic</span><span class="p">.</span><span class="n">Value</span><span class="p">.</span><span class="n">daySinceWater</span> <span class="p">=</span> <span class="p">-</span><span class="m">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="cm">/*如果坑太长时间没有种植，则消失*/</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">tileDic</span><span class="p">.</span><span class="n">Value</span><span class="p">.</span><span class="n">daySinceDig</span> <span class="p">&gt;</span> <span class="m">4</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">RestoreNotHoe</span><span class="p">(</span><span class="n">tileDic</span><span class="p">.</span><span class="n">Value</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">RefreshGridMap</span><span class="p">();</span>   
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD/">麦田物语</a>
+        
+            <a href="/tags/%E7%93%A6%E7%89%87%E5%9C%B0%E5%9B%BE/">瓦片地图</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E5%8D%81%E4%BA%94/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="/img/story_of_wheat_field/wheatField.jpg" loading="lazy" data-key="" data-hash="/img/story_of_wheat_field/wheatField.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">麦田物语开发日记(十五)</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E5%8D%81%E4%BA%8C/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="/img/story_of_wheat_field/wheatField.jpg" loading="lazy" data-key="" data-hash="/img/story_of_wheat_field/wheatField.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">麦田物语开发日记(十二)</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E5%8D%81%E4%B8%80/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="/img/story_of_wheat_field/wheatField.jpg" loading="lazy" data-key="" data-hash="/img/story_of_wheat_field/wheatField.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">麦田物语开发日记(十一)</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E5%8D%81%E4%B8%89/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="/img/story_of_wheat_field/wheatField.jpg" loading="lazy" data-key="" data-hash="/img/story_of_wheat_field/wheatField.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">麦田物语开发日记(十三)</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E5%8D%81%E5%9B%9B/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="/img/story_of_wheat_field/wheatField.jpg" loading="lazy" data-key="" data-hash="/img/story_of_wheat_field/wheatField.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">麦田物语开发日记(十四)</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2023 Ruizumoe&#39;Blog
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.16.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

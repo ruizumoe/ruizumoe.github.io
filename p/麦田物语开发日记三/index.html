@@ -1,0 +1,2501 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='麦田物语的背包系统以及使用UI Toolkit完成物品编辑器'>
+<title>麦田物语开发日记(三)</title>
+
+<link rel='canonical' href='https://ruizumoe.github.io/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E4%B8%89/'>
+
+<link rel="stylesheet" href="/scss/style.min.5be32ca3f6e1a997c75795c4359147cc6d4fbd34948c0acd51e31d237033978a.css"><meta property='og:title' content='麦田物语开发日记(三)'>
+<meta property='og:description' content='麦田物语的背包系统以及使用UI Toolkit完成物品编辑器'>
+<meta property='og:url' content='https://ruizumoe.github.io/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E4%B8%89/'>
+<meta property='og:site_name' content='Ruizumoe&#39;Blog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='麦田物语' /><meta property='article:tag' content='背包系统' /><meta property='article:tag' content='UI Toolkit' /><meta property='article:published_time' content='2023-03-05T19:16:30&#43;08:00'/><meta property='article:modified_time' content='2023-03-05T19:16:30&#43;08:00'/><meta property='og:image' content='https://ruizumoe.github.io/img/story_of_wheat_field/wheatField.jpg' />
+<meta name="twitter:title" content="麦田物语开发日记(三)">
+<meta name="twitter:description" content="麦田物语的背包系统以及使用UI Toolkit完成物品编辑器"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://ruizumoe.github.io/img/story_of_wheat_field/wheatField.jpg' />
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hucf3d7386933de54e98ba7bb3fdb993f3_828119_300x0_resize_box_3.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Ruizumoe&#39;Blog</a></h1>
+            <h2 class="site-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='https://github.com/ruizumoe'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href=''
+                        target="_blank"
+                        title="Twitter"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>Dark Mode</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#物品属性的基本设置">物品属性的基本设置</a></li>
+    <li><a href="#使用uitoolkit来完成物品的内容的设置">使用UIToolkit来完成物品的内容的设置</a></li>
+    <li><a href="#将数据与制作的uitoolkit绑定">将数据与制作的UIToolKit绑定</a></li>
+    <li><a href="#物品管理逻辑">物品管理逻辑</a></li>
+    <li><a href="#人物的拾取逻辑">人物的拾取逻辑</a></li>
+    <li><a href="#背包数据结构">背包数据结构</a>
+      <ol>
+        <li><a href="#背包检查">背包检查</a></li>
+      </ol>
+    </li>
+    <li><a href="#绘制ui">绘制UI</a>
+      <ol>
+        <li><a href="#绘制人物背包内ui">绘制人物背包内UI</a></li>
+        <li><a href="#ui相关代码">UI相关代码</a></li>
+        <li><a href="#控制背包ui的显示">控制背包UI的显示</a></li>
+        <li><a href="#控制背包的打开和关闭">控制背包的打开和关闭</a></li>
+      </ol>
+    </li>
+    <li><a href="#背包物品控制">背包物品控制</a>
+      <ol>
+        <li><a href="#设置点按格子高亮显示和动画">设置点按格子高亮显示和动画</a></li>
+        <li><a href="#实现物体拖拽功能">实现物体拖拽功能</a></li>
+        <li><a href="#实现物体拖拽后位置交换与丢到地面">实现物体拖拽后位置交换与丢到地面</a></li>
+      </ol>
+    </li>
+    <li><a href="#给物品增加浮窗itemtooltip">给物品增加浮窗ItemTooltip</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E4%B8%89/">
+                
+                    <img src="/img/story_of_wheat_field/wheatField.jpg" loading="lazy" alt="Featured image of post 麦田物语开发日记(三)" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/unity/" style="background-color: #2a9d8f; color: #fff;">
+                Unity
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E4%B8%89/">麦田物语开发日记(三)</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            麦田物语的背包系统以及使用UI Toolkit完成物品编辑器
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Mar 05, 2023</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    12 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="背包系统">背包系统</h1>
+<h2 id="物品属性的基本设置">物品属性的基本设置</h2>
+<p>使用MVC架构来控制数据控制和显示</p>
+<p>因此需要定义相关的物品内容的类和物品类型的枚举变量</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">enum</span> <span class="n">ItemType</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Seed</span><span class="p">,</span> <span class="n">Commodity</span><span class="p">,</span> <span class="n">Furniture</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">HoeTool</span><span class="p">,</span> <span class="n">ChopTool</span><span class="p">,</span> <span class="n">BreakTool</span><span class="p">,</span> <span class="n">ReapTool</span><span class="p">,</span> <span class="n">WaterTool</span><span class="p">,</span> <span class="n">CollectTool</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ReapableScenery</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="c1">// DataCollections.cs</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// 该类收集写过的所有类，结构体,</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="na">
+</span></span></span><span class="line"><span class="cl"><span class="na">[System.Serializable]</span>   <span class="c1">// 保证写过的所有类和结构体都能被Unity识别，因此需要为其序列化</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">ItemDetails</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">int</span> <span class="n">itemID</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">string</span> <span class="n">itemName</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">ItemType</span> <span class="n">itemType</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">Sprite</span> <span class="n">itemIcon</span><span class="p">;</span>     <span class="c1">// 物品的图标</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">Sprite</span> <span class="n">itemOnWorldSprite</span><span class="p">;</span>        <span class="c1">// 在世界地图上物品的样子，比如种子</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">int</span> <span class="n">itemUseRadius</span><span class="p">;</span>   <span class="c1">// 物品的可适用范围</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">bool</span> <span class="n">canPickUp</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">bool</span> <span class="n">canDropped</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">bool</span> <span class="n">canCarried</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">int</span> <span class="n">itemPrice</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [Range(0, 1)]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">float</span> <span class="n">sellPercentage</span><span class="p">;</span>        <span class="c1">// 售卖时候的折扣范围</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>   
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>在两个类的基础上，可以通过定义对应的<code>ScriptableObeject</code>来定义我们的物品信息，由于物品较多，因此在SO中可以通过一个列表的形式去定义多个物品信息</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="na">[CreateAssetMenu(fileName = &#34;ItemDataList_SO&#34;, menuName = &#34;Inventory/ItemDetails&#34;)]</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">ItemDataList_SO</span> <span class="p">:</span> <span class="n">ScriptableObject</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">ItemDetails</span><span class="p">&gt;</span> <span class="n">itemDetailsList</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><img src="/WFImg/image-20221123230613429.png" alt="image-20221123230613429" style="zoom:50%;" />
+<h2 id="使用uitoolkit来完成物品的内容的设置">使用UIToolkit来完成物品的内容的设置</h2>
+<p>UIToolKit可以帮我们定义一个可视化的编辑内容的方案</p>
+<p>新建一个<code>Editor</code>文件夹用于管理我们的所有可编辑内容，在下面建立存放UItoolkit的文件夹<code>UI Builder</code>，然后新建一个<code>Uitoolkit -&gt; Editor window</code>，分为三个文件，用于管理GUI的脚本，Unity独特的XML格式文件，以及一个类似CSS的内容。</p>
+<p>每一个UitoolKit的窗口都有一个根节点</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">ItemEditor</span> <span class="p">:</span> <span class="n">EditorWindow</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [MenuItem(&#34;Window/UI Toolkit/ItemEditor&#34;)]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">static</span> <span class="k">void</span> <span class="n">ShowExample</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ItemEditor</span> <span class="n">wnd</span> <span class="p">=</span> <span class="n">GetWindow</span><span class="p">&lt;</span><span class="n">ItemEditor</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">wnd</span><span class="p">.</span><span class="n">titleContent</span> <span class="p">=</span> <span class="k">new</span> <span class="n">GUIContent</span><span class="p">(</span><span class="s">&#34;ItemEditor&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">void</span> <span class="n">CreateGUI</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// Each editor window contains a root VisualElement object</span>
+</span></span><span class="line"><span class="cl">        <span class="n">VisualElement</span> <span class="n">root</span> <span class="p">=</span> <span class="n">rootVisualElement</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// VisualElements objects can contain other VisualElement following a tree hierarchy.</span>
+</span></span><span class="line"><span class="cl">        <span class="n">VisualElement</span> <span class="n">label</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Label</span><span class="p">(</span><span class="s">&#34;Hello World! From C#&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">root</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">label</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// Import UXML</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">var</span> <span class="n">visualTree</span> <span class="p">=</span> <span class="n">AssetDatabase</span><span class="p">.</span><span class="n">LoadAssetAtPath</span><span class="p">&lt;</span><span class="n">VisualTreeAsset</span><span class="p">&gt;(</span><span class="s">&#34;Assets/Editor/UI Builder/ItemEditor.uxml&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">VisualElement</span> <span class="n">labelFromUXML</span> <span class="p">=</span> <span class="n">visualTree</span><span class="p">.</span><span class="n">Instantiate</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">root</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">labelFromUXML</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// A stylesheet can be added to a VisualElement.</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// The style will be applied to the VisualElement and all of its children.</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">var</span> <span class="n">styleSheet</span> <span class="p">=</span> <span class="n">AssetDatabase</span><span class="p">.</span><span class="n">LoadAssetAtPath</span><span class="p">&lt;</span><span class="n">StyleSheet</span><span class="p">&gt;(</span><span class="s">&#34;Assets/Editor/UI Builder/ItemEditor.uss&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">VisualElement</span> <span class="n">labelWithStyle</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Label</span><span class="p">(</span><span class="s">&#34;Hello World! With Style&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">labelWithStyle</span><span class="p">.</span><span class="n">styleSheets</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">styleSheet</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">root</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">labelWithStyle</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>绘制可视化的编辑工具</strong></p>
+<p>直接使用对应的UiBuilder，作为编辑窗口，可视化的编辑我们的UI ToolKit</p>
+<img src="/WFImg/image-20221124161857655.png" alt="image-20221124161857655" style="zoom:50%;" />
+<p>在UI builder中，每一个VisualElement可以看做是一个div</p>
+<blockquote>
+<p>和写页面类似</p>
+</blockquote>
+<h2 id="将数据与制作的uitoolkit绑定">将数据与制作的UIToolKit绑定</h2>
+<p>在ItemUI的界面中将所有ItemData数据通过代码进行加载，并</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">ItemEditor</span> <span class="p">:</span> <span class="n">EditorWindow</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">ItemDataList_SO</span> <span class="n">_dataBase</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">ItemDetails</span><span class="p">&gt;</span> <span class="n">_itemDetailsList</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">ItemDetails</span><span class="p">&gt;();</span>   <span class="c1">// 用于获得对应列表的内容</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// 从Asset文件夹下找出我们的ItemDataList_SO，并加载当GUI中</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">LoadDataBase</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 通过类似的名称找出其对应的GUID数组</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">var</span> <span class="n">dataStringArrs</span> <span class="p">=</span> <span class="n">AssetDatabase</span><span class="p">.</span><span class="n">FindAssets</span><span class="p">(</span><span class="s">&#34;t:ItemDataList_SO&#34;</span><span class="p">);</span>	<span class="c1">// t:用于指定我们要找到文件的类型，可以不写</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">dataStringArrs</span><span class="p">.</span><span class="n">Length</span> <span class="p">&gt;</span> <span class="m">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// 基于数组中的路径找出我们需要的Item数据类型</span>
+</span></span><span class="line"><span class="cl">            <span class="kt">var</span> <span class="n">path</span> <span class="p">=</span> <span class="n">AssetDatabase</span><span class="p">.</span><span class="n">GUIDToAssetPath</span><span class="p">(</span><span class="n">dataStringArrs</span><span class="p">[</span><span class="m">0</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">_dataBase</span> <span class="p">=</span> <span class="n">AssetDatabase</span><span class="p">.</span><span class="n">LoadAssetAtPath</span><span class="p">&lt;</span><span class="n">ItemDataList_SO</span><span class="p">&gt;(</span><span class="n">path</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_itemDetailsList</span> <span class="p">=</span> <span class="n">_dataBase</span><span class="p">.</span><span class="n">itemDetailsList</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="c1">// 必须标注了才能保存数据</span>
+</span></span><span class="line"><span class="cl">        <span class="n">EditorUtility</span><span class="p">.</span><span class="n">SetDirty</span><span class="p">(</span><span class="n">_dataBase</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>每次获得数据，由于界面已经加载，因此需要将数据设置为脏数据，才能表示重新加载了数据</p>
+</blockquote>
+<p><strong>将获得的itemList的数据显示在左侧的ListView界面上</strong></p>
+<p>获得界面上的ListView组件内容，然后将该组件的通过Unity自带的代码进行显示</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">ItemEditor</span> <span class="p">:</span> <span class="n">EditorWindow</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">ListView</span> <span class="n">_itemListView</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">void</span> <span class="n">CreateGUI</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 获得模板数据</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 通过绝对路径找到我们的模板</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_itemRowTemplate</span> <span class="p">=</span>
+</span></span><span class="line"><span class="cl">            <span class="n">AssetDatabase</span><span class="p">.</span><span class="n">LoadAssetAtPath</span><span class="p">&lt;</span><span class="n">VisualTreeAsset</span><span class="p">&gt;(</span><span class="s">&#34;Assets/Editor/UI Builder/ItemRowTemplate.uxml&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 获得listView</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_itemListView</span> <span class="p">=</span> <span class="n">root</span><span class="p">.</span><span class="n">Q</span><span class="p">&lt;</span><span class="n">VisualElement</span><span class="p">&gt;(</span><span class="s">&#34;container&#34;</span><span class="p">).</span><span class="n">Q</span><span class="p">&lt;</span><span class="n">VisualElement</span><span class="p">&gt;(</span><span class="s">&#34;ItemList&#34;</span><span class="p">).</span><span class="n">Q</span><span class="p">&lt;</span><span class="n">ListView</span><span class="p">&gt;(</span><span class="s">&#34;ListView&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 在ListView中显示数据</span>
+</span></span><span class="line"><span class="cl">        <span class="n">GenerateListView</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">     <span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// 生成ListView相关内容</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">GenerateListView</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 告诉界面每个item应该是什么样子的</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Func</span><span class="p">&lt;</span><span class="n">VisualElement</span><span class="p">&gt;</span> <span class="n">makeItem</span> <span class="p">=</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="n">_itemRowTemplate</span><span class="p">.</span><span class="n">CloneTree</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 告诉界面每个item的内容该用什么去匹配 （element表示一个具体的组件，index表示当前组件的下标）</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Action</span><span class="p">&lt;</span><span class="n">VisualElement</span><span class="p">,</span> <span class="kt">int</span><span class="p">&gt;</span> <span class="n">bindItem</span> <span class="p">=</span> <span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span> <span class="p">=&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">index</span> <span class="p">&lt;</span> <span class="n">_dataBase</span><span class="p">.</span><span class="n">itemDetailsList</span><span class="p">.</span><span class="n">Count</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="kt">var</span> <span class="n">item</span> <span class="p">=</span> <span class="n">_itemDetailsList</span><span class="p">[</span><span class="n">index</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">// 通过Q&lt;type&gt;(name) 来寻找每个item的具体内容</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="p">(</span><span class="n">item</span><span class="p">.</span><span class="n">itemIcon</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">element</span><span class="p">.</span><span class="n">Q</span><span class="p">&lt;</span><span class="n">VisualElement</span><span class="p">&gt;(</span><span class="s">&#34;Icon&#34;</span><span class="p">).</span><span class="n">style</span><span class="p">.</span><span class="n">backgroundImage</span> <span class="p">=</span> <span class="n">_itemDetailsList</span><span class="p">[</span><span class="n">index</span><span class="p">].</span><span class="n">itemIcon</span><span class="p">.</span><span class="n">texture</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                
+</span></span><span class="line"><span class="cl">                <span class="n">element</span><span class="p">.</span><span class="n">Q</span><span class="p">&lt;</span><span class="n">Label</span><span class="p">&gt;(</span><span class="s">&#34;ItemName&#34;</span><span class="p">).</span><span class="n">text</span> <span class="p">=</span> <span class="n">item</span><span class="p">.</span><span class="n">itemName</span> <span class="p">!=</span> <span class="k">null</span> <span class="p">?</span> <span class="n">item</span><span class="p">.</span><span class="n">itemName</span> <span class="p">:</span> <span class="s">&#34;No Item&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">_itemListView</span><span class="p">.</span><span class="n">fixedItemHeight</span> <span class="p">=</span> <span class="m">60</span><span class="p">;</span>     <span class="c1">// 固定高度</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_itemListView</span><span class="p">.</span><span class="n">makeItem</span> <span class="p">+=</span> <span class="n">makeItem</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_itemListView</span><span class="p">.</span><span class="n">bindItem</span> <span class="p">+=</span> <span class="n">bindItem</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_itemListView</span><span class="p">.</span><span class="n">itemsSource</span> <span class="p">=</span> <span class="n">_itemDetailsList</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="c1">// Callback invoked when the user double clicks an item</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_itemListView</span><span class="p">.</span><span class="n">onItemsChosen</span> <span class="p">+=</span> <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// Callback invoked when the user changes the selection inside the ListView</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_itemListView</span><span class="p">.</span><span class="n">onSelectionChange</span> <span class="p">+=</span> <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>将数据信息于右侧的具体数值进行显示</strong></p>
+<blockquote>
+<p>为了保证在面板上修改的值能够同步到具体的data_SO中，需要使用专门的函数，设置为脏函数</p>
+</blockquote>
+<p>在这一过程，主要是需要通过<code>Q&lt;type&gt;(name)</code>去找出所有的组件内容，然后面板信息绑定从itemList中得到的值</p>
+<p>因此首先需要在每次选择某一个item时获得对应的内容<code>OnSelecttionChange事件</code>，然后将其内容同步到右侧面板上</p>
+<p><code>_itemListView.onSelectionChange += OnListSelectionChange;</code></p>
+<p>每次绑定好一个item和对应的面板后需要同时为其绑定对应的回调函数，保证能及时同步到SO上</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// 当选中某一个item的时候的回调</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// &lt;param name=&#34;selectedItem&#34;&gt;所有被选中的item，实际只有一个&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">OnListSelectionChange</span><span class="p">(</span><span class="n">IEnumerable</span><span class="p">&lt;</span><span class="kt">object</span><span class="p">&gt;</span> <span class="n">selectedItem</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">selectedItem</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">_activeItem</span> <span class="p">=</span> <span class="n">selectedItem</span><span class="p">.</span><span class="n">First</span><span class="p">()</span> <span class="k">as</span> <span class="n">ItemDetails</span><span class="p">;</span>  <span class="c1">// 强转</span>
+</span></span><span class="line"><span class="cl">            <span class="n">GetItemDetails</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">            <span class="n">_itemDetailsSection</span><span class="p">.</span><span class="n">visible</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl">    <span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// 绑定item内容</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">GetItemDetails</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 设置了该函数面板中数据的更改 可以同步到SO中</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_itemDetailsSection</span><span class="p">.</span><span class="n">MarkDirtyRepaint</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="n">_itemDetailsSection</span><span class="p">.</span><span class="n">Q</span><span class="p">&lt;</span><span class="n">IntegerField</span><span class="p">&gt;(</span><span class="s">&#34;ItemID&#34;</span><span class="p">).</span><span class="k">value</span> <span class="p">=</span> <span class="n">_activeItem</span><span class="p">.</span><span class="n">itemID</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 回调函数，保证在面板上的修改能同步到我们的SO中</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_itemDetailsSection</span><span class="p">.</span><span class="n">Q</span><span class="p">&lt;</span><span class="n">IntegerField</span><span class="p">&gt;(</span><span class="s">&#34;ItemID&#34;</span><span class="p">).</span><span class="n">RegisterValueChangedCallback</span><span class="p">((</span><span class="n">evt</span><span class="p">)</span> <span class="p">=&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">_activeItem</span><span class="p">.</span><span class="n">itemID</span> <span class="p">=</span> <span class="n">evt</span><span class="p">.</span><span class="n">newValue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">});</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="c1">// 获得Name</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_itemDetailsSection</span><span class="p">.</span><span class="n">Q</span><span class="p">&lt;</span><span class="n">TextField</span><span class="p">&gt;(</span><span class="s">&#34;ItemName&#34;</span><span class="p">).</span><span class="k">value</span> <span class="p">=</span> <span class="n">_activeItem</span><span class="p">.</span><span class="n">itemName</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_itemDetailsSection</span><span class="p">.</span><span class="n">Q</span><span class="p">&lt;</span><span class="n">TextField</span><span class="p">&gt;(</span><span class="s">&#34;ItemName&#34;</span><span class="p">).</span><span class="n">RegisterValueChangedCallback</span><span class="p">(</span><span class="n">evt</span> <span class="p">=&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">_activeItem</span><span class="p">.</span><span class="n">itemName</span> <span class="p">=</span> <span class="n">evt</span><span class="p">.</span><span class="n">newValue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">_itemListView</span><span class="p">.</span><span class="n">Rebuild</span><span class="p">();</span>        <span class="c1">// 当更新名称和图标的时候重新绘制</span>
+</span></span><span class="line"><span class="cl">        <span class="p">});</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="c1">// 获得类型</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_itemDetailsSection</span><span class="p">.</span><span class="n">Q</span><span class="p">&lt;</span><span class="n">EnumField</span><span class="p">&gt;().</span><span class="k">value</span> <span class="p">=</span> <span class="n">_activeItem</span><span class="p">.</span><span class="n">itemType</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>更新图片icon</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="c1">// 实现图片的修改（思路：默认获得_activeItem的图片，如果需要修改图片，选择图片以后，修改显示图片的背景)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_iconPreview</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="n">backgroundImage</span> <span class="p">=</span> <span class="n">_activeItem</span><span class="p">.</span><span class="n">itemIcon</span> <span class="p">!=</span> <span class="k">null</span> <span class="p">?</span> <span class="n">_activeItem</span><span class="p">.</span><span class="n">itemIcon</span><span class="p">.</span><span class="n">texture</span> <span class="p">:</span><span class="n">_defaultIcon</span><span class="p">.</span><span class="n">texture</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_itemDetailsSection</span><span class="p">.</span><span class="n">Q</span><span class="p">&lt;</span><span class="n">ObjectField</span><span class="p">&gt;(</span><span class="s">&#34;ItemIconSprite&#34;</span><span class="p">).</span><span class="k">value</span> <span class="p">=</span> <span class="n">_activeItem</span><span class="p">.</span><span class="n">itemIcon</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_itemDetailsSection</span><span class="p">.</span><span class="n">Q</span><span class="p">&lt;</span><span class="n">ObjectField</span><span class="p">&gt;(</span><span class="s">&#34;ItemIconSprite&#34;</span><span class="p">).</span><span class="n">RegisterValueChangedCallback</span><span class="p">(</span><span class="n">evt</span> <span class="p">=&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// 每次回调都需要更新</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Sprite</span> <span class="n">newIcon</span> <span class="p">=</span> <span class="p">(</span><span class="n">Sprite</span><span class="p">)</span><span class="n">evt</span><span class="p">.</span><span class="n">newValue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">_activeItem</span><span class="p">.</span><span class="n">itemIcon</span> <span class="p">=</span> <span class="n">newIcon</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">_iconPreview</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="n">backgroundImage</span> <span class="p">=</span> <span class="n">_activeItem</span><span class="p">.</span><span class="n">itemIcon</span> <span class="p">!=</span> <span class="k">null</span> <span class="p">?</span> <span class="n">newIcon</span><span class="p">.</span><span class="n">texture</span> <span class="p">:</span><span class="n">_defaultIcon</span><span class="p">.</span><span class="n">texture</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">_itemListView</span><span class="p">.</span><span class="n">Rebuild</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">            
+</span></span><span class="line"><span class="cl">        <span class="p">});</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>添加item和删除item</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="c1">// 在GUI主函数中为button添加对应的事件</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 获得添加和删除按钮的具体事件</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">void</span> <span class="n">CreateGUI</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">root</span><span class="p">.</span><span class="n">Q</span><span class="p">&lt;</span><span class="n">Button</span><span class="p">&gt;(</span><span class="s">&#34;AddButton&#34;</span><span class="p">).</span><span class="n">clicked</span> <span class="p">+=</span> <span class="n">OnAddBtnClicked</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">root</span><span class="p">.</span><span class="n">Q</span><span class="p">&lt;</span><span class="n">Button</span><span class="p">&gt;(</span><span class="s">&#34;DelButton&#34;</span><span class="p">).</span><span class="n">clicked</span> <span class="p">+=</span> <span class="n">OnDelBtnClicked</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// </span>
+</span></span><span class="line"><span class="cl"><span class="cp"># region 按键事件</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">OnDelBtnClicked</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 从_itemDetailsList中移除activeItem，然后重新绘制</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">_activeItem</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">_itemDetailsList</span><span class="p">.</span><span class="n">Remove</span><span class="p">(</span><span class="n">_activeItem</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">_itemListView</span><span class="p">.</span><span class="n">Rebuild</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">            <span class="n">_itemDetailsSection</span><span class="p">.</span><span class="n">visible</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">OnAddBtnClicked</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_itemDetailsSection</span><span class="p">.</span><span class="n">visible</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ItemDetails</span> <span class="n">newItem</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ItemDetails</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">newItem</span><span class="p">.</span><span class="n">itemName</span> <span class="p">=</span> <span class="s">&#34;New Item&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">newItem</span><span class="p">.</span><span class="n">itemID</span> <span class="p">=</span> <span class="m">1000</span> <span class="p">+</span> <span class="n">_itemDetailsList</span><span class="p">.</span><span class="n">Count</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">newItem</span><span class="p">.</span><span class="n">itemIcon</span> <span class="p">=</span> <span class="n">AssetDatabase</span><span class="p">.</span><span class="n">LoadAssetAtPath</span><span class="p">&lt;</span><span class="n">Sprite</span><span class="p">&gt;(</span><span class="n">Settings</span><span class="p">.</span><span class="n">DefaultIconPath</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_itemDetailsList</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">newItem</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="n">_itemListView</span><span class="p">.</span><span class="n">Rebuild</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="err">#</span> <span class="n">endregion</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>注意绑定枚举类型时需要先将其初始化</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="n">_itemDetailsSection</span><span class="p">.</span><span class="n">Q</span><span class="p">&lt;</span><span class="n">EnumField</span><span class="p">&gt;(</span><span class="s">&#34;ItemType&#34;</span><span class="p">).</span><span class="n">Init</span><span class="p">(</span><span class="n">_activeItem</span><span class="p">.</span><span class="n">itemType</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="n">_itemDetailsSection</span><span class="p">.</span><span class="n">Q</span><span class="p">&lt;</span><span class="n">EnumField</span><span class="p">&gt;(</span><span class="s">&#34;ItemType&#34;</span><span class="p">).</span><span class="k">value</span> <span class="p">=</span> <span class="n">_activeItem</span><span class="p">.</span><span class="n">itemType</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">_itemDetailsSection</span><span class="p">.</span><span class="n">Q</span><span class="p">&lt;</span><span class="n">EnumField</span><span class="p">&gt;(</span><span class="s">&#34;ItemType&#34;</span><span class="p">).</span><span class="n">RegisterValueChangedCallback</span><span class="p">(</span><span class="n">evt</span> <span class="p">=&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"> <span class="n">_activeItem</span><span class="p">.</span><span class="n">itemType</span> <span class="p">=</span> <span class="p">(</span><span class="n">ItemType</span><span class="p">)</span><span class="n">evt</span><span class="p">.</span><span class="n">newValue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></blockquote>
+<h2 id="物品管理逻辑">物品管理逻辑</h2>
+<p>所有的物品都通过<code>inventoryManager</code>来控制</p>
+<p>使用单例模式创建<code>InventoryManage</code>并构建对应的命名空间来管理需要的数据，所有跟背包、数据有关的内容都需要调用该命名空间，这样其他文件需要调用<code>itemDataListSO</code>的时候就需要先调用该命名空间<code>using MFarm.Inventory</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="c1">// 添加一个命名空间，便于管理</span>
+</span></span><span class="line"><span class="cl"><span class="k">namespace</span> <span class="nn">MFarm.Inventory</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">class</span> <span class="nc">InventoryManager</span> <span class="p">:</span> <span class="n">Singleton</span><span class="p">&lt;</span><span class="n">InventoryManager</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 获得数据的控制权</span>
+</span></span><span class="line"><span class="cl">        <span class="k">public</span> <span class="n">ItemDataList_SO</span> <span class="n">itemDataListSo</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 通过物品ID快速找到物品的details</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">ItemDetails</span> <span class="n">GetItemDetails</span><span class="p">(</span><span class="kt">int</span> <span class="n">itemID</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">itemDataListSo</span><span class="p">.</span><span class="n">itemDetailsList</span><span class="p">.</span><span class="n">Find</span><span class="p">(</span><span class="n">i</span> <span class="p">=&gt;</span> <span class="n">i</span><span class="p">.</span><span class="n">itemID</span> <span class="p">==</span> <span class="n">itemID</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>每个场景的基础物体信息itemBase</strong></p>
+<p>该ItemBase用于加载所有在该场景中生成的物体（果实，种子，伐木产生的内容等），每当需要生产内容的</p>
+<p>，就会去<code>InventoryManager</code>中找到对应的物品，然后每个物体需要有自己的sprite子物体</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">namespace</span> <span class="nn">MFarm.Inventory</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">class</span> <span class="nc">Item</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">public</span> <span class="kt">int</span> <span class="n">itemID</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="k">private</span> <span class="n">ItemDetails</span> <span class="n">_itemDetails</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">private</span> <span class="n">SpriteRenderer</span> <span class="n">_spriteRenderer</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">private</span> <span class="n">BoxCollider2D</span> <span class="n">_boxCollider2D</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">private</span> <span class="k">void</span> <span class="n">Awake</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">_spriteRenderer</span> <span class="p">=</span> <span class="n">GetComponentInChildren</span><span class="p">&lt;</span><span class="n">SpriteRenderer</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">            <span class="n">_boxCollider2D</span> <span class="p">=</span> <span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">BoxCollider2D</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">private</span> <span class="k">void</span> <span class="n">Start</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">itemID</span> <span class="p">!=</span> <span class="m">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="n">InitItem</span><span class="p">(</span><span class="n">itemID</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">private</span> <span class="k">void</span> <span class="n">InitItem</span><span class="p">(</span><span class="kt">int</span> <span class="n">ID</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">itemID</span> <span class="p">=</span> <span class="n">ID</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">_itemDetails</span> <span class="p">=</span> <span class="n">InventoryManager</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">GetItemDetails</span><span class="p">(</span><span class="n">itemID</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Sprite</span> <span class="n">itemSprite</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">_itemDetails</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">itemSprite</span> <span class="p">=</span> <span class="n">_itemDetails</span><span class="p">.</span><span class="n">itemOnWorldSprite</span> <span class="p">!=</span> <span class="k">null</span> <span class="p">?</span> <span class="n">_itemDetails</span><span class="p">.</span><span class="n">itemOnWorldSprite</span> <span class="p">:</span> <span class="n">_itemDetails</span><span class="p">.</span><span class="n">itemIcon</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="n">_spriteRenderer</span><span class="p">.</span><span class="n">sprite</span> <span class="p">=</span> <span class="n">itemSprite</span><span class="p">;</span> 
+</span></span><span class="line"><span class="cl">                
+</span></span><span class="line"><span class="cl">                <span class="c1">// 修改boxCollider的大小以匹配实际的图片尺寸</span>
+</span></span><span class="line"><span class="cl">                <span class="n">Vector2</span> <span class="n">newSize</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Vector2</span><span class="p">(</span><span class="n">itemSprite</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">x</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">itemSprite</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">y</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                <span class="n">_boxCollider2D</span><span class="p">.</span><span class="n">size</span> <span class="p">=</span> <span class="n">newSize</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">// 修改offset以匹配在底部的锚点</span>
+</span></span><span class="line"><span class="cl">                <span class="n">_boxCollider2D</span><span class="p">.</span><span class="n">offset</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Vector2</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="n">itemSprite</span><span class="p">.</span><span class="n">bounds</span><span class="p">.</span><span class="n">center</span><span class="p">.</span><span class="n">y</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="人物的拾取逻辑">人物的拾取逻辑</h2>
+<p>为player添加一个脚本，该脚本用于当触发器触发的时候获得item对应的内容，并将地图上的item删除</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">namespace</span> <span class="nn">MFarm.Inventory</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">class</span> <span class="nc">ItemPickUp</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">private</span> <span class="k">void</span> <span class="n">OnTriggerEnter2D</span><span class="p">(</span><span class="n">Collider2D</span> <span class="n">other</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Item</span> <span class="n">item</span> <span class="p">=</span> <span class="n">other</span><span class="p">.</span><span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">Item</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">item</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="p">(</span><span class="n">item</span><span class="p">.</span><span class="n">itemDetails</span><span class="p">.</span><span class="n">canPickedUp</span> <span class="p">&amp;&amp;</span> <span class="n">Input</span><span class="p">.</span><span class="n">GetKeyDown</span><span class="p">(</span><span class="n">KeyCode</span><span class="p">.</span><span class="n">E</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">                <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1">// 拾取到背包</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">InventoryManager</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">AddItem</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">private</span> <span class="k">void</span> <span class="n">OnTriggerStay2D</span><span class="p">(</span><span class="n">Collider2D</span> <span class="n">other</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Item</span> <span class="n">item</span> <span class="p">=</span> <span class="n">other</span><span class="p">.</span><span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">Item</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">item</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">// OnTrigger和input,GetKeyDown的速率不匹配，一般来说是OnTrigger更新标志量，在update中触发按键</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="p">(</span><span class="n">item</span><span class="p">.</span><span class="n">itemDetails</span><span class="p">.</span><span class="n">canPickedUp</span> <span class="p">&amp;&amp;</span> <span class="n">Input</span><span class="p">.</span><span class="n">GetKeyDown</span><span class="p">(</span><span class="n">KeyCode</span><span class="p">.</span><span class="n">E</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">                <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1">// 拾取到背包</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">InventoryManager</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">AddItem</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">private</span> <span class="k">void</span> <span class="n">OnTriggerExit2D</span><span class="p">(</span><span class="n">Collider2D</span> <span class="n">other</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">// OnTrigger和input,GetKeyDown的速率不匹配，一般来说是OnTrigger更新标志量，在update中触发按键
+</span></span></code></pre></td></tr></table>
+</div>
+</div></blockquote>
+<h2 id="背包数据结构">背包数据结构</h2>
+<p>为背包和背包内容数据单独记录一个数据类型，背包的内容数据只需要保存数据的ID和数量放在<code>dataCollection</code>中，构建一个新的struct ——<code>InventoryItem</code></p>
+<blockquote>
+<p>一般来说结构体类型都是<strong>值类型</strong>，每次生成对应内容时候都会为 成员变量赋值，因此不会出现当结构体或成员变量为空的情况。</p>
+<p>在本例子中，为避免背包的数据为空引起的错误，因此我们将背包的每个数据都定义为一个struct</p>
+</blockquote>
+<p>然后在为了适应多种存储物体的内容(背包，箱子，商店)，我们需要新建一个新的SO——<code>InventoryBag_SO</code>文件，用于存储一段<code>InventoryItem</code>，这样我们只需要创建不同的so，就可以找出得到不同的存储的数据</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="na">[CreateAssetMenu(fileName = &#34;InventoryBag_SO&#34;, menuName = &#34;Inventory/InventoryBag&#34;)]</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">InventoryBag_SO</span> <span class="p">:</span> <span class="n">ScriptableObject</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">InventoryItem</span><span class="p">&gt;</span> <span class="n">inventoryItemList</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="背包检查">背包检查</h3>
+<p><strong>需求</strong></p>
+<ul>
+<li>检查背包是否为空(通过检查在List中的每个item的数量是否为0)</li>
+<li>检查背包是否已经有该物品（检查每个item的id是否为想要的ID）</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">private</span> <span class="kt">bool</span> <span class="n">AddItemInIndex</span><span class="p">(</span><span class="kt">int</span> <span class="n">itemID</span><span class="p">,</span> <span class="kt">int</span> <span class="n">itemIndex</span><span class="p">,</span> <span class="kt">int</span> <span class="n">amount</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">itemIndex</span> <span class="p">==</span> <span class="p">-</span><span class="m">1</span><span class="p">)</span>    <span class="c1">// 如果背包没有当前物品</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="kt">var</span> <span class="n">newItem</span> <span class="p">=</span> <span class="k">new</span> <span class="n">InventoryItem</span><span class="p">{</span><span class="n">itemID</span> <span class="p">=</span> <span class="n">itemID</span><span class="p">,</span> <span class="n">itemAmount</span> <span class="p">=</span> <span class="n">amount</span><span class="p">};</span>
+</span></span><span class="line"><span class="cl">                <span class="kt">int</span> <span class="n">vacancy</span> <span class="p">=</span> <span class="n">CheckBagCapacity</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="p">(</span><span class="n">vacancy</span> <span class="p">!=</span> <span class="p">-</span><span class="m">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">playerBag</span><span class="p">.</span><span class="n">inventoryItemList</span><span class="p">[</span><span class="n">vacancy</span><span class="p">]</span> <span class="p">=</span> <span class="n">newItem</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">itemIndex</span> <span class="p">=</span> <span class="n">vacancy</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">                    
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="k">else</span>            <span class="c1">// 如果有当前物品</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="kt">var</span> <span class="n">newAmount</span> <span class="p">=</span> <span class="n">playerBag</span><span class="p">.</span><span class="n">inventoryItemList</span><span class="p">[</span><span class="n">itemIndex</span><span class="p">].</span><span class="n">itemAmount</span> <span class="p">+</span> <span class="n">amount</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="kt">var</span> <span class="n">newItem</span> <span class="p">=</span> <span class="k">new</span> <span class="n">InventoryItem</span><span class="p">()</span> <span class="p">{</span> <span class="n">itemID</span> <span class="p">=</span> <span class="n">itemID</span><span class="p">,</span> <span class="n">itemAmount</span> <span class="p">=</span> <span class="n">newAmount</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl">                <span class="n">playerBag</span><span class="p">.</span><span class="n">inventoryItemList</span><span class="p">[</span><span class="n">itemIndex</span><span class="p">]</span> <span class="p">=</span> <span class="n">newItem</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            
+</span></span><span class="line"><span class="cl">            <span class="c1">// 返回是否已经将物体存放进入背包</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">itemIndex</span> <span class="p">!=</span> <span class="p">-</span><span class="m">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>注意结构体的赋值不能直接赋值，需要通过重新初始化才行</p>
+</blockquote>
+<h2 id="绘制ui">绘制UI</h2>
+<ul>
+<li>用一个独立的场景来绘制UI</li>
+</ul>
+<p>建立一个新的场景，在新场景中新增一个<code>Canvas</code>用于存放UI面板，然后将该画布的<code>Canvas Scaler</code>改为适配屏幕大小</p>
+<p>建议一组父物体 ，这组父物体用于作为真实UI工具的父物体，然后UI本身的内容需要在该物体下的子物体中进行实现。比如我们要完成一个快捷栏，则需要构建一个空物体<code>Inventory</code>然后再该物体下方构造UI组件<code>Panel</code>，将其作为快捷栏的具体组件。</p>
+<p><img src="/WFImg/image-20221201175052977.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20221201175052977"
+	
+	
+></p>
+<p>同时将该<code>Action Bar</code>的图片设置为我们需要的ui的框架图片，并将<code>image Type</code>修改<code>Slice</code></p>
+<ul>
+<li>设置快捷按钮</li>
+</ul>
+<p>为了保证每个快捷栏的内容都是可以点击的，我们将每个快捷栏设置为一个<code>button</code>，每个button有自己的图片和内容，然后再在按钮中设置一个图片，用于显示具体的物品信息，一个<code>Image</code>用于显示被选中时的高亮狂。</p>
+<ul>
+<li>分组</li>
+</ul>
+<p>在<code>action Bar</code>中添加组件<code>Horizontal Layout Group</code>组件，用于为所有UI内容分组，然后将对其方式设置为<code>middle center</code>，这样就可以对内部的所有内容按照分组管理，如果其中的部分组件希望受到管理，但是有个性化的设置，则需要为单独的组件添加<code>Layout Element</code>组件</p>
+<h3 id="绘制人物背包内ui">绘制人物背包内UI</h3>
+<p>制作思路与普通的绘制UI相同</p>
+<p>添加一个背包的panel -&gt;  背包具体的内容有新的panel存放-&gt; 每个物体都是一个单独的button -&gt; 设置不同的image来显示不同的内容。</p>
+<h3 id="ui相关代码">UI相关代码</h3>
+<ul>
+<li>获取SlotUI相关的信息（文字，数量，图片等）</li>
+</ul>
+<p>在awake中获取组件也可能会导致update实时获取报错，因此为了效率，直接从<code>Inspector</code>组建中获得相关信息是最快的，因此对于一个<code>private</code>变量，通过<code>[SerializeField]</code>声明可以像<code>public</code>一样直接从<code>Inspector</code>获取内容</p>
+<blockquote>
+<ul>
+<li>隐藏声明<code>[HideInInspector]</code></li>
+<li>显示声明<code>[SerializeField]</code></li>
+</ul>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="na">[Header(&#34;组件获取&#34;)]</span> 
+</span></span><span class="line"><span class="cl"><span class="na">[SerializeField]</span> <span class="k">private</span> <span class="n">Image</span> <span class="n">slotImg</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="na">[SerializeField]</span> <span class="k">private</span> <span class="n">TextMeshProUGUI</span> <span class="n">amountText</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="na">[SerializeField]</span> <span class="k">private</span> <span class="n">Image</span> <span class="n">slotHighLight</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="na">[SerializeField]</span> <span class="k">private</span> <span class="n">Button</span> <span class="n">btn</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>通过这样的方式就可以保证其他类无法获取组件，但是可以在<code>inspector</code>中获取组件</p>
+<p>对每个slot的内容进行更新，保证每个slot能获得对应的数据</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">Start</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">slotItemDetails</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">isSelected</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// 如果itemDetails声明为public则会被系统默认初始化</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">slotItemDetails</span><span class="p">.</span><span class="n">itemID</span> <span class="p">==</span> <span class="m">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">UpdateEmptySlot</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="cs">/// 更新格子UI和信息</span>
+</span></span><span class="line"><span class="cl">        <span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="cs">/// &lt;param name=&#34;itemDetails&#34;&gt;获得的物品&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="cs">/// &lt;param name=&#34;amount&#34;&gt;&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">public</span> <span class="k">void</span> <span class="n">UpdateSlot</span><span class="p">(</span><span class="n">ItemDetails</span> <span class="n">itemDetails</span><span class="p">,</span> <span class="kt">int</span> <span class="n">amount</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">slotItemDetails</span> <span class="p">=</span> <span class="n">itemDetails</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">slotImg</span><span class="p">.</span><span class="n">sprite</span> <span class="p">=</span> <span class="n">slotItemDetails</span><span class="p">.</span><span class="n">itemIcon</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">itemAmount</span> <span class="p">=</span> <span class="n">amount</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">amountText</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="n">itemAmount</span><span class="p">.</span><span class="n">ToString</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">            <span class="n">btn</span><span class="p">.</span><span class="n">interactable</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">slotImg</span><span class="p">.</span><span class="n">enabled</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="cs">/// 如果当前格子的内容为空了（丢弃或卖出），则清空相关内容</span>
+</span></span><span class="line"><span class="cl">        <span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">public</span> <span class="k">void</span> <span class="n">UpdateEmptySlot</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">isSelected</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="n">isSelected</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">slotImg</span><span class="p">.</span><span class="n">enabled</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">amountText</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="kt">string</span><span class="p">.</span><span class="n">Empty</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">btn</span><span class="p">.</span><span class="n">interactable</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="控制背包ui的显示">控制背包UI的显示</h3>
+<p>使用一个新的脚本<code>InventoryUI</code>来控制整个界面中的所有背包格子（当拾取物品时，能直接对背包格子进行处理的代码）</p>
+<p>因此需要先创建一个管理每个格子信息的数组 ，</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">InventoryUI</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [SerializeField]</span> <span class="k">private</span> <span class="n">SlotUI</span><span class="p">[]</span> <span class="n">playerSlots</span><span class="p">;</span>       <span class="c1">// 控制角色所有能控制所有格子（背包和快捷栏）</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>同时将GameData中管理玩家背包的SO与这些数据进行绑定(因此需要为<code>SlotUI.cs</code>增加slotIndex，用于绑定数据)在slotUI.CS中添加<code>public int slotIndex;</code>然后具体的绑定函数，在<code>inventoryUI.cs</code>中填写</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">Start</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 在游戏运行的开始，将所有的数据进行绑定</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">playerSlots</span><span class="p">.</span><span class="n">Length</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">playerSlots</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">slotIndex</span> <span class="p">=</span> <span class="n">i</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>由于更新UI的功能太过频繁使用，如果直接使用单例模式会导致耦合度太高，因此通过使用事件中心的模式，将所有需要更新UI的位置都注册该事件，每次更新都执行该事件</p>
+<ul>
+<li>创建一个静态类，该类用于控制所有事件，包括事件本身的声明，和其调用</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">// 该类是一个控制所有事件的静态类</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">static</span> <span class="k">class</span> <span class="nc">EventHandler</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 我要知道每次需要更新UI的slot是哪里（玩家的背包？还是玩家的储物箱）</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">static</span> <span class="k">event</span> <span class="n">Action</span><span class="p">&lt;</span><span class="n">InventoryLocation</span><span class="p">,</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">InventoryItem</span><span class="p">&gt;&gt;</span> <span class="n">UpdateInventoryUI</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 执行对应的更新函数</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">static</span> <span class="k">void</span> <span class="n">CallUpdateInventoryUI</span><span class="p">(</span><span class="n">InventoryLocation</span> <span class="n">location</span><span class="p">,</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">InventoryItem</span><span class="p">&gt;</span> <span class="n">items</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">UpdateInventoryUI</span><span class="p">?.</span><span class="n">Invoke</span><span class="p">(</span><span class="n">location</span><span class="p">,</span> <span class="n">items</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>在<code>InventoryUI.cs</code>注册更新UI的事件(onEnable)，并对事件函数进行具体的定义（描述）</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">OnUpdateInventoryUI</span><span class="p">(</span><span class="n">InventoryLocation</span> <span class="n">location</span><span class="p">,</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">InventoryItem</span><span class="p">&gt;</span> <span class="n">items</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">switch</span> <span class="p">(</span><span class="n">location</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">case</span> <span class="n">InventoryLocation</span><span class="p">.</span><span class="n">Player</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">playerSlots</span><span class="p">.</span><span class="n">Length</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+</span></span><span class="line"><span class="cl">                    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                        <span class="k">if</span> <span class="p">(</span><span class="n">items</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">itemAmount</span> <span class="p">&gt;</span> <span class="m">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                            <span class="c1">// 获得需要更新的物体的具体信息</span>
+</span></span><span class="line"><span class="cl">                            <span class="kt">var</span> <span class="n">itemDetails</span> <span class="p">=</span> <span class="n">InventoryManager</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">GetItemDetails</span><span class="p">(</span><span class="n">items</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">itemID</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                            <span class="n">playerSlots</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">UpdateSlot</span><span class="p">(</span><span class="n">itemDetails</span><span class="p">,</span> <span class="n">items</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">itemAmount</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">                        <span class="k">else</span>
+</span></span><span class="line"><span class="cl">                        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                            <span class="n">playerSlots</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">UpdateEmptySlot</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">                        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">                    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                    
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>在<code>InventoryManager.cs</code>的添加物品功能中调用静态类的事件调用函数，并传入对应的参数，保证事件能正常触发</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">// 更新UI</span>
+</span></span><span class="line"><span class="cl"><span class="n">EventHandler</span><span class="p">.</span><span class="n">CallUpdateInventoryUI</span><span class="p">(</span><span class="n">InventoryLocation</span><span class="p">.</span><span class="n">Player</span><span class="p">,</span> <span class="n">playerBag</span><span class="p">.</span><span class="n">inventoryItemList</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>注意，由于在游戏一开始，玩家可能有具体的数据内容，因此需要在游戏的一开始就调用更新UI的事件，比如在inventoryManager中的start中进行能调用</p>
+<h3 id="控制背包的打开和关闭">控制背包的打开和关闭</h3>
+<p>控制背包打开与关闭主要通过控制背包的UI的active内容，因此需要一个对应go变量和bool变量，每次打开和关闭都是直接对该布尔值取反。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">void</span> <span class="n">OpenBagUI</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">bagOpened</span> <span class="p">=</span> <span class="p">!</span><span class="n">bagOpened</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">bagUI</span><span class="p">.</span><span class="n">SetActive</span><span class="p">(</span><span class="n">bagOpened</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>由于需要设置按键打开，因此需要设置为在update方法中检测按键</li>
+<li>如果需要设置对应的button，则需要为其设置onclicked函数，</li>
+</ul>
+<p><img src="/WFImg/image-20221227222453980.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20221227222453980"
+	
+	
+></p>
+<p>为其添加一个Onclick事件，其需要先选择执行的GO，然后选择该GO下对应的脚本</p>
+<h2 id="背包物品控制">背包物品控制</h2>
+<h3 id="设置点按格子高亮显示和动画">设置点按格子高亮显示和动画</h3>
+<p>因此该代码需要在<code>slotUI.cs</code>中进行设置，由于Unity自带一个点击事件函数接口，因此可以直接调用该接口，用于知道当前内容是否已经被点击，或者点击了多少次：接口名：<code>IPointerClickHandler</code>，该函数内部有多种点击事件（单机，双击等）,需要实现其内部的点击函数<code>public void OnPointerClick(PointerEventData eventData)</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">void</span> <span class="n">OnPointerClick</span><span class="p">(</span><span class="n">PointerEventData</span> <span class="n">eventData</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">itemAmount</span> <span class="p">==</span> <span class="m">0</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">isSelected</span> <span class="p">=</span> <span class="p">!</span><span class="n">isSelected</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">slotHighLight</span><span class="p">.</span><span class="n">gameObject</span><span class="p">.</span><span class="n">SetActive</span><span class="p">(</span><span class="n">isSelected</span><span class="p">);</span>  <span class="c1">// </span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>由于点击了以后，isSelected不会再变化，因此当点击多个按钮会有多个highlight标签，需要设置当点击其中一个的时候，从父级物体中关闭其他格子的isSelected。</p>
+<p>因此我们在父物体的函数中设置slotHighlight的active，在inventoryUI.cs设置对应的函数</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">void</span> <span class="n">UpdateSlotHighlight</span><span class="p">(</span><span class="kt">int</span> <span class="n">index</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">slotUI</span> <span class="k">in</span> <span class="n">playerSlots</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">slotUI</span><span class="p">.</span><span class="n">isSelected</span> <span class="p">&amp;&amp;</span> <span class="n">index</span> <span class="p">==</span> <span class="n">slotUI</span><span class="p">.</span><span class="n">slotIndex</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">slotUI</span><span class="p">.</span><span class="n">slotHighLight</span><span class="p">.</span><span class="n">gameObject</span><span class="p">.</span><span class="n">SetActive</span><span class="p">(</span><span class="k">true</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">slotUI</span><span class="p">.</span><span class="n">isSelected</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">slotUI</span><span class="p">.</span><span class="n">slotHighLight</span><span class="p">.</span><span class="n">gameObject</span><span class="p">.</span><span class="n">SetActive</span><span class="p">(</span><span class="k">false</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>在设置好该函数以后，在<code>slotUI.cs</code>中直接调用该函数即可</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">void</span> <span class="n">OnPointerClick</span><span class="p">(</span><span class="n">PointerEventData</span> <span class="n">eventData</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">itemAmount</span> <span class="p">==</span> <span class="m">0</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">isSelected</span> <span class="p">=</span> <span class="p">!</span><span class="n">isSelected</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_inventoryUI</span><span class="p">.</span><span class="n">UpdateSlotHighlight</span><span class="p">(</span><span class="n">slotIndex</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>注意<code>_inventoryUI</code>是通过直接获取属性的方式得到的<code>private InventoryUI _inventoryUI =&gt; GetComponentInParent&lt;InventoryUI&gt;();</code></p>
+</blockquote>
+<ul>
+<li>设置格子高亮是个动画</li>
+</ul>
+<p>先创建动画的animator，然后为该slot的预制体设置一个动画控制器，在该动画控制器中创建一个animation，将预先定好的animation放入即可。</p>
+<h3 id="实现物体拖拽功能">实现物体拖拽功能</h3>
+<p>实现拖拽功能的主要方式是通过调用三个Unity自带的接口<code>IBeginDragHandle</code>、<code>IDragHandle</code>、<code>IEndDragHandler</code>。分别用于处理拖拽开始，拖拽中和拖拽结束的时候情况。</p>
+<p>而具体的拖拽过程将通过新定义一个拖拽图层，并在该图层上增加一个被拖拽的物品图片，当拖拽时生成该图片，并在拖拽过程中跟随鼠标的射线，在拖拽结束时根据拖拽事件的结束位置实现相应功能。</p>
+<ul>
+<li>
+<p>实现接口（在slotUI.cs中)</p>
+</li>
+<li>
+<p>定义Drag图层</p>
+</li>
+</ul>
+<img src="/WFImg/image-20221228234452454.png" alt="image-20221228234452454" style="zoom:47%;" />
+<blockquote>
+<p>注意该图层需要设置与其他图层的关联为空，即不继承自主canvas，同时需要规定其排序结果，保证其内部的图片始终在原本的canvas上方</p>
+</blockquote>
+<p>同时需要设置图片的<code>Raycast Target</code> 为空，即该图片不能被识别为光线检测的的目标，其目的是为了解决两个都可以被光线检测的图层发生重叠的时候，会导致鼠标识别不到后方的图片。</p>
+<p>当<code>Raycast Target</code>为false，那么鼠标的射线会直接穿透该物体，从而到达后方。</p>
+<ul>
+<li>在<code>InventoryUI.cs</code>中获得拖拽图片，并在<code>slotUI.cs</code>的Drag方法中实现对图片的操作</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">void</span> <span class="n">OnBeginDrag</span><span class="p">(</span><span class="n">PointerEventData</span> <span class="n">eventData</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">itemAmount</span> <span class="p">!=</span> <span class="m">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 初始设置，显示被拖拽的物品</span>
+</span></span><span class="line"><span class="cl">        <span class="n">isSelected</span> <span class="p">=</span> <span class="p">!</span><span class="n">isSelected</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">inventoryUI</span><span class="p">.</span><span class="n">UpdateSlotHighlight</span><span class="p">(</span><span class="n">slotIndex</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// 生成被拖拽的物品图片</span>
+</span></span><span class="line"><span class="cl">        <span class="n">inventoryUI</span><span class="p">.</span><span class="n">dragImg</span><span class="p">.</span><span class="n">sprite</span> <span class="p">=</span> <span class="n">slotImg</span><span class="p">.</span><span class="n">sprite</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">inventoryUI</span><span class="p">.</span><span class="n">dragImg</span><span class="p">.</span><span class="n">SetNativeSize</span><span class="p">();</span>        <span class="c1">// 保证图片不失真</span>
+</span></span><span class="line"><span class="cl">        <span class="n">inventoryUI</span><span class="p">.</span><span class="n">dragImg</span><span class="p">.</span><span class="n">enabled</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">void</span> <span class="n">OnDrag</span><span class="p">(</span><span class="n">PointerEventData</span> <span class="n">eventData</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 被生成的图片始终跟随鼠标移动</span>
+</span></span><span class="line"><span class="cl">    <span class="n">inventoryUI</span><span class="p">.</span><span class="n">dragImg</span><span class="p">.</span><span class="n">transform</span><span class="p">.</span><span class="n">position</span> <span class="p">=</span> <span class="n">Input</span><span class="p">.</span><span class="n">mousePosition</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">void</span> <span class="n">OnEndDrag</span><span class="p">(</span><span class="n">PointerEventData</span> <span class="n">eventData</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 当结束事件时，检测当前是否碰撞到我们需要的slotUI内容</span>
+</span></span><span class="line"><span class="cl">    <span class="n">inventoryUI</span><span class="p">.</span><span class="n">dragImg</span><span class="p">.</span><span class="n">enabled</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">eventData</span><span class="p">.</span><span class="n">pointerCurrentRaycast</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>其中<code>eventData.pointerCurrentRaycast</code>用于显示我释放鼠标时，碰撞的物体</p>
+<p>此处碰撞物体会与TMP的内容相碰撞，因此需要将所有TMP和图标都设置为无法被光线检测，因此需要修改预制体</p>
+<blockquote>
+<p>注意tmp的raycast target在 extra Setting中，并且要点击扩展折叠打开</p>
+</blockquote>
+<h3 id="实现物体拖拽后位置交换与丢到地面">实现物体拖拽后位置交换与丢到地面</h3>
+<p>由于每个slot都有对应的序号，因此我们可以通过交换后，修改<code>playerBag(dataSo)</code>里对应需要对应的物品就行。</p>
+<p><strong>实现物体拖拽后位置交换</strong></p>
+<ul>
+<li>由于定义了拖拽结束函数，因此需要在该函数中判断拖拽的目标是某个UI还是地面（null）</li>
+<li>然后将交换分为三类，分别是玩家背包之间的交换，玩家与仓库交换，玩家与商店交换</li>
+<li>最后由于一定要操作背包的数据，因此在<code>inventoryManager.cs</code>定义交换函数，并将数据进行交换后使用更新UI事件</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="c1">// slotUI.cs</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 当结束事件时，检测当前是否碰撞到我们需要的slotUI内容</span>
+</span></span><span class="line"><span class="cl"><span class="n">inventoryUI</span><span class="p">.</span><span class="n">dragImg</span><span class="p">.</span><span class="n">enabled</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 获取交换目标</span>
+</span></span><span class="line"><span class="cl"><span class="kt">var</span> <span class="n">target</span> <span class="p">=</span> <span class="n">eventData</span><span class="p">.</span><span class="n">pointerCurrentRaycast</span><span class="p">.</span><span class="n">gameObject</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 判断目标是地面还是某个UI（玩家背包，或者仓库，或者商店</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">target</span> <span class="p">!=</span> <span class="k">null</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 分为玩家背包之间的交换，玩家与仓库交换，玩家与商店交换</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">slotType</span> <span class="p">==</span> <span class="n">SlotType</span><span class="p">.</span><span class="n">Bag</span> <span class="p">&amp;&amp;</span> <span class="n">targetSlot</span><span class="p">.</span><span class="n">slotType</span> <span class="p">==</span> <span class="n">SlotType</span><span class="p">.</span><span class="n">Bag</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">InventoryManager</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">SwapPlayerBagItem</span><span class="p">(</span><span class="n">slotIndex</span><span class="p">,</span> <span class="n">targetSlot</span><span class="p">.</span><span class="n">slotIndex</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="c1">// inventoryManager.cs</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">void</span> <span class="n">SwapPlayerBagItem</span><span class="p">(</span><span class="kt">int</span> <span class="n">currentIndex</span><span class="p">,</span> <span class="kt">int</span> <span class="n">targetIndex</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">var</span> <span class="n">currentItem</span> <span class="p">=</span> <span class="n">playerBag</span><span class="p">.</span><span class="n">inventoryItemList</span><span class="p">[</span><span class="n">currentIndex</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">var</span> <span class="n">targetItem</span> <span class="p">=</span> <span class="n">playerBag</span><span class="p">.</span><span class="n">inventoryItemList</span><span class="p">[</span><span class="n">targetIndex</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 判断目标位置是否有内容</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">targetItem</span><span class="p">.</span><span class="n">itemAmount</span> <span class="p">==</span> <span class="m">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">playerBag</span><span class="p">.</span><span class="n">inventoryItemList</span><span class="p">[</span><span class="n">targetIndex</span><span class="p">]</span> <span class="p">=</span> <span class="n">currentItem</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">playerBag</span><span class="p">.</span><span class="n">inventoryItemList</span><span class="p">[</span><span class="n">currentIndex</span><span class="p">]</span> <span class="p">=</span> <span class="k">new</span> <span class="n">InventoryItem</span><span class="p">();</span>        <span class="c1">// 在C#中结构体内部的数值直接会被初始化为0</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">playerBag</span><span class="p">.</span><span class="n">inventoryItemList</span><span class="p">[</span><span class="n">targetIndex</span><span class="p">]</span> <span class="p">=</span> <span class="n">currentItem</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">playerBag</span><span class="p">.</span><span class="n">inventoryItemList</span><span class="p">[</span><span class="n">currentIndex</span><span class="p">]</span> <span class="p">=</span> <span class="n">targetItem</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 更新UI内容</span>
+</span></span><span class="line"><span class="cl">    <span class="n">EventHandler</span><span class="p">.</span><span class="n">CallUpdateInventoryUI</span><span class="p">(</span><span class="n">InventoryLocation</span><span class="p">.</span><span class="n">Player</span><span class="p">,</span> <span class="n">playerBag</span><span class="p">.</span><span class="n">inventoryItemList</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>将物品拖拽到地面</strong></p>
+<p>将物体拖 景也可生成的，因此需要一个专门的Manager来管理这些在地面上生成的物体。</p>
+<ul>
+<li>首先需要将屏幕坐标转化为世界坐标<code>Camera.main.ScreenToWorldPoint(Vector3)</code></li>
+<li>定义一个事件，专门用于通知itemManager需要在当前位置生成一个物体</li>
+<li>使用<code>ItemManager</code>来管理地面上的物体，因此itemManger用于声明事件的执行过程</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">// slotUI.cs</span>
+</span></span><span class="line"><span class="cl"><span class="k">else</span>  <span class="c1">// 如果是地面</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">slotItemDetails</span><span class="p">.</span><span class="n">canDropped</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">// 在2d游戏中z轴默认是-10，而将转化为世界坐标需要将其取消掉</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">var</span> <span class="n">dropPos</span> <span class="p">=</span> <span class="n">Camera</span><span class="p">.</span><span class="n">main</span><span class="p">.</span><span class="n">ScreenToWorldPoint</span><span class="p">(</span><span class="k">new</span> <span class="n">Vector3</span><span class="p">(</span><span class="n">Input</span><span class="p">.</span><span class="n">mousePosition</span><span class="p">.</span><span class="n">x</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                                                 <span class="n">Input</span><span class="p">.</span><span class="n">mousePosition</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="p">-</span><span class="n">Camera</span><span class="p">.</span><span class="n">main</span><span class="p">.</span><span class="n">transform</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">z</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 生成item</span>
+</span></span><span class="line"><span class="cl">        <span class="n">EventHandler</span><span class="p">.</span><span class="n">CallInstantiateItemInScene</span><span class="p">(</span><span class="n">slotItemDetails</span><span class="p">.</span><span class="n">itemID</span><span class="p">,</span> <span class="n">dropPos</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="c1">// EventHandler.cs</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">static</span> <span class="k">event</span> <span class="n">Action</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="n">Vector3</span><span class="p">&gt;</span> <span class="n">InstantiateItemInScene</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">static</span> <span class="k">void</span> <span class="n">CallInstantiateItemInScene</span><span class="p">(</span><span class="kt">int</span> <span class="n">ID</span><span class="p">,</span> <span class="n">Vector3</span> <span class="n">pos</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">InstantiateItemInScene</span><span class="p">?.</span><span class="n">Invoke</span><span class="p">(</span><span class="n">ID</span><span class="p">,</span> <span class="n">pos</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>该manager用于注册和声明预制体的生成的方法，而具体的激活预制体生成，则通过调用action事件来使用。也就是说manager只是用于提供预制体生成的函数，并保证该函数能被事件中心获取，而预制体的生成将用逻辑函数在具体的功能中激发事件中心来实现。</p>
+<blockquote>
+<p>其中itemParent用于保证生成的item在Unity的层次窗口中不会过于混乱，生成的所有item都会以itemParent为父物体</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="c1">// itemManager.cs</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">ItemManager</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">Item</span> <span class="n">itemPrefab</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">GameObject</span> <span class="n">_itemParent</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">Start</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_itemParent</span> <span class="p">=</span> <span class="n">GameObject</span><span class="p">.</span><span class="n">FindGameObjectWithTag</span><span class="p">(</span><span class="s">&#34;ItemParent&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">OnEnable</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">EventHandler</span><span class="p">.</span><span class="n">InstantiateItemInScene</span> <span class="p">+=</span> <span class="n">OnInstantiateItemInScene</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">OnDisable</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">EventHandler</span><span class="p">.</span><span class="n">InstantiateItemInScene</span> <span class="p">-=</span> <span class="n">OnInstantiateItemInScene</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// 在当前场景中生成目标item</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// &lt;param name=&#34;ID&#34;&gt;item的ID&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// &lt;param name=&#34;pos&#34;&gt;item的对应位置&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">OnInstantiateItemInScene</span><span class="p">(</span><span class="kt">int</span> <span class="n">ID</span><span class="p">,</span> <span class="n">Vector3</span> <span class="n">pos</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">var</span> <span class="n">item</span> <span class="p">=</span> <span class="n">Instantiate</span><span class="p">(</span><span class="n">itemPrefab</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">Quaternion</span><span class="p">.</span><span class="n">identity</span><span class="p">,</span> <span class="n">_itemParent</span><span class="p">.</span><span class="n">transform</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">item</span><span class="p">.</span><span class="n">itemID</span> <span class="p">=</span> <span class="n">ID</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="给物品增加浮窗itemtooltip">给物品增加浮窗ItemTooltip</h2>
+<ul>
+<li><strong>UI</strong></li>
+</ul>
+<p>制作一个单独的ItemToolTip窗口，窗口背景图片是一个Image，然后再内部添加内容</p>
+<p>由于内容涉及到多行，因此为该主体parent添加组件<code>Vertical Layout Group</code>用于控制每个子物体的宽度和长度</p>
+<img src="/WFImg/image-20230119151023825.png" alt="image-20230119151023825" style="zoom:50%;" />
+<p>注意：只要内部有子物体，且每个子物体的大小都需要被控制的话，就需要添加该组件</p>
+<p>同时也为了保证窗口能一直保持合适的大小，需要添加组件<code>Content Size Filter</code>，对垂直或水平方向设置自动拓展。</p>
+<img src="/WFImg/image-20230119151032464.png" alt="image-20230119151032464" style="zoom:50%;" />
+<p>然后使用<code>Layout Element</code>组件可以指定最小的宽度和高度</p>
+<blockquote>
+<p>如果要保证孩子宽度一定，但是高度自由控制，则需要如下方式处理</p>
+<p><img src="/WFImg/image-20230208164402209.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20230208164402209"
+	
+	
+></p>
+</blockquote>
+<ul>
+<li><strong>代码</strong></li>
+</ul>
+<p>该部分代码的实现思路是：</p>
+<ol>
+<li>为<code>Item Tooltip</code>直接挂载对应的脚本<code>ItemTooltip.cs</code>， 并使用脚本获得该GO下的所有部分的控制权</li>
+<li>设置一个方法，该方法需要获得物品信息，将<code>Item ToolTip</code>与当前的数据进行绑定，并进行显示。</li>
+<li>由于<code>InventoryUI</code>是用于显示所有背包栏等数据的显示的管理页面，因此此处需要设置<code>Item Tooltip的</code>变量，并将我们设置号的GO挂载到该变量上</li>
+<li>为了将<code>SlotUI</code>和我们显示<code>Item Tooltip</code>信息相分割，因此需要设置不同的脚本</li>
+<li>在新的脚本<code>showItemDetails</code>中获取<code>InventoryUI</code>中挂载的<code>Item Tooltip的</code>变量，当鼠标移动到<code>SlotUI</code>上时，从<code>InventoryUI</code>的<code>Item Tooltip的</code>变量启动我们的设置函数，然后显示对应的窗体</li>
+<li>修改窗体显示方式，设置快速渲染，保证每次窗体的显示不会有延迟</li>
+</ol>
+<p>具体实现：</p>
+<ul>
+<li>实现<code>itemTooltip</code>GO的数据控制，以及编写绑定函数</li>
+</ul>
+<blockquote>
+<p>同时为了保证不会延迟渲染，因此要通过代码实现更新details后就直接渲染</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">ItemTooltip</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/* 获取ItemTooltip GO的所有内容的控制权 */</span>
+</span></span><span class="line"><span class="cl"><span class="na">        [SerializeField]</span> <span class="k">private</span> <span class="n">TextMeshProUGUI</span> <span class="n">nameText</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="na">        [SerializeField]</span> <span class="k">private</span> <span class="n">TextMeshProUGUI</span> <span class="n">typeText</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="na">        [SerializeField]</span> <span class="k">private</span> <span class="n">TextMeshProUGUI</span> <span class="n">descriptionText</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="na">        [SerializeField]</span> <span class="k">private</span> <span class="n">Text</span> <span class="n">priceText</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="na">        [SerializeField]</span> <span class="k">private</span> <span class="n">GameObject</span> <span class="n">bottomPart</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="cs">/// 为itemTooltip窗体设置需要显示的内容</span>
+</span></span><span class="line"><span class="cl">        <span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="cs">/// &lt;param name=&#34;details&#34;&gt;具体信息&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="cs">/// &lt;param name=&#34;itemType&#34;&gt;鼠标当前选取的窗体的类别（区别商店和玩家背包）&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">public</span> <span class="k">void</span> <span class="n">SetupTooltips</span><span class="p">(</span><span class="n">ItemDetails</span> <span class="n">details</span><span class="p">,</span> <span class="n">SlotType</span> <span class="n">slotType</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">nameText</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="n">details</span><span class="p">.</span><span class="n">itemName</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">typeText</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="n">getItemType</span><span class="p">(</span><span class="n">details</span><span class="p">.</span><span class="n">itemType</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">descriptionText</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="n">details</span><span class="p">.</span><span class="n">itemInfo</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">details</span><span class="p">.</span><span class="n">itemType</span> <span class="p">==</span> <span class="n">ItemType</span><span class="p">.</span><span class="n">Seed</span> <span class="p">||</span> <span class="n">details</span><span class="p">.</span><span class="n">itemType</span> <span class="p">==</span> <span class="n">ItemType</span><span class="p">.</span><span class="n">Commodity</span> <span class="p">||</span> <span class="n">details</span><span class="p">.</span><span class="n">itemType</span> <span class="p">==</span> <span class="n">ItemType</span><span class="p">.</span><span class="n">Furniture</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">bottomPart</span><span class="p">.</span><span class="n">SetActive</span><span class="p">(</span><span class="k">true</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="kt">int</span> <span class="n">showPrice</span> <span class="p">=</span> <span class="n">details</span><span class="p">.</span><span class="n">itemPrice</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="p">(</span><span class="n">slotType</span> <span class="p">==</span> <span class="n">SlotType</span><span class="p">.</span><span class="n">Bag</span> <span class="p">||</span> <span class="n">slotType</span> <span class="p">==</span> <span class="n">SlotType</span><span class="p">.</span><span class="n">Box</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">showPrice</span> <span class="p">=</span> <span class="p">(</span><span class="kt">int</span><span class="p">)(</span><span class="n">showPrice</span> <span class="p">*</span> <span class="n">details</span><span class="p">.</span><span class="n">sellPercentage</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                    
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">                <span class="n">priceText</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="n">showPrice</span><span class="p">.</span><span class="n">ToString</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="k">else</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">bottomPart</span><span class="p">.</span><span class="n">SetActive</span><span class="p">(</span><span class="k">false</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            			           <span class="n">LayoutRebuilder</span><span class="p">.</span><span class="n">ForceRebuildLayoutImmediate</span><span class="p">(</span><span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">RectTransform</span><span class="p">&gt;());</span>
+</span></span><span class="line"><span class="cl">            
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="cs">///  转化类型名称</span>
+</span></span><span class="line"><span class="cl">        <span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="cs">/// &lt;param name=&#34;detailsItemType&#34;&gt;&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="cs">/// &lt;returns&gt;&lt;/returns&gt;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">private</span> <span class="kt">string</span> <span class="n">getItemType</span><span class="p">(</span><span class="n">ItemType</span> <span class="n">detailsItemType</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// 语法糖</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">detailsItemType</span> <span class="k">switch</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">ItemType</span><span class="p">.</span><span class="n">Seed</span> <span class="p">=&gt;</span> <span class="s">&#34;种子&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">ItemType</span><span class="p">.</span><span class="n">Commodity</span> <span class="p">=&gt;</span> <span class="s">&#34;商品&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">ItemType</span><span class="p">.</span><span class="n">Furniture</span> <span class="p">=&gt;</span> <span class="s">&#34;家具&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">ItemType</span><span class="p">.</span><span class="n">BreakTool</span> <span class="p">=&gt;</span> <span class="s">&#34;工具&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">ItemType</span><span class="p">.</span><span class="n">CollectTool</span> <span class="p">=&gt;</span> <span class="s">&#34;工具&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">ItemType</span><span class="p">.</span><span class="n">ChopTool</span> <span class="p">=&gt;</span> <span class="s">&#34;工具&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">ItemType</span><span class="p">.</span><span class="n">HoeTool</span> <span class="p">=&gt;</span> <span class="s">&#34;工具&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">ItemType</span><span class="p">.</span><span class="n">ReapTool</span> <span class="p">=&gt;</span> <span class="s">&#34;工具&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">ItemType</span><span class="p">.</span><span class="n">WaterTool</span> <span class="p">=&gt;</span> <span class="s">&#34;工具&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                <span class="n">_</span> <span class="p">=&gt;</span> <span class="s">&#34;其他&#34;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">};</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>编写具体实现浮窗的函数</li>
+</ul>
+<blockquote>
+<p>由于一定需要<code>SlotUI</code>对应的按钮上因此需要<code>[RequireComponent(typeof(SlotUI))]</code></p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="na">[RequireComponent(typeof(SlotUI))]</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">ShowItemDetails</span> <span class="p">:</span> <span class="n">MonoBehaviour</span><span class="p">,</span> <span class="n">IPointerEnterHandler</span><span class="p">,</span> <span class="n">IPointerExitHandler</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">SlotUI</span> <span class="n">_slotUI</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">InventoryUI</span> <span class="n">InventoryUI</span> <span class="p">=&gt;</span> <span class="n">GetComponentInParent</span><span class="p">&lt;</span><span class="n">InventoryUI</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">Awake</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_slotUI</span> <span class="p">=</span> <span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">SlotUI</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">void</span> <span class="n">OnPointerEnter</span><span class="p">(</span><span class="n">PointerEventData</span> <span class="n">eventData</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">_slotUI</span><span class="p">.</span><span class="n">itemAmount</span> <span class="p">!=</span> <span class="m">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">InventoryUI</span><span class="p">.</span><span class="n">itemTooltip</span><span class="p">.</span><span class="n">gameObject</span><span class="p">.</span><span class="n">SetActive</span><span class="p">(</span><span class="k">true</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">InventoryUI</span><span class="p">.</span><span class="n">itemTooltip</span><span class="p">.</span><span class="n">SetupTooltips</span><span class="p">(</span><span class="n">_slotUI</span><span class="p">.</span><span class="n">slotItemDetails</span><span class="p">,</span> <span class="n">_slotUI</span><span class="p">.</span><span class="n">slotType</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">InventoryUI</span><span class="p">.</span><span class="n">itemTooltip</span><span class="p">.</span><span class="n">gameObject</span><span class="p">.</span><span class="n">SetActive</span><span class="p">(</span><span class="k">false</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">void</span> <span class="n">OnPointerExit</span><span class="p">(</span><span class="n">PointerEventData</span> <span class="n">eventData</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">InventoryUI</span><span class="p">.</span><span class="n">itemTooltip</span><span class="p">.</span><span class="n">gameObject</span><span class="p">.</span><span class="n">SetActive</span><span class="p">(</span><span class="k">false</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>界面优化</li>
+</ul>
+<p>设置最小尺寸的组件<code>Layout Element</code></p>
+<p><img src="/WFImg/image-20230120030025199.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20230120030025199"
+	
+	
+></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD/">麦田物语</a>
+        
+            <a href="/tags/%E8%83%8C%E5%8C%85%E7%B3%BB%E7%BB%9F/">背包系统</a>
+        
+            <a href="/tags/ui-toolkit/">UI Toolkit</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E5%8D%81%E4%BA%94/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="/img/story_of_wheat_field/wheatField.jpg" loading="lazy" data-key="" data-hash="/img/story_of_wheat_field/wheatField.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">麦田物语开发日记(十五)</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E5%8D%81%E4%BA%8C/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="/img/story_of_wheat_field/wheatField.jpg" loading="lazy" data-key="" data-hash="/img/story_of_wheat_field/wheatField.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">麦田物语开发日记(十二)</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E5%8D%81%E4%B8%80/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="/img/story_of_wheat_field/wheatField.jpg" loading="lazy" data-key="" data-hash="/img/story_of_wheat_field/wheatField.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">麦田物语开发日记(十一)</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E5%8D%81%E4%B8%89/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="/img/story_of_wheat_field/wheatField.jpg" loading="lazy" data-key="" data-hash="/img/story_of_wheat_field/wheatField.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">麦田物语开发日记(十三)</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E5%8D%81%E5%9B%9B/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="/img/story_of_wheat_field/wheatField.jpg" loading="lazy" data-key="" data-hash="/img/story_of_wheat_field/wheatField.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">麦田物语开发日记(十四)</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2023 Ruizumoe&#39;Blog
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.16.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

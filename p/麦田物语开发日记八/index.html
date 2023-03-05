@@ -1,0 +1,2489 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='完成作物的制作与生长功能'>
+<title>麦田物语开发日记(八)</title>
+
+<link rel='canonical' href='https://ruizumoe.github.io/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E5%85%AB/'>
+
+<link rel="stylesheet" href="/scss/style.min.5be32ca3f6e1a997c75795c4359147cc6d4fbd34948c0acd51e31d237033978a.css"><meta property='og:title' content='麦田物语开发日记(八)'>
+<meta property='og:description' content='完成作物的制作与生长功能'>
+<meta property='og:url' content='https://ruizumoe.github.io/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E5%85%AB/'>
+<meta property='og:site_name' content='Ruizumoe&#39;Blog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='麦田物语' /><meta property='article:tag' content='作物生长' /><meta property='article:tag' content='粒子特效' /><meta property='article:tag' content='对象池' /><meta property='article:published_time' content='2023-03-05T19:16:40&#43;08:00'/><meta property='article:modified_time' content='2023-03-05T19:16:40&#43;08:00'/><meta property='og:image' content='https://ruizumoe.github.io/img/story_of_wheat_field/wheatField.jpg' />
+<meta name="twitter:title" content="麦田物语开发日记(八)">
+<meta name="twitter:description" content="完成作物的制作与生长功能"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://ruizumoe.github.io/img/story_of_wheat_field/wheatField.jpg' />
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hucf3d7386933de54e98ba7bb3fdb993f3_828119_300x0_resize_box_3.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Ruizumoe&#39;Blog</a></h1>
+            <h2 class="site-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='https://github.com/ruizumoe'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href=''
+                        target="_blank"
+                        title="Twitter"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>Dark Mode</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#种子库的构建">种子库的构建</a></li>
+    <li><a href="#种植种子的逻辑">种植种子的逻辑</a></li>
+    <li><a href="#种子的成长">种子的成长</a></li>
+    <li><a href="#使用菜篮子收菜">使用菜篮子收菜</a></li>
+    <li><a href="#实现收割庄稼产生果实">实现收割庄稼产生果实</a></li>
+    <li><a href="#实现农作物收割后的销毁或重新生成">实现农作物收割后的销毁或重新生成</a></li>
+    <li><a href="#制作可砍伐的木头摇晃和倒下的动画">制作可砍伐的木头摇晃和倒下的动画</a></li>
+    <li><a href="#实现砍树功能">实现砍树功能</a></li>
+    <li><a href="#实现随机数生成收割物品">实现随机数生成收割物品</a></li>
+    <li><a href="#实现快捷键">实现快捷键</a></li>
+    <li><a href="#粒子系统">粒子系统</a></li>
+    <li><a href="#使用对象池创建粒子效果">使用对象池创建粒子效果</a></li>
+    <li><a href="#预生产树木">预生产树木</a></li>
+    <li><a href="#制作割草的全部流程和稻草互动摇晃">制作割草的全部流程和稻草互动摇晃</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E5%85%AB/">
+                
+                    <img src="/img/story_of_wheat_field/wheatField.jpg" loading="lazy" alt="Featured image of post 麦田物语开发日记(八)" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/unity/" style="background-color: #2a9d8f; color: #fff;">
+                Unity
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E5%85%AB/">麦田物语开发日记(八)</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            完成作物的制作与生长功能
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Mar 05, 2023</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    12 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="种庄稼整体">种庄稼整体</h1>
+<h2 id="种子库的构建">种子库的构建</h2>
+<p>创建一个单独的代码来保存种子生长过程的全部信息<code>CropDetails</code>（种子的ID，不同阶段生成的天数int[]、生长的总天数、不同生长阶段的物品<code>Prefab</code>、不同阶段的图片、可种植的季节、收割工具信息、每种工具的使用次数、转换的新物品ID、收割果实的信息、收获的果实的数量、生成物体在地图上的范围、再次生长的时间、次数；</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">// CropDetails.cs</span>
+</span></span><span class="line"><span class="cl"><span class="na">[System.Serializable]</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">CropDetails</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="na">   [Header(&#34;种子ID&#34;)]</span> <span class="k">public</span> <span class="kt">int</span> <span class="n">seedItemId</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="na">   [Header(&#34;不同阶段的生长日期&#34;)]</span> 
+</span></span><span class="line"><span class="cl">   <span class="k">public</span> <span class="kt">int</span><span class="p">[]</span> <span class="n">growthDays</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   <span class="k">public</span> <span class="kt">int</span> <span class="n">TotalGrowthDay</span>
+</span></span><span class="line"><span class="cl">   <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="k">get</span>
+</span></span><span class="line"><span class="cl">      <span class="p">{</span>
+</span></span><span class="line"><span class="cl">         <span class="kt">int</span> <span class="n">amount</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">         <span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">day</span> <span class="k">in</span> <span class="n">growthDays</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">         <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">amount</span> <span class="p">+=</span> <span class="n">day</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">         <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">         <span class="k">return</span> <span class="n">amount</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">      <span class="p">}</span>
+</span></span><span class="line"><span class="cl">   <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="na">
+</span></span></span><span class="line"><span class="cl"><span class="na">   [Header(&#34;不同阶段生长的Prefab&#34;)]</span> <span class="k">public</span> <span class="n">GameObject</span><span class="p">[]</span> <span class="n">growthObjects</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="na">   [Header(&#34;不同阶段生长图片&#34;)]</span> <span class="k">public</span> <span class="n">Sprite</span><span class="p">[]</span> <span class="n">growthSprites</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="na">   [Header(&#34;可种植的季节&#34;)]</span> <span class="k">public</span> <span class="n">Season</span><span class="p">[]</span> <span class="n">seasons</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="na">
+</span></span></span><span class="line"><span class="cl"><span class="na">   [Space]</span> <span class="p">[</span><span class="n">Header</span><span class="p">(</span><span class="s">&#34;可用于收获的工具&#34;</span><span class="p">)]</span> <span class="k">public</span> <span class="kt">int</span><span class="p">[]</span> <span class="n">harvestToolItemID</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="na">   [Header(&#34;每种工具使用的次数&#34;)]</span> <span class="k">public</span> <span class="kt">int</span><span class="p">[]</span> <span class="n">requireActionCount</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="na">   [Header(&#34;转化的新物品ID&#34;)]</span> <span class="k">public</span> <span class="kt">int</span> <span class="n">transferItemId</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="na">
+</span></span></span><span class="line"><span class="cl"><span class="na">   [Space]</span> <span class="p">[</span><span class="n">Header</span><span class="p">(</span><span class="s">&#34;收获的果实信息&#34;</span><span class="p">)]</span> <span class="k">public</span> <span class="kt">int</span><span class="p">[]</span> <span class="n">producedItemID</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">   <span class="k">public</span> <span class="kt">int</span><span class="p">[]</span> <span class="n">producedMinAmount</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">   <span class="k">public</span> <span class="kt">int</span><span class="p">[]</span> <span class="n">producedMaxAmount</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="na">   [Header(&#34;收获时物品在地图生成的范围&#34;)]</span>
+</span></span><span class="line"><span class="cl">   <span class="k">public</span> <span class="n">Vector2</span> <span class="n">spawnRadius</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="na">
+</span></span></span><span class="line"><span class="cl"><span class="na">   [Header(&#34;再次生长的时间&#34;)]</span> <span class="k">public</span> <span class="kt">int</span> <span class="n">dayToRegrow</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="na">   [Header(&#34;再次生长的次数&#34;)]</span><span class="k">public</span> <span class="kt">int</span> <span class="n">regrowTimes</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="na">
+</span></span></span><span class="line"><span class="cl"><span class="na">   [Space]</span> <span class="p">[</span><span class="n">Header</span><span class="p">(</span><span class="s">&#34;Options&#34;</span><span class="p">)]</span> <span class="k">public</span> <span class="kt">bool</span> <span class="n">generateAtPlayerPosition</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">   <span class="k">public</span> <span class="kt">bool</span> <span class="n">hasAnimation</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">   <span class="k">public</span> <span class="kt">bool</span> <span class="n">hasParticleEffect</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">   <span class="c1">//TODO:特效 音效 等</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="种植种子的逻辑">种植种子的逻辑</h2>
+<ul>
+<li>使用<code>CropManager.cs</code>来控制我们控制种子内容的种子库</li>
+<li>然后设置使用种子的时候鼠标的效果</li>
+<li>当鼠标携带种子点击地面的时候，点击事件需要传递相关内容到<code>CropManager.cs</code>中完成种子的种植</li>
+<li>其中种子种植除了修改本身<code>TileDetail</code>的内容外，还要重新绘制地面信息等</li>
+</ul>
+<p>为了实现控制种子库的内容需要先得到种子库的数据文件，然后当鼠标点击挖好的坑触发点击事件时，通过事件中心触发 种植逻辑</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">CropManager</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">CropDataList_SO</span> <span class="n">cropDataListSo</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">Transform</span> <span class="n">_cropParent</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">Grid</span> <span class="n">_currentGrid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">Season</span> <span class="n">_currentSeason</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">OnEnable</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">EventHandler</span><span class="p">.</span><span class="n">PlantSeedEvent</span> <span class="p">+=</span> <span class="n">OnPlantSeedEvent</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">EventHandler</span><span class="p">.</span><span class="n">AfterSceneLoadEvent</span> <span class="p">+=</span> <span class="n">OnAfterSceneLoadEvent</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">EventHandler</span><span class="p">.</span><span class="n">GameDayEvent</span> <span class="p">+=</span> <span class="n">OnGameDayEvent</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">OnDisable</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">EventHandler</span><span class="p">.</span><span class="n">PlantSeedEvent</span> <span class="p">-=</span> <span class="n">OnPlantSeedEvent</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">EventHandler</span><span class="p">.</span><span class="n">AfterSceneLoadEvent</span> <span class="p">-=</span> <span class="n">OnAfterSceneLoadEvent</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">EventHandler</span><span class="p">.</span><span class="n">GameDayEvent</span> <span class="p">-=</span> <span class="n">OnGameDayEvent</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cp">#region 事件注册</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">OnPlantSeedEvent</span><span class="p">(</span><span class="n">ItemDetails</span> <span class="n">itemDetails</span><span class="p">,</span> <span class="n">TileDetails</span> <span class="n">currentTile</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">CropDetails</span> <span class="n">currentCrop</span> <span class="p">=</span> <span class="n">GetCropDetails</span><span class="p">(</span><span class="n">itemDetails</span><span class="p">.</span><span class="n">itemID</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/*存在该种子能够种植的内容，并且当前季节能够耕种*/</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">currentCrop</span> <span class="p">!=</span> <span class="k">null</span> <span class="p">&amp;&amp;</span> <span class="n">IsValidSeason</span><span class="p">(</span><span class="n">currentCrop</span><span class="p">)</span> <span class="p">&amp;&amp;</span> <span class="n">currentTile</span><span class="p">.</span><span class="n">seedItemID</span> <span class="p">==</span> <span class="p">-</span><span class="m">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// 第一次种植</span>
+</span></span><span class="line"><span class="cl">            <span class="n">currentTile</span><span class="p">.</span><span class="n">seedItemID</span> <span class="p">=</span> <span class="n">itemDetails</span><span class="p">.</span><span class="n">itemID</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">currentTile</span><span class="p">.</span><span class="n">growthDays</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="cm">/*显示农作物*/</span>
+</span></span><span class="line"><span class="cl">            <span class="n">DisplayCropPlant</span><span class="p">(</span><span class="n">currentTile</span><span class="p">,</span> <span class="n">currentCrop</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span><span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">currentTile</span><span class="p">.</span><span class="n">seedItemID</span> <span class="p">!=</span> <span class="p">-</span><span class="m">1</span><span class="p">)</span>     <span class="c1">// 用于刷新地图</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="cm">/**/</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">OnAfterSceneLoadEvent</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_currentGrid</span> <span class="p">=</span> <span class="n">FindObjectOfType</span><span class="p">&lt;</span><span class="n">Grid</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_cropParent</span> <span class="p">=</span> <span class="n">GameObject</span><span class="p">.</span><span class="n">FindWithTag</span><span class="p">(</span><span class="s">&#34;CropParent&#34;</span><span class="p">).</span><span class="n">transform</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">OnGameDayEvent</span><span class="p">(</span><span class="kt">int</span> <span class="n">gameDay</span><span class="p">,</span> <span class="n">Season</span> <span class="n">season</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_currentSeason</span> <span class="p">=</span> <span class="n">season</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="err">#</span><span class="n">endregion</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">CropDetails</span> <span class="n">GetCropDetails</span><span class="p">(</span><span class="kt">int</span> <span class="n">seedID</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">cropDataListSo</span><span class="p">.</span><span class="n">cropDetailsList</span><span class="p">.</span><span class="n">Find</span><span class="p">(</span><span class="n">c</span> <span class="p">=&gt;</span> <span class="n">c</span><span class="p">.</span><span class="n">seedItemId</span> <span class="p">==</span> <span class="n">seedID</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// 检测当前所处季节是否能够播种的当前种子</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// &lt;param name=&#34;cureDetails&#34;&gt;手持的种子&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// &lt;returns&gt;&lt;/returns&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="kt">bool</span> <span class="n">IsValidSeason</span><span class="p">(</span><span class="n">CropDetails</span> <span class="n">cureDetails</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">validSeason</span> <span class="k">in</span> <span class="n">cureDetails</span><span class="p">.</span><span class="n">seasons</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">_currentSeason</span> <span class="p">==</span> <span class="n">validSeason</span><span class="p">)</span> <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// 种植种子后显示种子样式</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// &lt;param name=&#34;currentTail&#34;&gt;&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// &lt;param name=&#34;currentCrop&#34;&gt;&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">DisplayCropPlant</span><span class="p">(</span><span class="n">TileDetails</span> <span class="n">currentTail</span><span class="p">,</span> <span class="n">CropDetails</span> <span class="n">currentCrop</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">growthStages</span> <span class="p">=</span> <span class="n">currentCrop</span><span class="p">.</span><span class="n">growthObjects</span><span class="p">.</span><span class="n">Length</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">currentStage</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">dayCount</span> <span class="p">=</span> <span class="n">currentCrop</span><span class="p">.</span><span class="n">TotalGrowthDay</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="cm">/*从后往前获取当前种子应该所处的生长阶段*/</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="n">growthStages</span> <span class="p">-</span> <span class="m">1</span><span class="p">;</span> <span class="n">i</span> <span class="p">&gt;=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span><span class="p">--)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">currentTail</span><span class="p">.</span><span class="n">growthDays</span> <span class="p">&gt;=</span> <span class="n">dayCount</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">currentStage</span> <span class="p">=</span> <span class="n">i</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="k">else</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">dayCount</span> <span class="p">-=</span> <span class="n">currentCrop</span><span class="p">.</span><span class="n">growthDays</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/*在对应位置生成对应的item*/</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Vector3</span> <span class="n">cropPos</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Vector3</span><span class="p">(</span><span class="n">currentTail</span><span class="p">.</span><span class="n">gridPos</span><span class="p">.</span><span class="n">x</span> <span class="p">+</span> <span class="m">0.5f</span><span class="p">,</span> <span class="n">currentTail</span><span class="p">.</span><span class="n">gridPos</span><span class="p">.</span><span class="n">y</span> <span class="p">+</span> <span class="m">0.5f</span><span class="p">,</span> <span class="m">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">GameObject</span> <span class="n">cropPrefab</span> <span class="p">=</span> <span class="n">currentCrop</span><span class="p">.</span><span class="n">growthObjects</span><span class="p">[</span><span class="n">currentStage</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">var</span> <span class="n">cropInstance</span> <span class="p">=</span> <span class="n">Instantiate</span><span class="p">(</span><span class="n">cropPrefab</span><span class="p">,</span> <span class="n">cropPos</span><span class="p">,</span> <span class="n">Quaternion</span><span class="p">.</span><span class="n">identity</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">_cropParent</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">cropInstance</span><span class="p">.</span><span class="n">GetComponentInChildren</span><span class="p">&lt;</span><span class="n">SpriteRenderer</span><span class="p">&gt;().</span><span class="n">sprite</span> <span class="p">=</span> <span class="n">currentCrop</span><span class="p">.</span><span class="n">growthSprites</span><span class="p">[</span><span class="n">currentStage</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="种子的成长">种子的成长</h2>
+<p>为了让种子每个阶段的GO能够正常显示，且和原本的<code>ItemBase</code>不发生冲突，因此需要新建一个<code>Prefab</code></p>
+<p>由于拥有了Crop代码，刷新所有的种子只需要通过<code>FindObjectsOfType&lt;&gt;</code>找到所有的植物GO，然后逐个销毁，再重建即可。</p>
+<p>因此需要修改重绘地图的代码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">// 在GridManager.cs 的RefreshGridMap()方法中销毁种子图片实例</span>
+</span></span><span class="line"><span class="cl"><span class="n">Crop</span><span class="p">[]</span> <span class="n">totalCrop</span> <span class="p">=</span> <span class="n">FindObjectsOfType</span><span class="p">&lt;</span><span class="n">Crop</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl"><span class="k">foreach</span> <span class="p">(</span><span class="n">Crop</span> <span class="n">crop</span> <span class="k">in</span> <span class="n">totalCrop</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Destroy</span><span class="p">(</span><span class="n">crop</span><span class="p">.</span><span class="n">gameObject</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后再和其他瓦片信息一起重建</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">// 在GridManager.cs 的DisplayMap()方法中重新种植种子</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">tileMapDic</span><span class="p">.</span><span class="n">Value</span><span class="p">.</span><span class="n">seedItemID</span> <span class="p">!=</span> <span class="p">-</span><span class="m">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">EventHandler</span><span class="p">.</span><span class="n">CallPlantSeedEvent</span><span class="p">(</span><span class="n">currentTile</span><span class="p">.</span><span class="n">seedItemID</span><span class="p">,</span> <span class="n">currentTile</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>根据日期更改来修改整个<code>tileDetails</code>中种子种植的信息</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">//  在GridManager.cs 的OnGameDayEvent中修改当前tile的信息</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 同时保证在昨天浇了水的情况下植物才能生长</span>
+</span></span><span class="line"><span class="cl"><span class="kt">bool</span> <span class="n">tileWateredYesterday</span> <span class="p">=</span> <span class="n">tileDic</span><span class="p">.</span><span class="n">Value</span><span class="p">.</span><span class="n">daySinceWater</span> <span class="p">&gt;</span> <span class="p">-</span><span class="m">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">tileDic</span><span class="p">.</span><span class="n">Value</span><span class="p">.</span><span class="n">seedItemID</span> <span class="p">!=</span> <span class="p">-</span><span class="m">1</span> <span class="p">&amp;&amp;</span> <span class="n">tileWateredYesterday</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">tileDic</span><span class="p">.</span><span class="n">Value</span><span class="p">.</span><span class="n">growthDays</span><span class="p">++;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>种子种下后修改当前人物背包中（由于有一个事件是丢弃人物背包中的内容，因此我们修改当前事件的部分条件，实现如果是种子则不生成物品即可。</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">// 在itemManager.cs中实现该方法</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">OnDropItemInSceneEvent</span><span class="p">(</span><span class="kt">int</span> <span class="n">itemId</span><span class="p">,</span> <span class="n">Vector3</span> <span class="n">mousePos</span><span class="p">,</span> <span class="n">ItemType</span> <span class="n">itemType</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 实现丢东西后在对应位置生成物体功能</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">itemType</span> <span class="p">==</span> <span class="n">ItemType</span><span class="p">.</span><span class="n">Seed</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>  <span class="c1">// 如果种下种子，则不表示丢弃</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.....</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="使用菜篮子收菜">使用菜篮子收菜</h2>
+<p>整体思路与普通的切动画，完成点击事件一样，仅仅在收获的时候，需要使用碰撞检测，鼠标点击后检测到了碰撞，才能表示点击到了需要收获的物品。</p>
+<ul>
+<li>点击事件</li>
+</ul>
+<p>由于点击需要判断当前的种子是否长成熟，因此要将<code>CropManager.cs</code>修改为单例模式来获取种子信息。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">// Cursor.cs的 CheckCursorValid()方法</span>
+</span></span><span class="line"><span class="cl"><span class="k">case</span> <span class="n">ItemType</span><span class="p">.</span><span class="n">CollectTool</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">CropDetails</span> <span class="n">currentCrop</span> <span class="p">=</span> <span class="n">CropManager</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">GetCropDetails</span><span class="p">(</span><span class="n">currentTile</span><span class="p">.</span><span class="n">seedItemID</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">currentCrop</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">currentTile</span><span class="p">.</span><span class="n">growthDays</span> <span class="p">&gt;=</span> <span class="n">currentCrop</span><span class="p">.</span><span class="n">TotalGrowthDay</span><span class="p">)</span> 
+</span></span><span class="line"><span class="cl">            <span class="n">SetCursorValid</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span>
+</span></span><span class="line"><span class="cl">            <span class="n">SetCursorInvalid</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span> <span class="n">SetCursorInvalid</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">   
+</span></span><span class="line"><span class="cl">    <span class="k">break</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后将动画修改为pull相关动画</p>
+<p>使用Unity自带的碰撞体检测，<code>OverlapPointAll()</code>方法，该方法传递一个鼠标坐标，然后范围该坐标下的所有碰撞体，通过检测这些碰撞体是否有Crop元素即可。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">// 在GridMapManager.cs的执行事件方法中调用</span>
+</span></span><span class="line"><span class="cl"><span class="k">case</span> <span class="n">ItemType</span><span class="p">.</span><span class="n">CollectTool</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Crop</span> <span class="n">currentCrop</span> <span class="p">=</span> <span class="n">GetCropObject</span><span class="p">(</span><span class="n">mouseGridPos</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">currentCrop</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">currentCrop</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="n">Crop</span> <span class="n">GetCropObject</span><span class="p">(</span><span class="n">Vector3</span> <span class="n">mousePos</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Collider2D</span><span class="p">[]</span> <span class="n">collider2Ds</span> <span class="p">=</span> <span class="n">Physics2D</span><span class="p">.</span><span class="n">OverlapPointAll</span><span class="p">(</span><span class="n">mousePos</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Crop</span> <span class="n">currentCrop</span> <span class="p">=</span> <span class="k">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">col</span> <span class="k">in</span> <span class="n">collider2Ds</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">col</span><span class="p">.</span><span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">Crop</span><span class="p">&gt;())</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">currentCrop</span> <span class="p">=</span> <span class="n">col</span><span class="p">.</span><span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">Crop</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">            <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">currentCrop</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="实现收割庄稼产生果实">实现收割庄稼产生果实</h2>
+<p>由于不同植物需要收获的次数不同，因此需要传递采集次数给<code>Crop</code>来判断是否能够完成收割。</p>
+<p>首先我们也要在<code>CursorManager</code>中判断当前选择的采集物品是否和当前采集的植物匹配，而匹配的方法将使用工具的ID和采集植物的工具ID是否匹配的方式进行判断，因此直接在<code>CropDetails</code>中进行修改</p>
+<p>然后我们需要完成采集工作，即在<code>gridManager</code>中调用<code>Crop</code>中包含的采集方法<code>ProcessToolAction</code>，该方法检查当前采集次数是否满足，不满足则要求继续执行，满足则将采集的物品数量和ID通过事件的方式传递给<code>InventoryManager</code>，存入人物的背包中。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// 检查当前使用的收割工具是否满足当前物品的要求</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;param name=&#34;toolID&#34;&gt;当前的工具Id&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;returns&gt;&lt;/returns&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="kt">bool</span> <span class="n">CheckToolAvailable</span><span class="p">(</span><span class="kt">int</span> <span class="n">toolID</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">foreach</span> <span class="p">(</span><span class="kt">int</span> <span class="n">harvestToolID</span> <span class="k">in</span> <span class="n">harvestToolItemIDs</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">harvestToolID</span> <span class="p">==</span> <span class="n">toolID</span><span class="p">)</span> <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// 检测当前工具需要收获的次数</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;param name=&#34;toolID&#34;&gt;当前的工具Id&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;returns&gt;&lt;/returns&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="kt">int</span> <span class="n">GetTotalRequireCount</span><span class="p">(</span><span class="kt">int</span> <span class="n">toolID</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">harvestToolItemIDs</span><span class="p">.</span><span class="n">Length</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">harvestToolItemIDs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">==</span> <span class="n">toolID</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">requireActionCounts</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">-</span><span class="m">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="n">CropDetails</span> <span class="n">currentCropDetails</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="kt">int</span> <span class="n">_currentHarvestCnt</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// 完成工具处理植物的具体内容</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;param name=&#34;itemID&#34;&gt;&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">void</span> <span class="n">ProcessToolAction</span><span class="p">(</span><span class="kt">int</span> <span class="n">itemID</span><span class="p">,</span> <span class="n">TileDetails</span> <span class="n">tileDetails</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">requireHarvestCnt</span> <span class="p">=</span> <span class="n">currentCropDetails</span><span class="p">.</span><span class="n">GetTotalRequireCount</span><span class="p">(</span><span class="n">itemID</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">requireHarvestCnt</span> <span class="p">==</span> <span class="p">-</span><span class="m">1</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(++</span><span class="n">_currentHarvestCnt</span> <span class="p">&lt;</span> <span class="n">requireHarvestCnt</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_currentHarvestCnt</span><span class="p">++;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// todo 音效 粒子效果</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/*判断当前的农作物是否是树（是否在人物头顶生成*/</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">currentCropDetails</span><span class="p">.</span><span class="n">generateAtPlayerPosition</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// 真实生成物品</span>
+</span></span><span class="line"><span class="cl">            <span class="n">SpawnHarvestItem</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">void</span> <span class="n">SpawnHarvestItem</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">currentCropDetails</span><span class="p">.</span><span class="n">producedItemIDs</span><span class="p">.</span><span class="n">Length</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">produceCnt</span> <span class="p">=</span> <span class="n">currentCropDetails</span><span class="p">.</span><span class="n">producedMinAmount</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">==</span> <span class="n">currentCropDetails</span><span class="p">.</span><span class="n">producedMaxAmount</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">?</span> <span class="n">currentCropDetails</span><span class="p">.</span><span class="n">producedMinAmount</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Random</span><span class="p">.</span><span class="n">Range</span><span class="p">(</span><span class="n">currentCropDetails</span><span class="p">.</span><span class="n">producedMinAmount</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">currentCropDetails</span><span class="p">.</span><span class="n">producedMaxAmount</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">+</span> <span class="m">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="cm">/* 生成对应数量的物品 */</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">currentCropDetails</span><span class="p">.</span><span class="n">generateAtPlayerPosition</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">EventHandler</span><span class="p">.</span><span class="n">CallHarvestAtPlayerPosEvent</span><span class="p">(</span><span class="n">currentCropDetails</span><span class="p">.</span><span class="n">producedItemIDs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">produceCnt</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// inventoryManager.cs中完成</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">OnHarvestAtPlayerPosEvent</span><span class="p">(</span><span class="kt">int</span> <span class="n">produceID</span><span class="p">,</span> <span class="kt">int</span> <span class="n">produceAmount</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kt">var</span> <span class="n">indexIndex</span> <span class="p">=</span> <span class="n">GetItemIndexInBag</span><span class="p">(</span><span class="n">produceID</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">AddItemInIndex</span><span class="p">(</span><span class="n">produceID</span><span class="p">,</span> <span class="n">indexIndex</span><span class="p">,</span> <span class="n">produceAmount</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 更新UI</span>
+</span></span><span class="line"><span class="cl">        <span class="n">EventHandler</span><span class="p">.</span><span class="n">CallUpdateInventoryUI</span><span class="p">(</span><span class="n">InventoryLocation</span><span class="p">.</span><span class="n">Player</span><span class="p">,</span> <span class="n">playerBag</span><span class="p">.</span><span class="n">inventoryItemList</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="实现农作物收割后的销毁或重新生成">实现农作物收割后的销毁或重新生成</h2>
+<p>实现农作物收割后的情况处理，需要在人物收获到农作物以后对当前作物的特性进行判别，如果是可以重新生长的则将其生长日期减少，直到重生次数用尽，否则就直接销毁。</p>
+<p>判断能否重新生长需要看作物的属性以及当前生长的次数，因此需要从当前<code>TileDetails</code>中获得部分信息。此时如果不重新生成，则将地图信息中的种子重置为-1，然后使用事件通知的方式重新刷新地图</p>
+<p>当前瓦片的信息可以通过调用<code>Crop</code> <code>ProcessToolAction</code>方法获取</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">// Crop.cs 的SpawnHarvestItem()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">       
+</span></span><span class="line"><span class="cl">        <span class="cm">/*判断当前作物的是否能够重新生长，其生长次数是否达标*/</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">currentCropDetails</span><span class="p">.</span><span class="n">dayToRegrow</span> <span class="p">&gt;</span> <span class="p">-</span><span class="m">1</span> <span class="p">&amp;&amp;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">++</span><span class="n">_currentTileDetails</span><span class="p">.</span><span class="n">reHarvestCnt</span> <span class="p">&lt;=</span> <span class="n">currentCropDetails</span><span class="p">.</span><span class="n">regrowTimes</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">_currentTileDetails</span><span class="p">.</span><span class="n">growthDays</span> <span class="p">=</span> <span class="n">currentCropDetails</span><span class="p">.</span><span class="n">TotalGrowthDay</span> <span class="p">-</span> <span class="n">currentCropDetails</span><span class="p">.</span><span class="n">dayToRegrow</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// 刷新种子</span>
+</span></span><span class="line"><span class="cl">            <span class="n">EventHandler</span><span class="p">.</span><span class="n">CallRefreshCurrentMapEvent</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">_currentTileDetails</span><span class="p">.</span><span class="n">daySinceHarvest</span> <span class="p">=</span> <span class="p">-</span><span class="m">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">_currentTileDetails</span><span class="p">.</span><span class="n">seedItemID</span> <span class="p">=</span> <span class="p">-</span><span class="m">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">_currentTileDetails</span><span class="p">.</span><span class="n">daySinceDig</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">gameObject</span> <span class="p">!=</span><span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Destroy</span><span class="p">(</span><span class="n">gameObject</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="制作可砍伐的木头摇晃和倒下的动画">制作可砍伐的木头摇晃和倒下的动画</h2>
+<p>基础设计思路和制作普通的农作物一致，只是最后一个阶段的预制体需要替换为我们预先设计好的可砍伐的树木的预制体。然后需要保证该树有我们定好的Crop脚本。</p>
+<p>然后制作对应的动画，由于收集逻辑和砍树逻辑在鼠标的可执行阶段是类似的，因此可以将两个case合并。</p>
+<p>在<code>GridManager.cs</code>中采集主要的方法是<code>ProcessToolAction</code>，可以在该处判断当前的物体需要砍伐的次数，以及生成物品的位置。</p>
+<p>在该过程中可以通过点击事件获取当前物体的物体的动画组件，然后执行被砍伐的时候的动画</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">// Crop.cs 的ProcessToolAction</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(++</span><span class="n">_currentHarvestCnt</span> <span class="p">&lt;</span> <span class="n">requireHarvestCnt</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_currentHarvestCnt</span><span class="p">++;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// todo 音效 粒子效果</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">_animator</span> <span class="p">!=</span> <span class="k">null</span> <span class="p">&amp;&amp;</span> <span class="n">currentCropDetails</span><span class="p">.</span><span class="n">hasAnimation</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/*判断人物和物品的位置，判断该从那边伐木*/</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">Player</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span> <span class="p">&lt;</span> <span class="n">transform</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// 树木向右被砍的动画</span>
+</span></span><span class="line"><span class="cl">            <span class="n">_animator</span><span class="p">.</span><span class="n">SetTrigger</span><span class="p">(</span><span class="s">&#34;RotateRight&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">_animator</span><span class="p">.</span><span class="n">SetTrigger</span><span class="p">(</span><span class="s">&#34;RotateLeft&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>摇晃动画</p>
+<img src="/WFImg/image-20230203165909499.png" alt="image-20230203165909499" style="zoom:50%;" />
+<h2 id="实现砍树功能">实现砍树功能</h2>
+<p>由于鼠标的有效性检测检测的是瓦片格，但实际树木应该能够点按树干，因此需要对整个内容进行修改，因此需要再使用<code>ChopTool</code>的时候，判断当前鼠标和<code>gridMap</code>是否有作物成熟，但由于树干整体偏大，因此当鼠标移动到目标位置时，应该直接判断当前作物是否成熟，因此当植物成熟的时候，就可以为其添加一个标致，使得其能够被鼠标识别，同时在将对应的瓦片地图信息传递给<code>ProcessToolAction</code>方法时，传递的应该时当前作物的瓦片，而不是当前地图块的瓦片，因此在成熟生成prefab的时候，就应该传递当前作物的成熟信息。</p>
+<ul>
+<li><code>CursorManager</code> 增加对树干的识别，<code>currentCrop</code>需要通过鼠标的坐标去获取</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">// CursorManager</span>
+</span></span><span class="line"><span class="cl"><span class="n">Crop</span> <span class="n">currentCrop</span> <span class="p">=</span> <span class="n">GridMapManager</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">GetCropObject</span><span class="p">(</span><span class="n">_mouseWorldPos</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">case</span> <span class="n">ItemType</span><span class="p">.</span><span class="n">ChopTool</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">currentCrop</span> <span class="p">!=</span> <span class="k">null</span> <span class="p">&amp;&amp;</span> <span class="n">currentCrop</span><span class="p">.</span><span class="n">CanHarvest</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">SetCursorValid</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span>
+</span></span><span class="line"><span class="cl">            <span class="n">SetCursorInvalid</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">break</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>GridMapManager</code> 此时<code>ProcessToolAction</code>不应该传递鼠标所在位置的<code>tileDetails</code>，应该是物体的信息</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="k">case</span> <span class="n">ItemType</span><span class="p">.</span><span class="n">ChopTool</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">currentCrop</span> <span class="p">=</span> <span class="n">GetCropObject</span><span class="p">(</span><span class="n">mouseWorldPos</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">currentCrop</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">currentCrop</span><span class="p">.</span><span class="n">ProcessToolAction</span><span class="p">(</span><span class="n">itemDetails</span><span class="p">.</span><span class="n">itemID</span><span class="p">,</span>  <span class="n">currentCrop</span><span class="p">.</span><span class="n">currentTileDetails</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">break</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>CropManger</code>，增加成熟后直接获取当前地图块信息，保存作物能够直接知道自己是否成熟</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="n">cropInstance</span><span class="p">.</span><span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">Crop</span><span class="p">&gt;().</span><span class="n">currentTileDetails</span> <span class="p">=</span> <span class="n">currentTail</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>Crop.cs</code>，添加变量<code>CanHarvest</code>，让鼠标能得到信息</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="k">public</span> <span class="kt">bool</span> <span class="n">CanHarvest</span> <span class="p">=&gt;</span> <span class="n">currentTileDetails</span><span class="p">.</span><span class="n">growthDays</span> <span class="p">&gt;=</span> <span class="n">currentCropDetails</span><span class="p">.</span><span class="n">TotalGrowthDay</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>修改相应动画</p>
+<blockquote>
+<p>注意动画需要在对应载体上才能进行操作,同时添加关键帧的操作需要先点击录制.</p>
+<p>注意动画迁移是否需要上一个状态完整播放（是否有退出时间）</p>
+</blockquote>
+<h2 id="实现随机数生成收割物品">实现随机数生成收割物品</h2>
+<p>由于树木倒下有时间，因此需要有一点时间，因此需要使用协程的方式循环检测当前的动画是否播放到树木倒下结束。当树木倒下的时候，生成物品。</p>
+<p>由于生成物品是在地面上，因此需要先得知物体倒下的位置，并获得一个掉落位置的随机值</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="k">private</span> <span class="n">IEnumerator</span> <span class="n">HarvestAfterAnimation</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(!</span><span class="n">_animator</span><span class="p">.</span><span class="n">GetCurrentAnimatorStateInfo</span><span class="p">(</span><span class="m">0</span><span class="p">).</span><span class="n">IsName</span><span class="p">(</span><span class="s">&#34;END&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">yield</span> <span class="k">return</span> <span class="k">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">SpawnHarvestItem</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/* 生成遗留物品 */</span>
+</span></span><span class="line"><span class="cl">    <span class="n">currentTileDetails</span><span class="p">.</span><span class="n">seedItemID</span> <span class="p">=</span> <span class="n">currentCropDetails</span><span class="p">.</span><span class="n">transferItemId</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">currentTileDetails</span><span class="p">.</span><span class="n">growthDays</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">currentTileDetails</span><span class="p">.</span><span class="n">daySinceHarvest</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">EventHandler</span><span class="p">.</span><span class="n">CallRefreshCurrentMapEvent</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">// Crop.cs中的 ProcessToolAction</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(++</span><span class="n">_currentHarvestCnt</span> <span class="p">&lt;</span> <span class="n">requireHarvestCnt</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">_currentHarvestCnt</span><span class="p">++;</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// todo 音效 粒子效果</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">_animator</span> <span class="p">!=</span> <span class="k">null</span> <span class="p">&amp;&amp;</span> <span class="n">currentCropDetails</span><span class="p">.</span><span class="n">hasAnimation</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="cm">/*判断人物和物品的位置，判断该从那边伐木*/</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="p">(</span><span class="n">Player</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span> <span class="p">&lt;</span> <span class="n">transform</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1">// 树木向右被砍的动画</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">_animator</span><span class="p">.</span><span class="n">SetTrigger</span><span class="p">(</span><span class="s">&#34;RotateRight&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">                <span class="k">else</span>
+</span></span><span class="line"><span class="cl">                <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">_animator</span><span class="p">.</span><span class="n">SetTrigger</span><span class="p">(</span><span class="s">&#34;RotateLeft&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="cm">/*判断当前的农作物是否是树（是否在人物头顶生成*/</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">currentCropDetails</span><span class="p">.</span><span class="n">generateAtPlayerPosition</span> <span class="p">||</span> <span class="p">!</span><span class="n">currentCropDetails</span><span class="p">.</span><span class="n">hasAnimation</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="c1">// 真实生成物品</span>
+</span></span><span class="line"><span class="cl">                <span class="n">SpawnHarvestItem</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="k">else</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="p">(</span><span class="n">Player</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span> <span class="p">&lt;</span> <span class="n">transform</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1">// 树木向右被砍的动画</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">_animator</span><span class="p">.</span><span class="n">SetTrigger</span><span class="p">(</span><span class="s">&#34;FallRight&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">                <span class="k">else</span>
+</span></span><span class="line"><span class="cl">                <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">_animator</span><span class="p">.</span><span class="n">SetTrigger</span><span class="p">(</span><span class="s">&#34;FallLeft&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">                <span class="n">StartCoroutine</span><span class="p">(</span><span class="n">HarvestAfterAnimation</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="c1">// Crop.cs 中生成果实的方法</span>
+</span></span><span class="line"><span class="cl"><span class="cm">/* 生成对应数量的物品 */</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">currentCropDetails</span><span class="p">.</span><span class="n">generateAtPlayerPosition</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">EventHandler</span><span class="p">.</span><span class="n">CallHarvestAtPlayerPosEvent</span><span class="p">(</span><span class="n">currentCropDetails</span><span class="p">.</span><span class="n">producedItemIDs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">produceCnt</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">else</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 世界地图上生成物品   </span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">dirx</span> <span class="p">=</span> <span class="n">transform</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span> <span class="p">-</span> <span class="n">Player</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span> <span class="p">&gt;</span> <span class="m">0</span> <span class="p">?</span> <span class="m">1</span> <span class="p">:</span> <span class="p">-</span><span class="m">1</span><span class="p">;</span>   <span class="cm">/* 农作物和人物的相对位置 */</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">j</span> <span class="p">&lt;</span> <span class="n">produceCnt</span><span class="p">;</span> <span class="n">j</span><span class="p">++)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">float</span> <span class="n">randomXPos</span> <span class="p">=</span> <span class="n">transform</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span> <span class="p">+</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Random</span><span class="p">.</span><span class="n">Range</span><span class="p">(</span><span class="n">dirx</span><span class="p">,</span> <span class="n">dirx</span> <span class="p">+</span> <span class="n">currentCropDetails</span><span class="p">.</span><span class="n">spawnRadius</span><span class="p">.</span><span class="n">x</span> <span class="p">*</span> <span class="n">dirx</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">float</span> <span class="n">randomYPos</span> <span class="p">=</span> <span class="n">transform</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">y</span> <span class="p">+</span> <span class="n">Random</span><span class="p">.</span><span class="n">Range</span><span class="p">(-</span><span class="n">currentCropDetails</span><span class="p">.</span><span class="n">spawnRadius</span><span class="p">.</span><span class="n">y</span><span class="p">,</span> <span class="n">currentCropDetails</span><span class="p">.</span><span class="n">spawnRadius</span><span class="p">.</span><span class="n">y</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Vector3</span> <span class="n">spawnPos</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Vector3</span><span class="p">(</span><span class="n">randomXPos</span><span class="p">,</span> <span class="n">randomYPos</span><span class="p">,</span> <span class="m">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">EventHandler</span><span class="p">.</span><span class="n">CallInstantiateBounceItemInScene</span><span class="p">(</span><span class="n">currentCropDetails</span><span class="p">.</span><span class="n">producedItemIDs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">transform</span><span class="p">.</span><span class="n">position</span> <span class="p">+</span> <span class="k">new</span> <span class="n">Vector3</span><span class="p">(</span><span class="n">dirx</span> <span class="p">*</span> <span class="m">1.4f</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span>  <span class="n">spawnPos</span><span class="p">);</span>    
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="实现快捷键">实现快捷键</h2>
+<p>为<code>SlotUI</code>增加按键方法，然后调用<code>InventoryUI</code>中的控制高亮的方法</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="na">[RequireComponent(typeof(SlotUI))]</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">ActionBarButton</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">KeyCode</span> <span class="n">key</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">SlotUI</span> <span class="n">_slotUI</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">Start</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_slotUI</span> <span class="p">=</span> <span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">SlotUI</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// Update is called once per frame</span>
+</span></span><span class="line"><span class="cl">    <span class="k">void</span> <span class="n">Update</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">Input</span><span class="p">.</span><span class="n">GetKeyDown</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">_slotUI</span> <span class="p">!=</span> <span class="k">null</span> <span class="p">&amp;&amp;</span> <span class="n">_slotUI</span><span class="p">.</span><span class="n">slotItemDetails</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">_slotUI</span><span class="p">.</span><span class="n">isSelected</span> <span class="p">=</span> <span class="p">!</span><span class="n">_slotUI</span><span class="p">.</span><span class="n">isSelected</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="p">(</span><span class="n">_slotUI</span><span class="p">.</span><span class="n">isSelected</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">_slotUI</span><span class="p">.</span><span class="n">InventoryUI</span><span class="p">.</span><span class="n">UpdateSlotHighlight</span><span class="p">(</span><span class="n">_slotUI</span><span class="p">.</span><span class="n">slotIndex</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">                <span class="k">else</span>
+</span></span><span class="line"><span class="cl">                <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">_slotUI</span><span class="p">.</span><span class="n">InventoryUI</span><span class="p">.</span><span class="n">UpdateSlotHighlight</span><span class="p">(-</span><span class="m">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">                <span class="n">EventHandler</span><span class="p">.</span><span class="n">CallItemSelectedEvent</span><span class="p">(</span><span class="n">_slotUI</span><span class="p">.</span><span class="n">slotItemDetails</span><span class="p">,</span> <span class="n">_slotUI</span><span class="p">.</span><span class="n">isSelected</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="粒子系统">粒子系统</h2>
+<p>在场景中增加例子效果，并将其作为一个预制体，为后续用对象池完成粒子生成做准备。因此首先需要设计粒子的类型</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">enum</span> <span class="n">ParticleEffectType</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">None</span><span class="p">,</span> <span class="n">LeavesFalling01</span><span class="p">,</span><span class="n">LeavesFalling02</span><span class="p">,</span> <span class="n">Rock</span><span class="p">,</span> <span class="n">ReapableScenery</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="使用对象池创建粒子效果">使用对象池创建粒子效果</h2>
+<p>通过对象池来完成粒子效果的创建，能够不用我们手动一直创建并销毁由对象池生成的GO，其有三个主要方法，<code>Get</code>,<code>Relese</code>，<code>Destroy</code>，其中如果对象池如果有内容，则Get会直接获得对象池里的内容。</p>
+<p>在本部分使用<code>Get</code>来是粒子效果<code>Active</code>,<code>Relese</code>让效果<code>Active</code>失效，这样如果需要新的粒子，对象池会先去找对象池内的GO，让其<code>Active</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">PoolManager</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">GameObject</span><span class="p">&gt;</span> <span class="n">prefabList</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="n">ObjectPool</span><span class="p">&lt;</span><span class="n">GameObject</span><span class="p">&gt;&gt;</span> <span class="n">_poolEffectDic</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="n">ObjectPool</span><span class="p">&lt;</span><span class="n">GameObject</span><span class="p">&gt;&gt;();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">OnEnable</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">EventHandler</span><span class="p">.</span><span class="n">EffectEvent</span> <span class="p">+=</span> <span class="n">OnEffectEvent</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">OnDisable</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">EventHandler</span><span class="p">.</span><span class="n">EffectEvent</span> <span class="p">-=</span> <span class="n">OnEffectEvent</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">Start</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">CreatPool</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">CreatPool</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">prefabList</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">foreach</span> <span class="p">(</span><span class="n">GameObject</span> <span class="n">prefabItem</span> <span class="k">in</span> <span class="n">prefabList</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="kt">string</span> <span class="n">key</span> <span class="p">=</span> <span class="n">prefabItem</span><span class="p">.</span><span class="n">name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">GameObject</span> <span class="n">parent</span> <span class="p">=</span> <span class="k">new</span> <span class="n">GameObject</span><span class="p">(</span><span class="n">key</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">parent</span><span class="p">.</span><span class="n">transform</span><span class="p">.</span><span class="n">SetParent</span><span class="p">(</span><span class="n">transform</span><span class="p">);</span>      <span class="c1">// 让所有粒子效果都属于自己对应的名称下，每个名称属于PoolManager下</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(!</span><span class="n">_poolEffectDic</span><span class="p">.</span><span class="n">ContainsKey</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">_poolEffectDic</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="k">new</span> <span class="n">ObjectPool</span><span class="p">&lt;</span><span class="n">GameObject</span><span class="p">&gt;(</span>
+</span></span><span class="line"><span class="cl">                    <span class="p">()</span> <span class="p">=&gt;</span> <span class="n">Instantiate</span><span class="p">(</span><span class="n">prefabItem</span><span class="p">,</span> <span class="n">parent</span><span class="p">.</span><span class="n">transform</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">e</span> <span class="p">=&gt;</span> <span class="p">{</span><span class="n">e</span><span class="p">.</span><span class="n">SetActive</span><span class="p">(</span><span class="k">true</span><span class="p">);},</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">e</span><span class="p">=&gt;{</span><span class="n">e</span><span class="p">.</span><span class="n">SetActive</span><span class="p">(</span><span class="k">false</span><span class="p">);},</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">e</span> <span class="p">=&gt;</span> <span class="p">{</span><span class="n">Destroy</span><span class="p">(</span><span class="n">e</span><span class="p">);}));</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">OnEffectEvent</span><span class="p">(</span><span class="n">ParticleEffectType</span> <span class="n">effectType</span><span class="p">,</span> <span class="n">Vector3</span> <span class="n">effectPos</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">effectType</span><span class="p">.</span><span class="n">ToString</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">_poolEffectDic</span><span class="p">.</span><span class="n">ContainsKey</span><span class="p">(</span><span class="n">effectType</span><span class="p">.</span><span class="n">ToString</span><span class="p">()))</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">ObjectPool</span><span class="p">&lt;</span><span class="n">GameObject</span><span class="p">&gt;</span> <span class="n">effectPool</span> <span class="p">=</span> <span class="n">_poolEffectDic</span><span class="p">[</span><span class="n">effectType</span><span class="p">.</span><span class="n">ToString</span><span class="p">()];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="n">GameObject</span> <span class="n">effect</span> <span class="p">=</span> <span class="n">effectPool</span><span class="p">.</span><span class="n">Get</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">            <span class="n">effect</span><span class="p">.</span><span class="n">transform</span><span class="p">.</span><span class="n">position</span> <span class="p">=</span> <span class="n">effectPos</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            
+</span></span><span class="line"><span class="cl">            <span class="cm">/*延迟关闭*/</span>
+</span></span><span class="line"><span class="cl">            <span class="n">StartCoroutine</span><span class="p">(</span><span class="n">ReleaseRoutine</span><span class="p">(</span><span class="n">effectPool</span><span class="p">,</span> <span class="n">effect</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">IEnumerator</span> <span class="n">ReleaseRoutine</span><span class="p">(</span><span class="n">ObjectPool</span><span class="p">&lt;</span><span class="n">GameObject</span><span class="p">&gt;</span> <span class="n">effectPool</span><span class="p">,</span> <span class="n">GameObject</span> <span class="n">effect</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">yield</span> <span class="k">return</span> <span class="k">new</span> <span class="n">WaitForSeconds</span><span class="p">(</span><span class="m">1.5f</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">effectPool</span><span class="p">.</span><span class="n">Release</span><span class="p">(</span><span class="n">effect</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后通过事件调用即可</p>
+<h2 id="预生产树木">预生产树木</h2>
+<p>由于所有的农作物都是需要保证地块有种子信息，否则会在场景加载的时候被销毁。因此对于需要预制的植物，需要为其的地块设定种子信息。</p>
+<p>因此新增一个脚本<code>CropGenerator.cs</code>，该脚本用于对当前瓦片信息进行赋值，并更新瓦片地图<code>dictionary</code>的内容。最后保证只有在首次加载地图的时候才生成。</p>
+<blockquote>
+<p>注意此时<code>CropGenerator.cs</code>的生成代码是需要先给<code>tileMapDic</code>增加新的值，才能保证刷新地图的时候预制的物体被销毁后能够重新绘制</p>
+<p>但是由于不同脚本的执行顺序不能确定，因此需要在刷新之前先将赋值完成，因此需要在每次加载场景的时候先保证预制物品能够修改<code>tileMapDic</code>的内容，并保证只有第一次加载场景，才为树木增加预制体，</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">CropGenerator</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [Header(&#34;作物信息&#34;)]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">int</span> <span class="n">seedId</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">int</span> <span class="n">growthDays</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">Grid</span> <span class="n">_currentGrid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">OnEnable</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">EventHandler</span><span class="p">.</span><span class="n">GenerateCropEvent</span> <span class="p">+=</span> <span class="n">GenerateItem</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">OnDisable</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">EventHandler</span><span class="p">.</span><span class="n">GenerateCropEvent</span> <span class="p">-=</span> <span class="n">GenerateItem</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">Awake</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_currentGrid</span> <span class="p">=</span> <span class="n">FindObjectOfType</span><span class="p">&lt;</span><span class="n">Grid</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">void</span> <span class="n">GenerateItem</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Vector3Int</span> <span class="n">curGridPos</span> <span class="p">=</span> <span class="n">_currentGrid</span><span class="p">.</span><span class="n">WorldToCell</span><span class="p">(</span><span class="n">transform</span><span class="p">.</span><span class="n">position</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">seedId</span> <span class="p">!=</span> <span class="m">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">TileDetails</span> <span class="n">currentTileDetails</span> <span class="p">=</span> <span class="n">GridMapManager</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">GetTileDetailsByMousePos</span><span class="p">(</span><span class="n">curGridPos</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">currentTileDetails</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">currentTileDetails</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TileDetails</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="n">currentTileDetails</span><span class="p">.</span><span class="n">daySinceWater</span> <span class="p">=</span> <span class="p">-</span><span class="m">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">currentTileDetails</span><span class="p">.</span><span class="n">growthDays</span> <span class="p">=</span> <span class="n">growthDays</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">currentTileDetails</span><span class="p">.</span><span class="n">seedItemID</span> <span class="p">=</span> <span class="n">seedId</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">currentTileDetails</span><span class="p">.</span><span class="n">gridPos</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Vector2Int</span><span class="p">(</span><span class="n">curGridPos</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">curGridPos</span><span class="p">.</span><span class="n">y</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            
+</span></span><span class="line"><span class="cl">            <span class="n">GridMapManager</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">UpdateGridMap</span><span class="p">(</span><span class="n">currentTileDetails</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">// OnAfterSceneLoadEvent()</span>
+</span></span><span class="line"><span class="cl"><span class="cm">/*只有初次加载地图的时候生成预制树木*/</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">_firstLoadDic</span><span class="p">.</span><span class="n">ContainsKey</span><span class="p">(</span><span class="n">SceneManager</span><span class="p">.</span><span class="n">GetActiveScene</span><span class="p">().</span><span class="n">name</span><span class="p">)</span> <span class="p">&amp;&amp;</span> <span class="n">_firstLoadDic</span><span class="p">[</span><span class="n">SceneManager</span><span class="p">.</span><span class="n">GetActiveScene</span><span class="p">().</span><span class="n">name</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">EventHandler</span><span class="p">.</span><span class="n">CallGenerateCropEvent</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_firstLoadDic</span><span class="p">[</span><span class="n">SceneManager</span><span class="p">.</span><span class="n">GetActiveScene</span><span class="p">().</span><span class="n">name</span><span class="p">]</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">RefreshGridMap</span><span class="p">();</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="制作割草的全部流程和稻草互动摇晃">制作割草的全部流程和稻草互动摇晃</h2>
+<p>当杂草过多的时候，一个一个检查杂草的碰撞体然后收割效率太低，因此 使用额外的方法来完成收割大量杂草的方法.</p>
+<p>首先需要将杂草设定为<code>item</code>而不是<code>Crop</code>因此需要一个额外的脚本<code>ReapItem</code>来控制割草事件。该脚本需要获得<code>cropDetails</code>的信息，因此在<code>item</code>初始化的时候就要为其赋值，然后再<code>ReapItem</code>中调用收割方法，产生种子。</p>
+<p>而检测是否是杂草的方法需要在<code>CursorManager</code>中进行调用，在<code>GridMapManager</code>中使用函数获得相应的内容，然后再<code>CursorManager</code>中调用该方法，最后在<code>GridMapManager</code>触发事件。</p>
+<ul>
+<li>ReapItem</li>
+</ul>
+<p>该部分用于实现可割除草的初始化，以及果实的产生</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">private</span> <span class="n">CropDetails</span> <span class="n">_currentCropDetail</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="n">Transform</span> <span class="n">Player</span> <span class="p">=&gt;</span> <span class="n">FindObjectOfType</span><span class="p">&lt;</span><span class="n">Player</span><span class="p">&gt;().</span><span class="n">transform</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">void</span> <span class="n">InitReapItem</span><span class="p">(</span><span class="kt">int</span> <span class="n">cropID</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_currentCropDetail</span> <span class="p">=</span> <span class="n">CropManager</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">GetCropDetails</span><span class="p">(</span><span class="n">cropID</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cm">/*生成果实*/</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">void</span> <span class="n">SpawnHarvestItem</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">_currentCropDetail</span><span class="p">.</span><span class="n">producedItemIDs</span><span class="p">.</span><span class="n">Length</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">produceCnt</span> <span class="p">=</span> <span class="n">_currentCropDetail</span><span class="p">.</span><span class="n">producedMinAmount</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">==</span> <span class="n">_currentCropDetail</span><span class="p">.</span><span class="n">producedMaxAmount</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">            <span class="p">?</span> <span class="n">_currentCropDetail</span><span class="p">.</span><span class="n">producedMinAmount</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">            <span class="p">:</span> <span class="n">Random</span><span class="p">.</span><span class="n">Range</span><span class="p">(</span><span class="n">_currentCropDetail</span><span class="p">.</span><span class="n">producedMinAmount</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">                           <span class="n">_currentCropDetail</span><span class="p">.</span><span class="n">producedMaxAmount</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">+</span> <span class="m">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="cm">/* 生成对应数量的物品 */</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">_currentCropDetail</span><span class="p">.</span><span class="n">generateAtPlayerPosition</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">EventHandler</span><span class="p">.</span><span class="n">CallHarvestAtPlayerPosEvent</span><span class="p">(</span><span class="n">_currentCropDetail</span><span class="p">.</span><span class="n">producedItemIDs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">produceCnt</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// 世界地图上生成物品   </span>
+</span></span><span class="line"><span class="cl">            <span class="kt">int</span> <span class="n">dirx</span> <span class="p">=</span> <span class="n">transform</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span> <span class="p">-</span> <span class="n">Player</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span> <span class="p">&gt;</span> <span class="m">0</span> <span class="p">?</span> <span class="m">1</span> <span class="p">:</span> <span class="p">-</span><span class="m">1</span><span class="p">;</span> <span class="cm">/* 农作物和人物的相对位置 */</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">j</span> <span class="p">&lt;</span> <span class="n">produceCnt</span><span class="p">;</span> <span class="n">j</span><span class="p">++)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="kt">float</span> <span class="n">randomXPos</span> <span class="p">=</span> <span class="n">transform</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span> <span class="p">+</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">Random</span><span class="p">.</span><span class="n">Range</span><span class="p">(</span><span class="n">dirx</span><span class="p">,</span> <span class="n">dirx</span> <span class="p">+</span> <span class="n">_currentCropDetail</span><span class="p">.</span><span class="n">spawnRadius</span><span class="p">.</span><span class="n">x</span> <span class="p">*</span> <span class="n">dirx</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="kt">float</span> <span class="n">randomYPos</span> <span class="p">=</span> <span class="n">transform</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">y</span> <span class="p">+</span> <span class="n">Random</span><span class="p">.</span><span class="n">Range</span><span class="p">(-</span><span class="n">_currentCropDetail</span><span class="p">.</span><span class="n">spawnRadius</span><span class="p">.</span><span class="n">y</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                                                                       <span class="n">_currentCropDetail</span><span class="p">.</span><span class="n">spawnRadius</span><span class="p">.</span><span class="n">y</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">Vector3</span> <span class="n">spawnPos</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Vector3</span><span class="p">(</span><span class="n">randomXPos</span><span class="p">,</span> <span class="n">randomYPos</span><span class="p">,</span> <span class="m">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">EventHandler</span><span class="p">.</span><span class="n">CallInstantiateBounceItemInScene</span><span class="p">(</span><span class="n">_currentCropDetail</span><span class="p">.</span><span class="n">producedItemIDs</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">                                                              <span class="n">transform</span><span class="p">.</span><span class="n">position</span> <span class="p">+</span> <span class="k">new</span> <span class="n">Vector3</span><span class="p">(</span><span class="n">dirx</span> <span class="p">*</span> <span class="m">1.4f</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">),</span> <span class="n">spawnPos</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>item.cs</code></li>
+</ul>
+<p>该部分用于在初始化物品的时候对，就对可割除的草进行初始化</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">itemDetails</span><span class="p">.</span><span class="n">itemType</span> <span class="p">==</span> <span class="n">ItemType</span><span class="p">.</span><span class="n">ReapableScenery</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">gameObject</span><span class="p">.</span><span class="n">AddComponent</span><span class="p">&lt;</span><span class="n">ReapItem</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">gameObject</span><span class="p">.</span><span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">ReapItem</span><span class="p">&gt;().</span><span class="n">InitReapItem</span><span class="p">(</span><span class="n">itemID</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>GridMapManager.cs</code></li>
+</ul>
+<p>在该部分，用于具体的执行收割和果实生产的内容，因此需要先获得所有可收割的内容，使用碰撞检测器的一个特殊方法，找出鼠标范围内的所有可收割的部分</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="n">Physics2D</span><span class="p">.</span><span class="n">OverlapCircleNonAlloc</span><span class="p">(</span><span class="n">mousePos</span><span class="p">,</span> <span class="n">toolDetail</span><span class="p">.</span><span class="n">itemUseRadius</span><span class="p">,</span> <span class="n">colliders</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后将所有检测到有可收割部分的内容添加到一个列表中，当点击割除事件的时候，遍历这些内容，然后进行销毁并产生果实。</p>
+<p>注意由于鼠标要可用的时候才能执行点击方法，因此该部分需要有一个方法能够返回当前是否检测到了可收割内容。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">// 检测是否可以收割</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="kt">bool</span> <span class="n">HaveReapableItemInRadius</span><span class="p">(</span><span class="n">Vector3</span> <span class="n">mousePos</span><span class="p">,</span> <span class="n">ItemDetails</span> <span class="n">toolDetail</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/*实时检测鼠标周围是否有杂草*/</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_reapItemInRadius</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">ReapItem</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Collider2D</span><span class="p">[]</span> <span class="n">colliders</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Collider2D</span><span class="p">[</span><span class="m">20</span><span class="p">];</span>        <span class="c1">// 接受检测到碰撞的内容</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Physics2D</span><span class="p">.</span><span class="n">OverlapCircleNonAlloc</span><span class="p">(</span><span class="n">mousePos</span><span class="p">,</span> <span class="n">toolDetail</span><span class="p">.</span><span class="n">itemUseRadius</span><span class="p">,</span> <span class="n">colliders</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">colliders</span><span class="p">.</span><span class="n">Length</span> <span class="p">&gt;</span> <span class="m">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">col</span> <span class="k">in</span> <span class="n">colliders</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">col</span> <span class="k">is</span> <span class="n">not</span> <span class="k">null</span> <span class="p">&amp;&amp;</span><span class="n">col</span><span class="p">.</span><span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">ReapItem</span><span class="p">&gt;())</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">_reapItemInRadius</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">col</span><span class="p">.</span><span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">ReapItem</span><span class="p">&gt;());</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">_reapItemInRadius</span><span class="p">.</span><span class="n">Count</span> <span class="p">&gt;</span> <span class="m">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">// 执行收割事件</span>
+</span></span><span class="line"><span class="cl"><span class="k">case</span> <span class="n">ItemType</span><span class="p">.</span><span class="n">ReapTool</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="cm">/* 循环将被检测到的杂草一一清除，并生成对应果实 */</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">_reapItemInRadius</span><span class="p">.</span><span class="n">Count</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">EventHandler</span><span class="p">.</span><span class="n">CallEffectEvent</span><span class="p">(</span><span class="n">ParticleEffectType</span><span class="p">.</span><span class="n">ReapableScenery</span><span class="p">,</span> <span class="n">_reapItemInRadius</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">transform</span><span class="p">.</span><span class="n">position</span> <span class="p">+</span> <span class="n">Vector3</span><span class="p">.</span><span class="n">up</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_reapItemInRadius</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">SpawnHarvestItem</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Destroy</span><span class="p">(</span><span class="n">_reapItemInRadius</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">gameObject</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="c1">// 由于鼠标检测的内容是实时生成的，因此每次列表都会刷新</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="p">&gt;</span> <span class="n">Settings</span><span class="p">.</span><span class="n">ReapLimit</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">break</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>CursorManager</code></li>
+</ul>
+<p>当鼠标检测到可以收割的时候，就允许触发相应事件。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="k">case</span> <span class="n">ItemType</span><span class="p">.</span><span class="n">ReapTool</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">GridMapManager</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">HaveReapableItemInRadius</span><span class="p">(</span><span class="n">_mouseWorldPos</span><span class="p">,</span> <span class="n">_currentItem</span><span class="p">))</span> <span class="n">SetCursorValid</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span> <span class="n">SetCursorInvalid</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">break</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><strong>实现摇晃功能</strong></li>
+</ul>
+<p>使用代码完成该功能，当有碰撞体的东西i经过的时候，使用协程完成物体sprite的摇晃</p>
+<p>因此需要摇晃的物体需要挂载一个新的脚本</p>
+<ul>
+<li><code>item</code></li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">itemDetails</span><span class="p">.</span><span class="n">itemType</span> <span class="p">==</span> <span class="n">ItemType</span><span class="p">.</span><span class="n">ReapableScenery</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">gameObject</span><span class="p">.</span><span class="n">AddComponent</span><span class="p">&lt;</span><span class="n">ReapItem</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">gameObject</span><span class="p">.</span><span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">ReapItem</span><span class="p">&gt;().</span><span class="n">InitReapItem</span><span class="p">(</span><span class="n">itemID</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">gameObject</span><span class="p">.</span><span class="n">AddComponent</span><span class="p">&lt;</span><span class="n">ItemInteractive</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">gameObject</span><span class="p">.</span><span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">BoxCollider2D</span><span class="p">&gt;().</span><span class="n">isTrigger</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_boxCollider2D</span><span class="p">.</span><span class="n">size</span> <span class="p">*=</span> <span class="m">0.5f</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">ItemInteractive</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="kt">bool</span> <span class="n">_isAnimation</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">WaitForSeconds</span> <span class="n">_pauseSeconds</span> <span class="p">=</span> <span class="k">new</span> <span class="n">WaitForSeconds</span><span class="p">(</span><span class="m">0.04f</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">OnTriggerEnter2D</span><span class="p">(</span><span class="n">Collider2D</span> <span class="n">col</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(!</span><span class="n">_isAnimation</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">col</span><span class="p">.</span><span class="n">transform</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span> <span class="p">&gt;</span> <span class="n">transform</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">StartCoroutine</span><span class="p">(</span><span class="n">RotateLeft</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="k">else</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">StartCoroutine</span><span class="p">(</span><span class="n">RotateRight</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">OnTriggerExit2D</span><span class="p">(</span><span class="n">Collider2D</span> <span class="n">other</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(!</span><span class="n">_isAnimation</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">other</span><span class="p">.</span><span class="n">transform</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span> <span class="p">&gt;</span> <span class="n">transform</span><span class="p">.</span><span class="n">position</span><span class="p">.</span><span class="n">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">StartCoroutine</span><span class="p">(</span><span class="n">RotateRight</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="k">else</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">StartCoroutine</span><span class="p">(</span><span class="n">RotateLeft</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">IEnumerator</span> <span class="n">RotateLeft</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_isAnimation</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="m">4</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">transform</span><span class="p">.</span><span class="n">GetChild</span><span class="p">(</span><span class="m">0</span><span class="p">).</span><span class="n">Rotate</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">2</span><span class="p">);</span>        <span class="c1">// 延Z轴摇晃两度</span>
+</span></span><span class="line"><span class="cl">            <span class="k">yield</span> <span class="k">return</span> <span class="n">_pauseSeconds</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="m">5</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">transform</span><span class="p">.</span><span class="n">GetChild</span><span class="p">(</span><span class="m">0</span><span class="p">).</span><span class="n">Rotate</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,-</span><span class="m">2</span><span class="p">);</span>        <span class="c1">// 延Z轴摇晃两度</span>
+</span></span><span class="line"><span class="cl">            <span class="k">yield</span> <span class="k">return</span> <span class="n">_pauseSeconds</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">transform</span><span class="p">.</span><span class="n">GetChild</span><span class="p">(</span><span class="m">0</span><span class="p">).</span><span class="n">Rotate</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">2</span><span class="p">);</span>        <span class="c1">// 延Z轴摇晃两度</span>
+</span></span><span class="line"><span class="cl">        <span class="k">yield</span> <span class="k">return</span> <span class="n">_pauseSeconds</span><span class="p">;</span> 
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">_isAnimation</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">IEnumerator</span> <span class="n">RotateRight</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_isAnimation</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="m">4</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">transform</span><span class="p">.</span><span class="n">GetChild</span><span class="p">(</span><span class="m">0</span><span class="p">).</span><span class="n">Rotate</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,-</span><span class="m">2</span><span class="p">);</span>        <span class="c1">// 延Z轴摇晃两度</span>
+</span></span><span class="line"><span class="cl">            <span class="k">yield</span> <span class="k">return</span> <span class="n">_pauseSeconds</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="m">5</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">transform</span><span class="p">.</span><span class="n">GetChild</span><span class="p">(</span><span class="m">0</span><span class="p">).</span><span class="n">Rotate</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">2</span><span class="p">);</span>        <span class="c1">// 延Z轴摇晃两度</span>
+</span></span><span class="line"><span class="cl">            <span class="k">yield</span> <span class="k">return</span> <span class="n">_pauseSeconds</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">transform</span><span class="p">.</span><span class="n">GetChild</span><span class="p">(</span><span class="m">0</span><span class="p">).</span><span class="n">Rotate</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,-</span><span class="m">2</span><span class="p">);</span>        <span class="c1">// 延Z轴摇晃两度</span>
+</span></span><span class="line"><span class="cl">        <span class="k">yield</span> <span class="k">return</span> <span class="n">_pauseSeconds</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_isAnimation</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD/">麦田物语</a>
+        
+            <a href="/tags/%E4%BD%9C%E7%89%A9%E7%94%9F%E9%95%BF/">作物生长</a>
+        
+            <a href="/tags/%E7%B2%92%E5%AD%90%E7%89%B9%E6%95%88/">粒子特效</a>
+        
+            <a href="/tags/%E5%AF%B9%E8%B1%A1%E6%B1%A0/">对象池</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E5%8D%81%E4%B8%89/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="/img/story_of_wheat_field/wheatField.jpg" loading="lazy" data-key="" data-hash="/img/story_of_wheat_field/wheatField.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">麦田物语开发日记(十三)</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E5%8D%81%E4%BA%94/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="/img/story_of_wheat_field/wheatField.jpg" loading="lazy" data-key="" data-hash="/img/story_of_wheat_field/wheatField.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">麦田物语开发日记(十五)</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E5%8D%81%E4%BA%8C/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="/img/story_of_wheat_field/wheatField.jpg" loading="lazy" data-key="" data-hash="/img/story_of_wheat_field/wheatField.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">麦田物语开发日记(十二)</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E5%8D%81%E4%B8%80/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="/img/story_of_wheat_field/wheatField.jpg" loading="lazy" data-key="" data-hash="/img/story_of_wheat_field/wheatField.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">麦田物语开发日记(十一)</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E5%8D%81%E5%9B%9B/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="/img/story_of_wheat_field/wheatField.jpg" loading="lazy" data-key="" data-hash="/img/story_of_wheat_field/wheatField.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">麦田物语开发日记(十四)</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2023 Ruizumoe&#39;Blog
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.16.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

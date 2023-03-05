@@ -1,0 +1,2408 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='完成NPC寻路系统及行程预设'>
+<title>麦田物语开发日记(九)</title>
+
+<link rel='canonical' href='https://ruizumoe.github.io/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E4%B9%9D/'>
+
+<link rel="stylesheet" href="/scss/style.min.5be32ca3f6e1a997c75795c4359147cc6d4fbd34948c0acd51e31d237033978a.css"><meta property='og:title' content='麦田物语开发日记(九)'>
+<meta property='og:description' content='完成NPC寻路系统及行程预设'>
+<meta property='og:url' content='https://ruizumoe.github.io/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E4%B9%9D/'>
+<meta property='og:site_name' content='Ruizumoe&#39;Blog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='麦田物语' /><meta property='article:tag' content='Astar寻路' /><meta property='article:tag' content='跨场景移动' /><meta property='article:published_time' content='2023-03-05T19:16:42&#43;08:00'/><meta property='article:modified_time' content='2023-03-05T19:16:42&#43;08:00'/><meta property='og:image' content='https://ruizumoe.github.io/img/story_of_wheat_field/wheatField.jpg' />
+<meta name="twitter:title" content="麦田物语开发日记(九)">
+<meta name="twitter:description" content="完成NPC寻路系统及行程预设"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://ruizumoe.github.io/img/story_of_wheat_field/wheatField.jpg' />
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hucf3d7386933de54e98ba7bb3fdb993f3_828119_300x0_resize_box_3.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Ruizumoe&#39;Blog</a></h1>
+            <h2 class="site-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='https://github.com/ruizumoe'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href=''
+                        target="_blank"
+                        title="Twitter"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>Dark Mode</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#构建astar数据结构">构建Astar数据结构</a></li>
+    <li><a href="#根据每个地图信息生成节点数据">根据每个地图信息生成节点数据</a></li>
+    <li><a href="#评估周围节点的代价">评估周围节点的代价</a></li>
+    <li><a href="#在地图上绘制测试用的最短路径算法">在地图上绘制测试用的最短路径算法</a></li>
+    <li><a href="#制作npc基本信息并实现场景切换">制作NPC基本信息，并实现场景切换</a></li>
+    <li><a href="#schedule-数据制作和路径生成">Schedule 数据制作和路径生成</a></li>
+    <li><a href="#实现npc使用astar算法移动">实现NPC使用Astar算法移动</a></li>
+    <li><a href="#制作npc动画并完成按照日程表触发">制作NPC动画并完成按照日程表触发</a></li>
+    <li><a href="#npc跨场景移动">NPC跨场景移动</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E4%B9%9D/">
+                
+                    <img src="/img/story_of_wheat_field/wheatField.jpg" loading="lazy" alt="Featured image of post 麦田物语开发日记(九)" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/unity/" style="background-color: #2a9d8f; color: #fff;">
+                Unity
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E4%B9%9D/">麦田物语开发日记(九)</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            完成NPC寻路系统及行程预设
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Mar 05, 2023</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    13 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="astar算法实现npc自动寻路">Astar算法实现NPC自动寻路</h1>
+<h2 id="构建astar数据结构">构建Astar数据结构</h2>
+<p>构建Astar算法数据结构的主要内容就是构造每个节点代价值<code>Node.cs</code>，然后为整个地图设置一个脚本<code>GridNodes.cs</code>，用于将整个地图的所有瓦片进行设置。</p>
+<p>由于瓦片地图的坐标是以中心为<code>(0, 0)</code>节点的，因此获得瓦片地图的坐标需要从左下角原点位置获取。因此需要在<code>MapData_SO</code>文件中设置每个场景地图的坐标</p>
+<ul>
+<li>
+<p><code>Node.cs</code></p>
+</li>
+<li></li>
+<li>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">Node</span> <span class="p">:</span> <span class="n">IComparable</span><span class="p">&lt;</span><span class="n">Node</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">Vector2Int</span> <span class="n">_gridPos</span><span class="p">;</span>     <span class="c1">// 当前节点的网格坐标</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="kt">int</span> <span class="n">_gCost</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>          <span class="cm">/* 当前节点距离起始点的距离 */</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="kt">int</span> <span class="n">_hCost</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>          <span class="cm">/* 当前节点距离重点的距离 */</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="kt">bool</span> <span class="n">_isObsticle</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">Node</span> <span class="n">_parentNode</span> <span class="p">=</span> <span class="k">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">Node</span><span class="p">(</span><span class="n">Vector2Int</span> <span class="n">pos</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_gridPos</span> <span class="p">=</span> <span class="n">pos</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_parentNode</span> <span class="p">=</span> <span class="k">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="kt">int</span> <span class="n">FCost</span> <span class="p">=&gt;</span> <span class="n">_gCost</span> <span class="p">+</span> <span class="n">_hCost</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 当前节点的值更大，则返回1，小就返回-1，相等返回0</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">int</span> <span class="n">CompareTo</span><span class="p">(</span><span class="n">Node</span> <span class="n">other</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">FCost</span> <span class="p">==</span> <span class="n">other</span><span class="p">.</span><span class="n">FCost</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">_hCost</span><span class="p">.</span><span class="n">CompareTo</span><span class="p">(</span><span class="n">other</span><span class="p">.</span><span class="n">_hCost</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">FCost</span><span class="p">.</span><span class="n">CompareTo</span><span class="p">(</span><span class="n">other</span><span class="p">.</span><span class="n">FCost</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p><code>GridNodes.cs</code></p>
+</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">GridNodes</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/* 将瓦片地图的信息全部汇总 */</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="kt">int</span> <span class="n">_width</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="kt">int</span> <span class="n">_height</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">Node</span><span class="p">[,]</span> <span class="n">_gridNode</span><span class="p">;</span>       <span class="c1">//每个坐标下的节点信息</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">GridNodes</span><span class="p">(</span><span class="kt">int</span> <span class="n">width</span><span class="p">,</span> <span class="kt">int</span> <span class="n">height</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_width</span> <span class="p">=</span> <span class="n">width</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_height</span> <span class="p">=</span> <span class="n">height</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">x</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">x</span> <span class="p">&lt;</span> <span class="n">width</span><span class="p">;</span> <span class="n">x</span><span class="p">++)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">y</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">y</span> <span class="p">&lt;</span> <span class="n">height</span><span class="p">;</span> <span class="n">y</span><span class="p">++)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">_gridNode</span><span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">]</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Node</span><span class="p">(</span><span class="k">new</span> <span class="n">Vector2Int</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">Node</span> <span class="n">GatGridNode</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="p">&gt;</span> <span class="n">_width</span> <span class="p">||</span> <span class="n">y</span> <span class="p">&gt;</span> <span class="n">_height</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&#34;超出网格信息&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="k">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">_gridNode</span><span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="根据每个地图信息生成节点数据">根据每个地图信息生成节点数据</h2>
+<p>新建一个专门用于挂载到NPC的脚本<code>AStar.cs</code>，该脚本用于规划NPC的路径，因此该基本需要知道当前场景的所有基本信息</p>
+<p>首先需要先获得当前场景的地图大小，因此要从<code>GridMapManager.cs</code>中获取地图的相关信息</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="k">public</span> <span class="kt">bool</span> <span class="n">GetGridDimensions</span><span class="p">(</span><span class="kt">string</span> <span class="n">sceneName</span><span class="p">,</span> <span class="k">out</span> <span class="n">Vector2Int</span> <span class="n">gridDimension</span><span class="p">,</span> <span class="k">out</span> <span class="n">Vector2Int</span> <span class="n">originPos</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/* 对当前场景数据进行初始化 */</span>
+</span></span><span class="line"><span class="cl">    <span class="n">gridDimension</span> <span class="p">=</span> <span class="n">Vector2Int</span><span class="p">.</span><span class="n">zero</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">originPos</span> <span class="p">=</span> <span class="n">Vector2Int</span><span class="p">.</span><span class="n">zero</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">mapData</span> <span class="k">in</span> <span class="n">mapDataSos</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">sceneName</span> <span class="p">==</span> <span class="n">mapData</span><span class="p">.</span><span class="n">sceneName</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">gridDimension</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Vector2Int</span><span class="p">(</span><span class="n">mapData</span><span class="p">.</span><span class="n">wight</span><span class="p">,</span> <span class="n">mapData</span><span class="p">.</span><span class="n">height</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">originPos</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Vector2Int</span><span class="p">(</span><span class="n">mapData</span><span class="p">.</span><span class="n">originX</span><span class="p">,</span> <span class="n">mapData</span><span class="p">.</span><span class="n">originY</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后需要处理<code>AStar</code>的所有网格信息，保存每个网格中能够找到所有的NPC的障碍物, 因此首先要初始化整个<code>Astar</code>算法的所有相关信息，然后去获得最短路径，</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="k">private</span> <span class="n">GridNodes</span> <span class="n">_gridNodes</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="n">Node</span> <span class="n">_startNode</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="n">Node</span> <span class="n">_endNode</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="n">Vector2Int</span> <span class="n">_gridArea</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="n">Vector2Int</span> <span class="n">_originPos</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Node</span><span class="p">&gt;</span> <span class="n">_openNodeList</span><span class="p">;</span>       <span class="cm">/* 当前待遍历的节点列表*/</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="n">HashSet</span><span class="p">&lt;</span><span class="n">Node</span><span class="p">&gt;</span> <span class="n">_closedNodeList</span><span class="p">;</span>   <span class="cm">/* 已经被遍历过的节点列表 */</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="kt">bool</span> <span class="n">_pathFound</span><span class="p">;</span>        <span class="cm">/* 已经找到最短路径的标志量 */</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="kt">int</span><span class="p">[,]</span> <span class="n">_direction</span> <span class="p">=</span> <span class="k">new</span> <span class="kt">int</span><span class="p">[,]</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span> <span class="p">{</span> <span class="m">1</span><span class="p">,</span> <span class="m">1</span> <span class="p">},</span> <span class="p">{</span> <span class="m">1</span><span class="p">,</span> <span class="m">0</span> <span class="p">},</span> <span class="p">{</span> <span class="m">1</span><span class="p">,</span> <span class="p">-</span><span class="m">1</span> <span class="p">},</span> <span class="p">{</span> <span class="p">-</span><span class="m">1</span><span class="p">,</span> <span class="p">-</span><span class="m">1</span> <span class="p">},</span> <span class="p">{</span> <span class="p">-</span><span class="m">1</span><span class="p">,</span> <span class="m">0</span> <span class="p">},</span> <span class="p">{</span> <span class="p">-</span><span class="m">1</span><span class="p">,</span> <span class="m">1</span> <span class="p">},</span> <span class="p">{</span> <span class="m">0</span><span class="p">,</span> <span class="m">1</span> <span class="p">},</span> <span class="p">{</span> <span class="m">0</span><span class="p">,</span> <span class="p">-</span><span class="m">1</span> <span class="p">}</span> <span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">void</span> <span class="n">BuildPath</span><span class="p">(</span><span class="kt">string</span> <span class="n">sceneName</span><span class="p">,</span> <span class="n">Vector2Int</span> <span class="n">startPos</span><span class="p">,</span> <span class="n">Vector2Int</span> <span class="n">endPos</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/* 初始化当前场景的信息 */</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_pathFound</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">GenerateGridNodes</span><span class="p">(</span><span class="n">sceneName</span><span class="p">,</span> <span class="n">startPos</span><span class="p">,</span> <span class="n">endPos</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/* 找出最短路径 */</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">FindShortestPath</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="cm">/* 移动NPC */</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// 构建网格信息，初始化两个列表</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;param name=&#34;sceneName&#34;&gt;当前场景名称&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;param name=&#34;startPos&#34;&gt;NPC的起始网格&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;param name=&#34;endPos&#34;&gt;NPC的目标网格&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;returns&gt;&lt;/returns&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="kt">bool</span> <span class="n">GenerateGridNodes</span><span class="p">(</span><span class="kt">string</span> <span class="n">sceneName</span><span class="p">,</span> <span class="n">Vector2Int</span> <span class="n">startPos</span><span class="p">,</span> <span class="n">Vector2Int</span> <span class="n">endPos</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/* 获得加载地图的场景信息 */</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">GridMapManager</span><span class="p">.</span><span class="n">Instance</span>
+</span></span><span class="line"><span class="cl">        <span class="p">.</span><span class="n">GetGridDimensions</span><span class="p">(</span><span class="n">sceneName</span><span class="p">,</span> <span class="k">out</span> <span class="n">Vector2Int</span> <span class="n">gridDimension</span><span class="p">,</span> <span class="k">out</span> <span class="n">Vector2Int</span> <span class="n">originPos</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_gridArea</span> <span class="p">=</span> <span class="n">gridDimension</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_originPos</span> <span class="p">=</span> <span class="n">originPos</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">_openNodeList</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Node</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_closedNodeList</span> <span class="p">=</span> <span class="k">new</span> <span class="n">HashSet</span><span class="p">&lt;</span><span class="n">Node</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">GridNodes</span> <span class="n">curGridNodes</span> <span class="p">=</span> <span class="k">new</span> <span class="n">GridNodes</span><span class="p">(</span><span class="n">gridDimension</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">gridDimension</span><span class="p">.</span><span class="n">y</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/* 将起始点和终点换算成节点矩阵坐标 */</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">var</span> <span class="n">convertStart</span> <span class="p">=</span> <span class="n">AStarConvert</span><span class="p">(</span><span class="n">startPos</span><span class="p">,</span> <span class="n">AStarConvertType</span><span class="p">.</span><span class="n">CellToNodes</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">var</span> <span class="n">convertEnd</span> <span class="p">=</span> <span class="n">AStarConvert</span><span class="p">(</span><span class="n">endPos</span><span class="p">,</span> <span class="n">AStarConvertType</span><span class="p">.</span><span class="n">CellToNodes</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_startNode</span> <span class="p">=</span> <span class="n">_gridNodes</span><span class="p">.</span><span class="n">GetGridNode</span><span class="p">(</span><span class="n">convertStart</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">convertStart</span><span class="p">.</span><span class="n">y</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_endNode</span> <span class="p">=</span> <span class="n">_gridNodes</span><span class="p">.</span><span class="n">GetGridNode</span><span class="p">(</span><span class="n">convertEnd</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">convertEnd</span><span class="p">.</span><span class="n">y</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cm">/* 将GridNodes中每一个节点都初始化 */</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">x</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">x</span> <span class="p">&lt;</span> <span class="n">_gridArea</span><span class="p">.</span><span class="n">x</span><span class="p">;</span> <span class="n">x</span><span class="p">++)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">y</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">y</span> <span class="p">&lt;</span> <span class="n">_gridArea</span><span class="p">.</span><span class="n">y</span><span class="p">;</span> <span class="n">y</span><span class="p">++)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="kt">var</span> <span class="n">curCell</span> <span class="p">=</span> <span class="n">AStarConvert</span><span class="p">(</span><span class="k">new</span> <span class="n">Vector2Int</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="n">AStarConvertType</span><span class="p">.</span><span class="n">NodesToCell</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Vector3Int</span> <span class="n">tilePOS</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Vector3Int</span><span class="p">(</span><span class="n">curCell</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="n">curCell</span><span class="p">.</span><span class="n">y</span><span class="p">,</span>  <span class="m">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// 获得当前瓦片的障碍信息</span>
+</span></span><span class="line"><span class="cl">            <span class="n">TileDetails</span> <span class="n">curTile</span> <span class="p">=</span> <span class="n">GridMapManager</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">GetTileDetailsByMousePos</span><span class="p">(</span><span class="n">tilePOS</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="n">_gridNodes</span><span class="p">.</span><span class="n">GetGridNode</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">).</span><span class="n">SetObstacle</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="kt">bool</span> <span class="n">FindShortestPath</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/* 使用最短路径算法 找出最短路径 */</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_openNodeList</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">_startNode</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(!</span><span class="n">_pathFound</span> <span class="p">&amp;&amp;</span> <span class="n">_openNodeList</span><span class="p">.</span><span class="n">Count</span> <span class="p">&gt;</span> <span class="m">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_openNodeList</span><span class="p">.</span><span class="n">Sort</span><span class="p">();</span>       <span class="c1">// 桶排序，升序排序</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">var</span> <span class="n">closeNode</span> <span class="p">=</span> <span class="n">_openNodeList</span><span class="p">[</span><span class="m">0</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_openNodeList</span><span class="p">.</span><span class="n">RemoveAt</span><span class="p">(</span><span class="m">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">closeNode</span> <span class="p">==</span> <span class="n">_endNode</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">_pathFound</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="cm">/* 将closeNode周围的点分别存入openNodeList中 */</span>
+</span></span><span class="line"><span class="cl">        <span class="n">AddNeighborOfCloseNode</span><span class="p">(</span><span class="n">closeNode</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_closedNodeList</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">closeNode</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">_pathFound</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="评估周围节点的代价">评估周围节点的代价</h2>
+<p>也就是获得节点的权重</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// 评估周围八个点</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;param name=&#34;closeNode&#34;&gt;&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">AddNeighborOfCloseNode</span><span class="p">(</span><span class="n">Node</span> <span class="n">closeNode</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Vector2Int</span> <span class="n">curPos</span> <span class="p">=</span> <span class="n">closeNode</span><span class="p">.</span><span class="n">GetPos</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">x</span> <span class="p">=</span> <span class="p">-</span><span class="m">1</span><span class="p">;</span> <span class="n">x</span> <span class="p">&lt;=</span> <span class="m">1</span><span class="p">;</span> <span class="n">x</span><span class="p">++)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">y</span> <span class="p">=</span> <span class="p">-</span><span class="m">1</span><span class="p">;</span> <span class="n">y</span> <span class="p">&lt;=</span> <span class="m">1</span><span class="p">;</span> <span class="n">y</span><span class="p">++)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="p">==</span> <span class="m">0</span> <span class="p">&amp;&amp;</span> <span class="n">y</span> <span class="p">==</span> <span class="m">0</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="kt">var</span> <span class="n">nextPosX</span> <span class="p">=</span> <span class="n">curPos</span><span class="p">.</span><span class="n">x</span> <span class="p">+</span> <span class="n">x</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="kt">var</span> <span class="n">nextPosY</span> <span class="p">=</span> <span class="n">curPos</span><span class="p">.</span><span class="n">y</span> <span class="p">+</span> <span class="n">y</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="kt">var</span> <span class="n">validNeighbourNode</span> <span class="p">=</span> <span class="n">GetValidNeighbourNode</span><span class="p">(</span><span class="n">nextPosX</span><span class="p">,</span> <span class="n">nextPosY</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">validNeighbourNode</span> <span class="p">!=</span> <span class="k">null</span> <span class="p">&amp;&amp;</span> <span class="p">!</span><span class="n">_openNodeList</span><span class="p">.</span><span class="n">Contains</span><span class="p">(</span><span class="n">validNeighbourNode</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="cm">/* 计算代价 */</span>
+</span></span><span class="line"><span class="cl">                <span class="n">validNeighbourNode</span><span class="p">.</span><span class="n">gCost</span> <span class="p">=</span> <span class="n">closeNode</span><span class="p">.</span><span class="n">gCost</span> <span class="p">+</span> <span class="n">GetDistance</span><span class="p">(</span><span class="n">closeNode</span><span class="p">,</span> <span class="n">validNeighbourNode</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">validNeighbourNode</span><span class="p">.</span><span class="n">hCost</span> <span class="p">=</span> <span class="n">GetDistance</span><span class="p">(</span><span class="n">validNeighbourNode</span><span class="p">,</span> <span class="n">_endNode</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">validNeighbourNode</span><span class="p">.</span><span class="n">parentNode</span> <span class="p">=</span> <span class="n">closeNode</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="n">_openNodeList</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">validNeighbourNode</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="n">Node</span> <span class="n">GetValidNeighbourNode</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="p">&lt;</span> <span class="m">0</span> <span class="p">||</span> <span class="n">y</span> <span class="p">&lt;</span> <span class="m">0</span> <span class="p">||</span> <span class="n">x</span> <span class="p">&gt;=</span> <span class="n">_gridArea</span><span class="p">.</span><span class="n">x</span> <span class="p">||</span> <span class="n">y</span> <span class="p">&gt;=</span> <span class="n">_gridArea</span><span class="p">.</span><span class="n">y</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">Node</span> <span class="n">neighbourNode</span> <span class="p">=</span> <span class="n">_gridNodes</span><span class="p">.</span><span class="n">GetGridNode</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">neighbourNode</span><span class="p">.</span><span class="n">isObsticle</span> <span class="p">||</span> <span class="n">_closedNodeList</span><span class="p">.</span><span class="n">Contains</span><span class="p">(</span><span class="n">neighbourNode</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="k">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">neighbourNode</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="kt">int</span> <span class="n">GetDistance</span><span class="p">(</span><span class="n">Node</span> <span class="n">nodeA</span><span class="p">,</span> <span class="n">Node</span> <span class="n">nodeB</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">disX</span> <span class="p">=</span> <span class="n">Mathf</span><span class="p">.</span><span class="n">Abs</span><span class="p">(</span><span class="n">nodeA</span><span class="p">.</span><span class="n">GetPos</span><span class="p">().</span><span class="n">x</span> <span class="p">-</span> <span class="n">nodeB</span><span class="p">.</span><span class="n">GetPos</span><span class="p">().</span><span class="n">x</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">disY</span> <span class="p">=</span> <span class="n">Mathf</span><span class="p">.</span><span class="n">Abs</span><span class="p">(</span><span class="n">nodeA</span><span class="p">.</span><span class="n">GetPos</span><span class="p">().</span><span class="n">y</span> <span class="p">-</span> <span class="n">nodeB</span><span class="p">.</span><span class="n">GetPos</span><span class="p">().</span><span class="n">y</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 如果X更大，那么说明要往x方向先走(disX - disY)步，才能斜方向走。</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">disX</span> <span class="p">&gt;</span> <span class="n">disY</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="p">(</span><span class="n">disX</span> <span class="p">-</span> <span class="n">disY</span><span class="p">)</span> <span class="p">*</span> <span class="m">10</span> <span class="p">+</span> <span class="n">disY</span> <span class="p">*</span> <span class="m">14</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="p">(</span><span class="n">disY</span> <span class="p">-</span> <span class="n">disX</span><span class="p">)</span> <span class="p">*</span> <span class="m">10</span> <span class="p">+</span> <span class="n">disX</span> <span class="p">*</span> <span class="m">14</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="在地图上绘制测试用的最短路径算法">在地图上绘制测试用的最短路径算法</h2>
+<p>由于已经得到最短路径，因此只需要为NPC设置每一步要走的位置。而获得位置的方法则是通过一个栈去不断迭代得到节点父节点，然后保存起来。</p>
+<p>而NPC每个位置的节点需要用一个专门的数据结构保存下来</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">MovementStep</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">string</span> <span class="n">sceneName</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">int</span> <span class="n">hour</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">int</span> <span class="n">minutes</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">int</span> <span class="n">seconds</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">Vector2Int</span> <span class="n">gridCoordinate</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// 构建NPC移动的节点栈</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;param name=&#34;sceneName&#34;&gt;&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;param name=&#34;npcMovementStep&#34;&gt;&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">UpdatePathOnMovementStepStack</span><span class="p">(</span><span class="kt">string</span> <span class="n">sceneName</span><span class="p">,</span> <span class="n">Stack</span><span class="p">&lt;</span><span class="n">MovementStep</span><span class="p">&gt;</span> <span class="n">npcMovementStep</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Node</span> <span class="n">nextNode</span> <span class="p">=</span> <span class="n">_endNode</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="n">nextNode</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="n">npcMovementStep</span><span class="p">.</span><span class="n">Push</span><span class="p">(</span><span class="k">new</span> <span class="n">MovementStep</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">sceneName</span> <span class="p">=</span>  <span class="n">sceneName</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">gridCoordinate</span> <span class="p">=</span> <span class="n">AStarConvert</span><span class="p">(</span><span class="n">nextNode</span><span class="p">.</span><span class="n">GetPos</span><span class="p">(),</span> <span class="n">AStarConvertType</span><span class="p">.</span><span class="n">NodesToCell</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">});</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="n">nextNode</span> <span class="p">=</span> <span class="n">nextNode</span><span class="p">.</span><span class="n">parentNode</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后在统管整个Astar算法的方法中，执行上述方法，就能得到NPC的移动路径。</p>
+<p>因此需要创建一个用于管理所有NPC移动的<code>NPCMnager</code>，然后挂载对应的Astar算法，同时挂载一个用于测试的脚本，该脚本需要通过瓦片地图绘制路径。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">AStarTest</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">AStar</span> <span class="n">_aStar</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [Header(&#34;测试点&#34;)]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">Vector2Int</span> <span class="n">startPos</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">Vector2Int</span> <span class="n">endPos</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="na">
+</span></span></span><span class="line"><span class="cl"><span class="na">    [Header(&#34;显示路径&#34;)]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">bool</span> <span class="n">displayNode</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">bool</span> <span class="n">displayPath</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="na">
+</span></span></span><span class="line"><span class="cl"><span class="na">    [Header(&#34;绘制工具&#34;)]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">Tilemap</span> <span class="n">displayMap</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">TileBase</span> <span class="n">tile</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">Stack</span><span class="p">&lt;</span><span class="n">MovementStep</span><span class="p">&gt;</span> <span class="n">_npcMovementStack</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">Awake</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_aStar</span> <span class="p">=</span> <span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">AStar</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_npcMovementStack</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Stack</span><span class="p">&lt;</span><span class="n">MovementStep</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">Update</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">ShowPathOnGridMap</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">ShowPathOnGridMap</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">displayMap</span> <span class="p">==</span> <span class="k">null</span> <span class="p">||</span> <span class="n">tile</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">displayNode</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">displayMap</span><span class="p">.</span><span class="n">SetTile</span><span class="p">((</span><span class="n">Vector3Int</span><span class="p">)</span><span class="n">startPos</span><span class="p">,</span> <span class="n">tile</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">displayMap</span><span class="p">.</span><span class="n">SetTile</span><span class="p">((</span><span class="n">Vector3Int</span><span class="p">)</span><span class="n">endPos</span><span class="p">,</span> <span class="n">tile</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">displayMap</span><span class="p">.</span><span class="n">SetTile</span><span class="p">((</span><span class="n">Vector3Int</span><span class="p">)</span><span class="n">startPos</span><span class="p">,</span> <span class="k">null</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">displayMap</span><span class="p">.</span><span class="n">SetTile</span><span class="p">((</span><span class="n">Vector3Int</span><span class="p">)</span><span class="n">endPos</span><span class="p">,</span> <span class="k">null</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">displayPath</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">_aStar</span><span class="p">.</span><span class="n">BuildPath</span><span class="p">(</span><span class="n">SceneManager</span><span class="p">.</span><span class="n">GetActiveScene</span><span class="p">().</span><span class="n">name</span><span class="p">,</span> <span class="n">startPos</span><span class="p">,</span> <span class="n">endPos</span><span class="p">,</span> <span class="n">_npcMovementStack</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">step</span> <span class="k">in</span> <span class="n">_npcMovementStack</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">displayMap</span><span class="p">.</span><span class="n">SetTile</span><span class="p">((</span><span class="n">Vector3Int</span><span class="p">)</span><span class="n">step</span><span class="p">.</span><span class="n">gridCoordinate</span><span class="p">,</span> <span class="n">tile</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">_npcMovementStack</span><span class="p">.</span><span class="n">Count</span> <span class="p">&gt;</span> <span class="m">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">step</span> <span class="k">in</span> <span class="n">_npcMovementStack</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">displayMap</span><span class="p">.</span><span class="n">SetTile</span><span class="p">((</span><span class="n">Vector3Int</span><span class="p">)</span><span class="n">step</span><span class="p">.</span><span class="n">gridCoordinate</span><span class="p">,</span> <span class="k">null</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="制作npc基本信息并实现场景切换">制作NPC基本信息，并实现场景切换</h2>
+<p>该部分主要由<code>NpcMovement</code>代码来控制Npc的移动和场景切换，该部分主要控制NPC移动相关的基本信息，以及其是否能出现在某个场景。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span><span class="lnt">84
+</span><span class="lnt">85
+</span><span class="lnt">86
+</span><span class="lnt">87
+</span><span class="lnt">88
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="na">[RequireComponent(typeof(Animator))]</span>
+</span></span><span class="line"><span class="cl"><span class="na">[RequireComponent(typeof(Rigidbody2D))]</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">NpcMovement</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/* 临时信息 */</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [SerializeField]</span> <span class="k">private</span> <span class="kt">string</span> <span class="n">currentScene</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="kt">string</span> <span class="n">_targetScene</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">Vector3Int</span> <span class="n">_currentScenePos</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">Vector3Int</span> <span class="n">_targetScenePos</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">string</span> <span class="n">StartScene</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">set</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">currentScene</span> <span class="p">=</span> <span class="k">value</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="na">
+</span></span></span><span class="line"><span class="cl"><span class="na">    [Header(&#34;移动属性&#34;)]</span> <span class="k">public</span> <span class="kt">float</span> <span class="n">normalSpeed</span> <span class="p">=</span> <span class="m">2f</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">float</span> <span class="n">minSpeed</span> <span class="p">=</span> <span class="m">1f</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">float</span> <span class="n">maxSpeed</span> <span class="p">=</span> <span class="m">3f</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">Vector2</span> <span class="n">_dir</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="kt">bool</span> <span class="n">_isMoving</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="cm">/* 挂载组件 */</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">Rigidbody2D</span> <span class="n">_rb</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">Animator</span> <span class="n">_animator</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">SpriteRenderer</span> <span class="n">_sprite</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">BoxCollider2D</span> <span class="n">_collider2D</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">Stack</span><span class="p">&lt;</span><span class="n">MovementStep</span><span class="p">&gt;</span> <span class="n">_movementSteps</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">Awake</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_rb</span> <span class="p">=</span> <span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">Rigidbody2D</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_animator</span> <span class="p">=</span> <span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">Animator</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_sprite</span> <span class="p">=</span> <span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">SpriteRenderer</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_collider2D</span> <span class="p">=</span> <span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">BoxCollider2D</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">OnEnable</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">EventHandler</span><span class="p">.</span><span class="n">AfterSceneLoadEvent</span> <span class="p">+=</span> <span class="n">OnAfterSceneLoadEvent</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">OnDisable</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">EventHandler</span><span class="p">.</span><span class="n">AfterSceneLoadEvent</span> <span class="p">-=</span> <span class="n">OnAfterSceneLoadEvent</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cp">#region 注册事件</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">OnAfterSceneLoadEvent</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">CheckNpcVisible</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="err">#</span><span class="n">endregion</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">CheckNpcVisible</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">currentScene</span> <span class="p">==</span> <span class="n">SceneManager</span><span class="p">.</span><span class="n">GetActiveScene</span><span class="p">().</span><span class="n">name</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">SetActiveInScene</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span>
+</span></span><span class="line"><span class="cl">            <span class="n">SetInActiveInScene</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cp">#region 设置NPC显示情况</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">SetActiveInScene</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_sprite</span><span class="p">.</span><span class="n">enabled</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_collider2D</span><span class="p">.</span><span class="n">enabled</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/* 显示阴影 */</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// transform.GetChild(0).gameObject.SetActive(true);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">SetInActiveInScene</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_sprite</span><span class="p">.</span><span class="n">enabled</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_collider2D</span><span class="p">.</span><span class="n">enabled</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/* 显示阴影 */</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// transform.GetChild(0).gameObject.SetActive(false);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="err">#</span><span class="n">endregion</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="schedule-数据制作和路径生成">Schedule 数据制作和路径生成</h2>
+<p>由于NPC是在网格中进行移动，因此需要先将NPC初始化到地图的网格中（初始化方法）。</p>
+<p>然后设计一个<code>SceduleDetails</code>来在什么时间段，NPC应该出现在那个场景，做什么动作，因此在具体的控制代码中，需要用一个<code>List</code>来控制这些数据。</p>
+<p>然后我们需要根据<code>Scedule</code>来生成<code>NPC</code>的行走路径，而路径需要每一步都有一个时间戳，因此在生成路径的时候需要使用<code>TimeSpan</code>来控制在路径过程中，每一步的时间。</p>
+<blockquote>
+<p>使用<code>TimeSpan</code>的时候需要在<code>TimeManager</code>中为其设置值，因为其需要游戏系统设置的时间</p>
+</blockquote>
+<ul>
+<li>在<code>NpcMoveMent.cs</code>初始化<code>Npc</code>的位置信息</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">InitNpc</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_targetScene</span> <span class="p">=</span> <span class="n">currentScene</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="cm">/* 保证npc初始化的时候在网格中心点 */</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_currentScenePos</span> <span class="p">=</span> <span class="n">_gird</span><span class="p">.</span><span class="n">WorldToCell</span><span class="p">(</span><span class="n">transform</span><span class="p">.</span><span class="n">position</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">transform</span><span class="p">.</span><span class="n">position</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Vector3</span><span class="p">(</span><span class="n">_currentScenePos</span><span class="p">.</span><span class="n">x</span> <span class="p">+</span> <span class="n">Settings</span><span class="p">.</span><span class="n">gridCellSize</span> <span class="p">/</span> <span class="m">2</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_currentScenePos</span><span class="p">.</span><span class="n">y</span> <span class="p">+</span> <span class="n">Settings</span><span class="p">.</span><span class="n">gridCellSize</span> <span class="p">/</span> <span class="m">2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_targetScenePos</span> <span class="p">=</span> <span class="n">_currentScenePos</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>使用一个初始化标志量来确保，每次加载场景时，只有第一个能够调用这个方法</p>
+<ul>
+<li>设计NPC的行程数据</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="na">[Serializable]</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">ScheduleDetails</span> <span class="p">:</span> <span class="n">IComparable</span><span class="p">&lt;</span><span class="n">ScheduleDetails</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">int</span>  <span class="n">hour</span><span class="p">,</span> <span class="n">minute</span><span class="p">,</span> <span class="n">day</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">int</span> <span class="n">priority</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">Season</span> <span class="n">season</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">string</span> <span class="n">targetSceneName</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">Vector2Int</span> <span class="n">targetGridPosition</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">AnimationClip</span> <span class="n">clipAtStop</span><span class="p">;</span>        <span class="cm">/* 移动结束后停留动作 */</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">bool</span> <span class="n">interactable</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">ScheduleDetails</span><span class="p">(</span><span class="kt">int</span> <span class="n">hour</span><span class="p">,</span> <span class="kt">int</span> <span class="n">minute</span><span class="p">,</span> <span class="kt">int</span> <span class="n">day</span><span class="p">,</span> <span class="kt">int</span> <span class="n">priority</span><span class="p">,</span> <span class="n">Season</span> <span class="n">season</span><span class="p">,</span> <span class="kt">string</span> <span class="n">targetSceneName</span><span class="p">,</span> <span class="n">Vector2Int</span> <span class="n">targetGridPosition</span><span class="p">,</span> <span class="n">AnimationClip</span> <span class="n">clipAtStop</span><span class="p">,</span> <span class="kt">bool</span> <span class="n">interactable</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="n">hour</span> <span class="p">=</span> <span class="n">hour</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="n">minute</span> <span class="p">=</span> <span class="n">minute</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="n">day</span> <span class="p">=</span> <span class="n">day</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="n">priority</span> <span class="p">=</span> <span class="n">priority</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="n">season</span> <span class="p">=</span> <span class="n">season</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="n">targetSceneName</span> <span class="p">=</span> <span class="n">targetSceneName</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="n">targetGridPosition</span> <span class="p">=</span> <span class="n">targetGridPosition</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="n">clipAtStop</span> <span class="p">=</span> <span class="n">clipAtStop</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">this</span><span class="p">.</span><span class="n">interactable</span> <span class="p">=</span> <span class="n">interactable</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">int</span> <span class="n">Time</span> <span class="p">=&gt;</span> <span class="n">hour</span> <span class="p">*</span> <span class="m">100</span> <span class="p">+</span> <span class="n">minute</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">int</span> <span class="n">CompareTo</span><span class="p">(</span><span class="n">ScheduleDetails</span> <span class="n">other</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">Time</span> <span class="p">==</span> <span class="n">other</span><span class="p">.</span><span class="n">Time</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">priority</span> <span class="p">-</span> <span class="n">other</span><span class="p">.</span><span class="n">priority</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">Time</span> <span class="p">-</span> <span class="n">other</span><span class="p">.</span><span class="n">Time</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="m">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>并设计对应的<code>DataSO</code>文件，保证该数据能够被每一个NPC的<code>Movement.cs</code>文件调用</p>
+<ul>
+<li>为NPC生成路径生成算法</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="k">public</span> <span class="n">ScheduleDataList_SO</span> <span class="n">scheduleData</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="n">SortedSet</span><span class="p">&lt;</span><span class="n">ScheduleDetails</span><span class="p">&gt;</span> <span class="n">_scheduleDetailsSet</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="n">ScheduleDetails</span> <span class="n">_curSchedule</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">BuildPath</span><span class="p">(</span><span class="n">ScheduleDetails</span> <span class="n">schedule</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/* 为堆栈中的每一步生成时间 */</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_movementSteps</span><span class="p">.</span><span class="n">Clear</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_curSchedule</span> <span class="p">=</span> <span class="n">schedule</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">schedule</span><span class="p">.</span><span class="n">targetSceneName</span> <span class="p">==</span> <span class="n">currentScene</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">AStar</span><span class="p">.</span><span class="n">AStar</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">BuildPath</span><span class="p">(</span><span class="n">schedule</span><span class="p">.</span><span class="n">targetSceneName</span><span class="p">,</span> <span class="p">(</span><span class="n">Vector2Int</span><span class="p">)</span><span class="n">_currentScenePos</span><span class="p">,</span> <span class="n">schedule</span><span class="p">.</span><span class="n">targetGridPosition</span><span class="p">,</span> <span class="n">_movementSteps</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">_movementSteps</span><span class="p">.</span><span class="n">Count</span> <span class="p">&gt;=</span> <span class="m">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 更新每一步的时间戳</span>
+</span></span><span class="line"><span class="cl">        <span class="n">UpdateTimeOnPath</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>在这一过程中需要为每一步都生成一个时间戳，通过这个时间戳能够在后续时间更新时，NPC到达指定位置</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">UpdateTimeOnPath</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">MovementStep</span> <span class="n">previousStep</span> <span class="p">=</span> <span class="k">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">TimeSpan</span> <span class="n">currentGameTime</span> <span class="p">=</span> <span class="n">GameTime</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">foreach</span> <span class="p">(</span><span class="n">MovementStep</span> <span class="n">step</span> <span class="k">in</span> <span class="n">_movementSteps</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">previousStep</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">previousStep</span> <span class="p">=</span> <span class="n">step</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">step</span><span class="p">.</span><span class="n">hour</span> <span class="p">=</span> <span class="n">currentGameTime</span><span class="p">.</span><span class="n">Hours</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">step</span><span class="p">.</span><span class="n">minutes</span> <span class="p">=</span> <span class="n">currentGameTime</span><span class="p">.</span><span class="n">Minutes</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">step</span><span class="p">.</span><span class="n">seconds</span> <span class="p">=</span> <span class="n">currentGameTime</span><span class="p">.</span><span class="n">Seconds</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="kt">var</span> <span class="n">nextStepDis</span> <span class="p">=</span><span class="n">MoveInDiagonal</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="n">previousStep</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="p">?</span> <span class="n">Settings</span><span class="p">.</span><span class="n">gridCellSize</span>
+</span></span><span class="line"><span class="cl">                <span class="p">:</span> <span class="n">Settings</span><span class="p">.</span><span class="n">gridCellDiagonalSize</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="cm">/* 计算下一步的时间 */</span>
+</span></span><span class="line"><span class="cl">        <span class="n">TimeSpan</span> <span class="n">gridMovementStepTime</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TimeSpan</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="p">(</span><span class="n">nextStepDis</span> <span class="p">/</span> <span class="n">normalSpeed</span> <span class="p">/</span> <span class="n">Settings</span><span class="p">.</span><span class="n">GameSecondHold</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">currentGameTime</span>  <span class="p">=</span> <span class="n">currentGameTime</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">gridMovementStepTime</span><span class="p">);</span>    <span class="c1">// 下一步的时间</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">previousStep</span> <span class="p">=</span> <span class="n">step</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>注意在使用<code>TimeSpan</code>的时候需要在<code>TimeManager</code>中进行初始化，然后通过的单例模式的方法获得该数值</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="c1">// TimeManager.cs</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="n">TimeSpan</span> <span class="n">GameTime</span> <span class="p">=&gt;</span> <span class="k">new</span> <span class="n">TimeSpan</span><span class="p">(</span><span class="n">_gameHours</span><span class="p">,</span> <span class="n">_gameMinutes</span><span class="p">,</span> <span class="n">_gameSeconds</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// NpcMoveMent.cs</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="n">TimeSpan</span> <span class="n">GameTime</span> <span class="p">=&gt;</span> <span class="n">TimeManager</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">GameTime</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="实现npc使用astar算法移动">实现NPC使用Astar算法移动</h2>
+<p>设计NPC的移动逻辑，然后放在<code>FixedUpdate</code>中进行调用，只要当前<code>Npc</code>的移动堆栈中存在数据，那么就让NPC进行移动。因此后续只需要为NPC创建路径，那么其到时候会随着帧数更新而移动。</p>
+<p>在控制移动的过程中，需要先判断当前NPC是否正在移动，如果不在，则检测其是否到达了移动时间（到达时间则生成路径），如果有路径则让其开始移动，此时先检查NPC的移动是同场景移动还是不同场景的移动，如果不是同场景，则不予显示。</p>
+<p>在正式移动的过程中先计算出其能否在规定时间内移动到目标位置，也就是利用距离和时间的比值，如果不行则直接瞬移过去，如果行则目标速度移动过去。</p>
+<p>同时移动通过协程的方法，不断计算移动方向和移动的距离，使用<code>rigidBody</code>进行移动</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// 控制移动的方法</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">Movement</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(!</span><span class="n">_npcMove</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">_movementSteps</span><span class="p">.</span><span class="n">Count</span> <span class="p">&gt;</span> <span class="m">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">MovementStep</span> <span class="n">step</span> <span class="p">=</span> <span class="n">_movementSteps</span><span class="p">.</span><span class="n">Pop</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="n">currentScene</span> <span class="p">=</span> <span class="n">step</span><span class="p">.</span><span class="n">sceneName</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="n">CheckNpcVisible</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="n">_targetScenePos</span> <span class="p">=</span> <span class="p">(</span><span class="n">Vector3Int</span><span class="p">)</span><span class="n">step</span><span class="p">.</span><span class="n">gridCoordinate</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="cm">/* 根据当前的时间和每一步的时间戳完成移动 */</span>
+</span></span><span class="line"><span class="cl">            <span class="n">TimeSpan</span> <span class="n">stepTime</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TimeSpan</span><span class="p">(</span><span class="n">step</span><span class="p">.</span><span class="n">hour</span><span class="p">,</span> <span class="n">step</span><span class="p">.</span><span class="n">minutes</span><span class="p">,</span> <span class="n">step</span><span class="p">.</span><span class="n">seconds</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">MoveToTargetGrid</span><span class="p">((</span><span class="n">Vector3Int</span><span class="p">)</span><span class="n">step</span><span class="p">.</span><span class="n">gridCoordinate</span><span class="p">,</span> <span class="n">stepTime</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">MoveToTargetGrid</span><span class="p">(</span><span class="n">Vector3Int</span> <span class="n">stepPos</span><span class="p">,</span> <span class="n">TimeSpan</span> <span class="n">stepTime</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/*  使用协程完成移动 */</span>
+</span></span><span class="line"><span class="cl">    <span class="n">StartCoroutine</span><span class="p">(</span><span class="n">MoveRoutine</span><span class="p">(</span><span class="n">stepPos</span><span class="p">,</span> <span class="n">stepTime</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">///  具体的移动函数</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;param name=&#34;stepPos&#34;&gt;&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;param name=&#34;stepTime&#34;&gt;&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;returns&gt;&lt;/returns&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="n">IEnumerator</span> <span class="n">MoveRoutine</span><span class="p">(</span><span class="n">Vector3Int</span> <span class="n">stepPos</span><span class="p">,</span> <span class="n">TimeSpan</span> <span class="n">stepTime</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_npcMove</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_nextStepWorldPos</span> <span class="p">=</span> <span class="n">GetWorldPosition</span><span class="p">(</span><span class="n">stepPos</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/* 判断在有限时间内是否能通过行走到达指定位置 */</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">stepTime</span> <span class="p">&gt;</span> <span class="n">GameTime</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/* 计算移动位置的世界坐标，然后用rigidBody进行移动 */</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">float</span> <span class="n">timeMove</span> <span class="p">=</span> <span class="p">(</span><span class="kt">float</span><span class="p">)(</span><span class="n">stepTime</span><span class="p">.</span><span class="n">TotalSeconds</span> <span class="p">-</span> <span class="n">GameTime</span><span class="p">.</span><span class="n">TotalSeconds</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">float</span> <span class="n">distance</span> <span class="p">=</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Vector3</span><span class="p">.</span><span class="n">Distance</span><span class="p">(</span><span class="n">_nextStepWorldPos</span><span class="p">,</span> <span class="n">transform</span><span class="p">.</span><span class="n">position</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">float</span> <span class="n">neededSpeed</span> <span class="p">=</span> <span class="n">Mathf</span><span class="p">.</span><span class="n">Min</span><span class="p">(</span><span class="n">minSpeed</span><span class="p">,</span> <span class="p">(</span><span class="kt">float</span><span class="p">)(</span><span class="n">distance</span> <span class="p">/</span> <span class="n">timeMove</span> <span class="p">/</span> <span class="n">Settings</span><span class="p">.</span><span class="n">GameTimeThreshold</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">neededSpeed</span> <span class="p">&lt;=</span> <span class="n">maxSpeed</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="cm">/* 能够正常走到目标网格，那么判断像素距离是否达标 */</span>
+</span></span><span class="line"><span class="cl">            <span class="k">while</span> <span class="p">(</span><span class="n">Vector3</span><span class="p">.</span><span class="n">Distance</span><span class="p">(</span><span class="n">transform</span><span class="p">.</span><span class="n">position</span><span class="p">,</span> <span class="n">_nextStepWorldPos</span><span class="p">)</span> <span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">                   <span class="n">Settings</span><span class="p">.</span><span class="n">pixelSize</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">_dir</span> <span class="p">=</span> <span class="p">(</span><span class="n">_nextStepWorldPos</span> <span class="p">-</span> <span class="n">transform</span><span class="p">.</span><span class="n">position</span><span class="p">).</span><span class="n">normalized</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="cm">/* 计算位移 */</span>
+</span></span><span class="line"><span class="cl">                <span class="n">Vector2</span> <span class="n">posOffset</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Vector2</span><span class="p">(</span><span class="n">neededSpeed</span> <span class="p">*</span> <span class="n">_dir</span><span class="p">.</span><span class="n">x</span> <span class="p">*</span> <span class="n">Time</span><span class="p">.</span><span class="n">fixedTime</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">neededSpeed</span> <span class="p">*</span> <span class="n">_dir</span><span class="p">.</span><span class="n">y</span> <span class="p">*</span> <span class="n">Time</span><span class="p">.</span><span class="n">fixedTime</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">_rb</span><span class="p">.</span><span class="n">MovePosition</span><span class="p">(</span><span class="n">_rb</span><span class="p">.</span><span class="n">position</span> <span class="p">+</span> <span class="n">posOffset</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="k">yield</span> <span class="k">return</span> <span class="k">new</span> <span class="n">WaitForFixedUpdate</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cm">/*如果没有时间，或者正常达到，都是瞬移到目标位置*/</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_rb</span><span class="p">.</span><span class="n">position</span> <span class="p">=</span> <span class="n">_nextStepWorldPos</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_currentScenePos</span> <span class="p">=</span> <span class="n">stepPos</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_nextStepWorldPos</span> <span class="p">=</span> <span class="n">_currentScenePos</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_npcMove</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="n">Vector3</span> <span class="n">GetWorldPosition</span><span class="p">(</span><span class="n">Vector3Int</span> <span class="n">curGridPos</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">_gird</span><span class="p">.</span><span class="n">WorldToCell</span><span class="p">(</span><span class="n">curGridPos</span><span class="p">)</span> <span class="p">+</span> <span class="k">new</span> <span class="n">Vector3</span><span class="p">(</span><span class="n">Settings</span><span class="p">.</span><span class="n">gridCellSize</span> <span class="p">/</span> <span class="m">2</span><span class="p">,</span> <span class="n">Settings</span><span class="p">.</span><span class="n">gridCellSize</span> <span class="p">/</span> <span class="m">2</span><span class="p">,</span> <span class="m">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>该部分的测试工作，则是新建一个<code>schedual</code>，然后构建对应的path即可。</li>
+</ul>
+<h2 id="制作npc动画并完成按照日程表触发">制作NPC动画并完成按照日程表触发</h2>
+<p>在动画控制界面，由于我们默认的动画控制器是<code>AnimatorController</code>,而人物从空白动画切换到停止动画需要通过<code>AnimatorOverrideController</code>进行控制，因此需要使用上转的方式将当前运行的<code>RuntimeAnimatorController</code>改为<code>AnimatorOverrideController</code>，然后再修改动画片段。</p>
+<ul>
+<li>初始化过程</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="cm">/* 动画计时器 */</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="kt">float</span> <span class="n">_animationDelayTime</span><span class="p">;</span>  
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="kt">bool</span> <span class="n">_canPlayStopAnimation</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="n">AnimationClip</span> <span class="n">_stopAnimationClip</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="n">AnimationClip</span> <span class="n">blankAnimationClip</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="n">AnimatorOverrideController</span> <span class="n">_animatorOverride</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">Awake</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/* 修改动画的播放 */</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_animatorOverride</span> <span class="p">=</span> <span class="k">new</span> <span class="n">AnimatorOverrideController</span><span class="p">(</span><span class="n">_animator</span><span class="p">.</span><span class="n">runtimeAnimatorController</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_animator</span><span class="p">.</span><span class="n">runtimeAnimatorController</span> <span class="p">=</span> <span class="n">_animatorOverride</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 移动结束的动画</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="n">IEnumerator</span> <span class="n">SetStopAnimation</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/* 设置停止后的面向方位 */</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_animator</span><span class="p">.</span><span class="n">SetFloat</span><span class="p">(</span><span class="s">&#34;DirX&#34;</span><span class="p">,</span> <span class="m">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_animator</span><span class="p">.</span><span class="n">SetFloat</span><span class="p">(</span><span class="s">&#34;DirY&#34;</span><span class="p">,</span> <span class="p">-</span><span class="m">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_animationDelayTime</span> <span class="p">=</span> <span class="n">Settings</span><span class="p">.</span><span class="n">AnimationDelayTime</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">_canPlayStopAnimation</span> <span class="p">&amp;&amp;</span> <span class="n">_stopAnimationClip</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/* 修改_animatorOverride,此时其已经成为运行时动画 */</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_animatorOverride</span><span class="p">[</span><span class="n">blankAnimationClip</span><span class="p">]</span> <span class="p">=</span> <span class="n">_stopAnimationClip</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_animator</span><span class="p">.</span><span class="n">SetBool</span><span class="p">(</span><span class="s">&#34;EventAnimation&#34;</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">yield</span> <span class="k">return</span> <span class="k">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_animator</span><span class="p">.</span><span class="n">SetBool</span><span class="p">(</span><span class="s">&#34;EventAnimation&#34;</span><span class="p">,</span> <span class="k">false</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_animatorOverride</span><span class="p">[</span><span class="n">_stopAnimationClip</span><span class="p">]</span> <span class="p">=</span> <span class="n">blankAnimationClip</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>同时需要在<code>moveMent</code>方法中增加当没有移动，并可以播放停止动画时候的判断</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">_movementSteps</span><span class="p">.</span><span class="n">Count</span> <span class="p">&gt;</span> <span class="m">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">   <span class="c1">//...</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">else</span> <span class="k">if</span> <span class="p">(!</span><span class="n">_isMoving</span> <span class="p">&amp;&amp;</span> <span class="n">_canPlayStopAnimation</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">StartCoroutine</span><span class="p">(</span><span class="n">SetStopAnimation</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>利用时间推移的事件来触发NPC行程</li>
+</ul>
+<p>先注册事件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">OnEnable</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// ..</span>
+</span></span><span class="line"><span class="cl">    <span class="n">EventHandler</span><span class="p">.</span><span class="n">GameMinuteEvent</span> <span class="p">+=</span> <span class="n">OnGameMinuteEvent</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">OnDisable</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ..</span>
+</span></span><span class="line"><span class="cl">    <span class="n">EventHandler</span><span class="p">.</span><span class="n">GameMinuteEvent</span> <span class="p">+=</span> <span class="n">OnGameMinuteEvent</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">OnGameMinuteEvent</span><span class="p">(</span><span class="kt">int</span> <span class="n">min</span><span class="p">,</span> <span class="kt">int</span> <span class="n">hour</span><span class="p">,</span> <span class="kt">int</span> <span class="n">day</span><span class="p">,</span> <span class="n">Season</span> <span class="n">season</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">curTime</span> <span class="p">=</span> <span class="m">100</span> <span class="p">*</span> <span class="n">hour</span> <span class="p">+</span> <span class="n">min</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_curSeason</span> <span class="p">=</span> <span class="n">season</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">ScheduleDetails</span> <span class="n">matchSchedule</span> <span class="p">=</span> <span class="k">null</span><span class="p">;</span>       <span class="cm">/* 与当前时间段匹配的行程 */</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">foreach</span> <span class="p">(</span><span class="n">ScheduleDetails</span> <span class="n">scheduleDetails</span> <span class="k">in</span> <span class="n">_scheduleDetailsSet</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">scheduleDetails</span><span class="p">.</span><span class="n">Time</span> <span class="p">==</span> <span class="n">curTime</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="cm">/* 如果当前行程是特定事件执行，但时间不对 */</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">scheduleDetails</span><span class="p">.</span><span class="n">day</span> <span class="p">!=</span> <span class="m">0</span> <span class="p">&amp;&amp;</span> <span class="n">day</span> <span class="p">==</span> <span class="n">scheduleDetails</span><span class="p">.</span><span class="n">day</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="k">continue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">scheduleDetails</span><span class="p">.</span><span class="n">season</span> <span class="p">!=</span> <span class="n">season</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="k">continue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">matchSchedule</span> <span class="p">=</span> <span class="n">scheduleDetails</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/* 排序是按照从小到大排序 */</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">scheduleDetails</span><span class="p">.</span><span class="n">Time</span> <span class="p">&gt;</span> <span class="n">curTime</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">matchSchedule</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">BuildPath</span><span class="p">(</span><span class="n">matchSchedule</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="npc跨场景移动">NPC跨场景移动</h2>
+<p>使用一个专门的数据结构来保存跨场景时候的路径，以及跨场景的要使用的所有路径。然后在<code>NPCManager</code>中管理路径相关的信息，用单例模式的形式来保证NPC在移动的过程中能够正确的移动到目标位置。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="na">[System.Serializable]</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">SceneRoute</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">string</span> <span class="n">fromSceneName</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">string</span> <span class="n">gotoSceneName</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">ScenePath</span><span class="p">&gt;</span> <span class="n">scenePathList</span><span class="p">;</span>   <span class="cm">/*跨场景的多条路径*/</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="na">
+</span></span></span><span class="line"><span class="cl"><span class="na">[System.Serializable]</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">ScenePath</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">string</span> <span class="n">sceneName</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">Vector2Int</span> <span class="n">fromGridCell</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">Vector2Int</span> <span class="n">gotoGridCell</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>在<code>NPCManager</code>中初始化路径相关的字典信息</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="n">SceneRouteDataList_SO</span> <span class="n">sceneRouteDataListSo</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="n">SceneRoute</span><span class="p">&gt;</span> <span class="n">SceneRouteDict</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="n">SceneRoute</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">protected</span> <span class="k">override</span> <span class="k">void</span> <span class="n">Awake</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">base</span><span class="p">.</span><span class="n">Awake</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">InitSceneRouteDict</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">InitSceneRouteDict</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">sceneRouteDataListSo</span><span class="p">.</span><span class="n">sceneRouteList</span><span class="p">.</span><span class="n">Count</span> <span class="p">&gt;</span> <span class="m">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">foreach</span> <span class="p">(</span><span class="n">SceneRoute</span> <span class="n">sceneRoute</span> <span class="k">in</span> <span class="n">sceneRouteDataListSo</span><span class="p">.</span><span class="n">sceneRouteList</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="kt">string</span> <span class="n">key</span> <span class="p">=</span> <span class="n">sceneRoute</span><span class="p">.</span><span class="n">fromSceneName</span> <span class="p">+</span> <span class="n">sceneRoute</span><span class="p">.</span><span class="n">gotoSceneName</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">SceneRouteDict</span><span class="p">.</span><span class="n">ContainsKey</span><span class="p">(</span><span class="n">key</span><span class="p">))</span> <span class="k">continue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">SceneRouteDict</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">sceneRoute</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="n">SceneRoute</span> <span class="n">GetSceneRoute</span><span class="p">(</span><span class="kt">string</span> <span class="n">fromSceneName</span><span class="p">,</span> <span class="kt">string</span> <span class="n">gotoSceneName</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">SceneRouteDict</span><span class="p">[</span><span class="n">fromSceneName</span> <span class="p">+</span> <span class="n">gotoSceneName</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后在<code>NpcMovment</code>中实现跨场景移动</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">schedule</span><span class="p">.</span><span class="n">targetSceneName</span> <span class="p">!=</span> <span class="n">currentScene</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/* 获得跨场景的路径 */</span>
+</span></span><span class="line"><span class="cl">    <span class="n">SceneRoute</span> <span class="n">sceneRoute</span> <span class="p">=</span> <span class="n">NpcManager</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">GetSceneRoute</span><span class="p">(</span><span class="n">currentScene</span><span class="p">,</span> <span class="n">schedule</span><span class="p">.</span><span class="n">targetSceneName</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">sceneRoute</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 在设置数据的时候已经按照顺序保证场景移动，因此直接获取即可</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">sceneRoute</span><span class="p">.</span><span class="n">scenePathList</span><span class="p">.</span><span class="n">Count</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="kt">var</span> <span class="n">path</span> <span class="p">=</span> <span class="n">sceneRoute</span><span class="p">.</span><span class="n">scenePathList</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Vector2Int</span> <span class="n">fromScenePos</span><span class="p">,</span> <span class="n">gotoScenePos</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">path</span><span class="p">.</span><span class="n">fromGridCell</span><span class="p">.</span><span class="n">x</span> <span class="p">&gt;</span> <span class="n">Settings</span><span class="p">.</span><span class="n">MaxCellLength</span> <span class="p">||</span>
+</span></span><span class="line"><span class="cl">                <span class="n">path</span><span class="p">.</span><span class="n">fromGridCell</span><span class="p">.</span><span class="n">y</span> <span class="p">&gt;</span> <span class="n">Settings</span><span class="p">.</span><span class="n">MaxCellLength</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">fromScenePos</span> <span class="p">=</span> <span class="p">(</span><span class="n">Vector2Int</span><span class="p">)</span><span class="n">_currentScenePos</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="k">else</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">fromScenePos</span> <span class="p">=</span> <span class="n">path</span><span class="p">.</span><span class="n">fromGridCell</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">path</span><span class="p">.</span><span class="n">gotoGridCell</span><span class="p">.</span><span class="n">x</span> <span class="p">&gt;</span> <span class="n">Settings</span><span class="p">.</span><span class="n">MaxCellLength</span> <span class="p">||</span>
+</span></span><span class="line"><span class="cl">                <span class="n">path</span><span class="p">.</span><span class="n">gotoGridCell</span><span class="p">.</span><span class="n">y</span> <span class="p">&gt;</span> <span class="n">Settings</span><span class="p">.</span><span class="n">MaxCellLength</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">gotoScenePos</span> <span class="p">=</span> <span class="p">(</span><span class="n">Vector2Int</span><span class="p">)</span><span class="n">_targetScenePos</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="k">else</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">gotoScenePos</span> <span class="p">=</span> <span class="n">path</span><span class="p">.</span><span class="n">gotoGridCell</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            
+</span></span><span class="line"><span class="cl">            <span class="n">AStar</span><span class="p">.</span><span class="n">AStar</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">BuildPath</span><span class="p">(</span><span class="n">path</span><span class="p">.</span><span class="n">sceneName</span><span class="p">,</span> <span class="n">fromScenePos</span><span class="p">,</span> <span class="n">gotoScenePos</span><span class="p">,</span> <span class="n">_movementSteps</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>注意NPC在移动过程中，每一步要走的格子都是通过栈的方式压入的，我们在构建NPC走过的路径的时候，也要注意保证要走过的路径是从后往前的。也就是说加载的顺序需要从终点往起点加载</p>
+</blockquote>
+<ul>
+<li>修改<code>Astar</code>代码的错误</li>
+</ul>
+<p>在之前Astar代码中获得当前瓦片的位置处获得瓦片信息是从当前激活场景中获得信息</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="kt">string</span> <span class="n">tileMapKey</span> <span class="p">=</span> <span class="n">mousePos</span><span class="p">.</span><span class="n">x</span> <span class="p">+</span> <span class="s">&#34;x&#34;</span> <span class="p">+</span> <span class="n">mousePos</span><span class="p">.</span><span class="n">y</span> <span class="p">+</span> <span class="s">&#34;y&#34;</span> <span class="p">+</span> <span class="n">SceneManager</span><span class="p">.</span><span class="n">GetActiveScene</span><span class="p">().</span><span class="n">name</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>但是如果NPC跨越了场景，那么获得的瓦片信息还是当前场景的，就可以出现无法创建路径。因此需要对其进行修改</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">// 获得当前瓦片的障碍信息 </span>
+</span></span><span class="line"><span class="cl"><span class="kt">string</span> <span class="n">key</span> <span class="p">=</span> <span class="n">tilePOS</span><span class="p">.</span><span class="n">x</span> <span class="p">+</span> <span class="s">&#34;x&#34;</span> <span class="p">+</span> <span class="n">tilePOS</span><span class="p">.</span><span class="n">y</span> <span class="p">+</span> <span class="s">&#34;y&#34;</span> <span class="p">+</span> <span class="n">sceneName</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">TileDetails</span> <span class="n">curTile</span> <span class="p">=</span> <span class="n">GridMapManager</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">GetTileDetails</span><span class="p">(</span><span class="n">key</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD/">麦田物语</a>
+        
+            <a href="/tags/astar%E5%AF%BB%E8%B7%AF/">Astar寻路</a>
+        
+            <a href="/tags/%E8%B7%A8%E5%9C%BA%E6%99%AF%E7%A7%BB%E5%8A%A8/">跨场景移动</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E5%8D%81%E4%BA%94/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="/img/story_of_wheat_field/wheatField.jpg" loading="lazy" data-key="" data-hash="/img/story_of_wheat_field/wheatField.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">麦田物语开发日记(十五)</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E5%8D%81%E4%BA%8C/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="/img/story_of_wheat_field/wheatField.jpg" loading="lazy" data-key="" data-hash="/img/story_of_wheat_field/wheatField.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">麦田物语开发日记(十二)</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E5%8D%81%E4%B8%80/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="/img/story_of_wheat_field/wheatField.jpg" loading="lazy" data-key="" data-hash="/img/story_of_wheat_field/wheatField.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">麦田物语开发日记(十一)</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E5%8D%81%E4%B8%89/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="/img/story_of_wheat_field/wheatField.jpg" loading="lazy" data-key="" data-hash="/img/story_of_wheat_field/wheatField.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">麦田物语开发日记(十三)</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E5%8D%81%E5%9B%9B/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="/img/story_of_wheat_field/wheatField.jpg" loading="lazy" data-key="" data-hash="/img/story_of_wheat_field/wheatField.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">麦田物语开发日记(十四)</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2023 Ruizumoe&#39;Blog
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.16.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>

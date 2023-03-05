@@ -1,0 +1,2521 @@
+<!DOCTYPE html>
+<html lang="en-us" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='完成游戏菜单的制作及存档内容的设计'>
+<title>麦田物语开发日记(十五)</title>
+
+<link rel='canonical' href='https://ruizumoe.github.io/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E5%8D%81%E4%BA%94/'>
+
+<link rel="stylesheet" href="/scss/style.min.5be32ca3f6e1a997c75795c4359147cc6d4fbd34948c0acd51e31d237033978a.css"><meta property='og:title' content='麦田物语开发日记(十五)'>
+<meta property='og:description' content='完成游戏菜单的制作及存档内容的设计'>
+<meta property='og:url' content='https://ruizumoe.github.io/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E5%8D%81%E4%BA%94/'>
+<meta property='og:site_name' content='Ruizumoe&#39;Blog'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='麦田物语' /><meta property='article:tag' content='存档系统' /><meta property='article:published_time' content='2023-03-05T19:16:55&#43;08:00'/><meta property='article:modified_time' content='2023-03-05T19:16:55&#43;08:00'/><meta property='og:image' content='https://ruizumoe.github.io/img/story_of_wheat_field/wheatField.jpg' />
+<meta name="twitter:title" content="麦田物语开发日记(十五)">
+<meta name="twitter:description" content="完成游戏菜单的制作及存档内容的设计"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://ruizumoe.github.io/img/story_of_wheat_field/wheatField.jpg' />
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle Menu">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hucf3d7386933de54e98ba7bb3fdb993f3_828119_300x0_resize_box_3.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Ruizumoe&#39;Blog</a></h1>
+            <h2 class="site-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h2>
+        </div>
+    </header><ol class="social-menu">
+            
+                <li>
+                    <a 
+                        href='https://github.com/ruizumoe'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href=''
+                        target="_blank"
+                        title="Twitter"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>Home</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/about/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>About</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>Archives</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>Search</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/links/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>Links</span>
+            </a>
+        </li>
+        
+
+        <div class="menu-bottom-section">
+            
+            
+                <li id="dark-mode-toggle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                    <span>Dark Mode</span>
+                </li>
+            
+        </div>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">Table of contents</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#制作主菜单ui">制作主菜单UI</a></li>
+    <li><a href="#创建游戏数据存储数据结构">创建游戏数据存储数据结构</a></li>
+    <li><a href="#实现数据存储与加载">实现数据存储与加载</a></li>
+    <li><a href="#完成加载游戏的具体逻辑">完成加载游戏的具体逻辑</a></li>
+    <li><a href="#解决加载后的bug">解决加载后的BUG</a></li>
+    <li><a href="#暂停菜单和音量控制">暂停菜单和音量控制</a></li>
+    <li><a href="#结束游戏">结束游戏</a></li>
+    <li><a href="#后记">后记</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E5%8D%81%E4%BA%94/">
+                
+                    <img src="/img/story_of_wheat_field/wheatField.jpg" loading="lazy" alt="Featured image of post 麦田物语开发日记(十五)" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/categories/unity/" style="background-color: #2a9d8f; color: #fff;">
+                Unity
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E5%8D%81%E4%BA%94/">麦田物语开发日记(十五)</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            完成游戏菜单的制作及存档内容的设计
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">Mar 05, 2023</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    11 minute read
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="创作主菜单及存档">创作主菜单及存档</h1>
+<h2 id="制作主菜单ui">制作主菜单UI</h2>
+<p>为了实现主菜单的叠层效果，创建3个<code>Panel</code>。在Unity中<code>Panel</code>的渲染规则时优先渲染位置靠下的<code>Panel</code>，因此后续用代码控制<code>Panel</code>的位置即可。</p>
+<p><img src="/WFImg/image-20230301223413035.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20230301223413035"
+	
+	
+></p>
+<p><strong>控制代码</strong></p>
+<p>最主要的代码就是transform的<code>SetAsLastSibling</code>方法，该方法能让当前GO在<code>Hierarchy</code>窗口中处于当前父GO的最下方</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">MenuUI</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">GameObject</span><span class="p">[]</span> <span class="n">panels</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// 根据index调换panel位置，以显示在上层</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// &lt;param name=&#34;index&#34;&gt;&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">void</span> <span class="n">SwitchPanel</span><span class="p">(</span><span class="kt">int</span> <span class="n">index</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">panels</span><span class="p">.</span><span class="n">Length</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="p">==</span> <span class="n">index</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">panels</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">transform</span><span class="p">.</span><span class="n">SetAsLastSibling</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">void</span> <span class="n">ExitGame</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Application</span><span class="p">.</span><span class="n">Quit</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">&#34;GameQuit&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>为每个button设置点击事件，而即可</p>
+<p><img src="/WFImg/image-20230301233524379.png"
+	
+	
+	
+	loading="lazy"
+	
+		alt="image-20230301233524379"
+	
+	
+></p>
+<p><strong>存档UI</strong></p>
+<p>每个存档UI显示游戏进行时间以及所在场景，因此需要代码来获取UI内容</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">SaveSlotUI</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">Text</span> <span class="n">dataTime</span><span class="p">,</span> <span class="n">dataScene</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">Button</span> <span class="n">_currentBtn</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="kt">int</span> <span class="n">Index</span> <span class="p">=&gt;</span> <span class="n">transform</span><span class="p">.</span><span class="n">GetSiblingIndex</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">Awake</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_currentBtn</span> <span class="p">=</span> <span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">Button</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_currentBtn</span><span class="p">.</span><span class="n">onClick</span><span class="p">.</span><span class="n">AddListener</span><span class="p">(</span><span class="n">LoadGameData</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">LoadGameData</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">Index</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>使用<code>GetSiblingIndex</code>来获得当前按钮的位置，同步存档的位置。</p>
+<h2 id="创建游戏数据存储数据结构">创建游戏数据存储数据结构</h2>
+<p>Unity自带的<code>Json</code>保存方法并不能字典和列表数据，因此需要使用新的工具</p>
+<p><code>com.unity.nuget.newtonsoft-json</code>将该名称在package Manager中通过URL连接添加即可</p>
+<p>最主要的就是<code>JsonConvert.SerializeObject</code>和相应的反序列化方法</p>
+<p>在具体的代码中需要一个专门用于存放游戏内容的脚本<code>GameSaveData</code>，其是描述用于存储的数据</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="k">namespace</span> <span class="nn">WFarm.Save</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [System.Serializable]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">class</span> <span class="nc">GameSaveData</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">public</span> <span class="kt">string</span> <span class="n">dataSceneName</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">public</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="n">SerializableVector3</span><span class="p">&gt;</span> <span class="n">characterPosDict</span><span class="p">;</span>    <span class="cm">/* 每个人物的位置 */</span>
+</span></span><span class="line"><span class="cl">        <span class="k">public</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">SceneItem</span><span class="p">&gt;&gt;</span> <span class="n">sceneItemDict</span><span class="p">;</span>   <span class="cm">/*每个场景的物品*/</span>
+</span></span><span class="line"><span class="cl">        <span class="k">public</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">SceneFurniture</span><span class="p">&gt;&gt;</span> <span class="n">sceneFurnitureDict</span><span class="p">;</span> <span class="cm">/* 每个场景被制造出来的物品 */</span>
+</span></span><span class="line"><span class="cl">        <span class="k">public</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="n">TileDetails</span><span class="p">&gt;</span> <span class="n">tileDetailsDict</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">public</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="kt">bool</span><span class="p">&gt;</span> <span class="n">firstLoadDict</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">public</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">InventoryItem</span><span class="p">&gt;&gt;</span> <span class="n">inventoryDict</span><span class="p">;</span>   <span class="cm">/* 场景和人物存放的数据 */</span>
+</span></span><span class="line"><span class="cl">        <span class="k">public</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="kt">int</span><span class="p">&gt;</span> <span class="n">timeDict</span><span class="p">;</span>    <span class="cm">/* 当前游戏时间 */</span>
+</span></span><span class="line"><span class="cl">        <span class="k">public</span> <span class="kt">int</span> <span class="n">playerMoney</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="c1">// NPC内容</span>
+</span></span><span class="line"><span class="cl">        <span class="k">public</span> <span class="kt">string</span> <span class="n">targetScene</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">public</span> <span class="kt">bool</span> <span class="n">npcInteractable</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">public</span> <span class="kt">int</span> <span class="n">animationInstanceID</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>  
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后需要一个专门用于保存的接口<code>ISavable</code>，以及控制存取的代码<code>SaveLoadManager</code></p>
+<p><code>ISavable</code>需要让对应的类实现三个方法，即能够保存数据，读取数据，以及将自己注册进一个管理GO中</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">interface</span> <span class="nc">ISavable</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">string</span> <span class="n">GUID</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// c#新特性：接口可以预先编写功能</span>
+</span></span><span class="line"><span class="cl">    <span class="k">void</span> <span class="n">RegisterSavable</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/* 如果某一个类实现了当前接口，那么其一定会将自己注册进入SaveLoadManager的存档列表中 */</span>
+</span></span><span class="line"><span class="cl">        <span class="n">SaveLoadManager</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">RegisterSavable</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">GameSaveData</span> <span class="n">GenerateSaveData</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">void</span> <span class="n">RestoreData</span><span class="p">(</span><span class="n">GameSaveData</span> <span class="n">data</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>而<code>SaveLoadManager.cs</code>则需要控制所有需要被保存的数据</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="k">namespace</span> <span class="nn">WFarm.Save</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">class</span> <span class="nc">SaveLoadManager</span> <span class="p">:</span> <span class="n">Singleton</span><span class="p">&lt;</span><span class="n">SaveLoadManager</span><span class="p">&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">private</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">ISavable</span><span class="p">&gt;</span> <span class="n">_savableList</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">ISavable</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">public</span> <span class="k">void</span> <span class="n">RegisterSavable</span><span class="p">(</span><span class="n">ISavable</span> <span class="n">savable</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(!</span><span class="n">_savableList</span><span class="p">.</span><span class="n">Contains</span><span class="p">(</span><span class="n">savable</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">                <span class="n">_savableList</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">savable</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>为了保存数据的唯一性，需要一个代码<code>DataGUID</code>，这个代码是一致运行的，创建一个GUID，如果当前内容的GUID不存在，则在<code>awake()</code>中生成一个独立的GUID，从而保证自己的唯一性。而每个单独的<code>GameSaveData</code>会有自己独立的GUID</p>
+<p>每个需要被保存的数据应该都含有该脚本</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="na">[ExecuteAlways]</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">DataGUID</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="kt">string</span> <span class="n">guid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">Awake</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">guid</span> <span class="p">==</span> <span class="n">String</span><span class="p">.</span><span class="n">Empty</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">guid</span> <span class="p">=</span> <span class="n">System</span><span class="p">.</span><span class="n">Guid</span><span class="p">.</span><span class="n">NewGuid</span><span class="p">().</span><span class="n">ToString</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>对<code>player.cs</code>进行存储数据</strong></p>
+<p>在<code>Player.cs</code>脚本中实现<code>ISavable</code>接口，并装有GUID代码，在<code>start</code>方法中将当前当前方法注册进入<code>SaveLoadManager</code>中，注意为了能够调用该方法，我们需要在<code>start</code>方法中将类的<code>ISavable</code>单独定义出来。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">Start</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ISavable</span> <span class="n">iSavable</span> <span class="p">=</span> <span class="k">this</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">iSavable</span><span class="p">.</span><span class="n">RegisterSavable</span><span class="p">();</span> <span class="c1">// 将当前类注册进入SaveLoadManager</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="cp">#region 保存数据</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="kt">string</span> <span class="n">GUID</span> <span class="p">=&gt;</span> <span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">DataGUID</span><span class="p">&gt;().</span><span class="n">guid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="n">GameSaveData</span> <span class="n">GenerateSaveData</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">GameSaveData</span> <span class="n">saveData</span> <span class="p">=</span> <span class="k">new</span> <span class="n">GameSaveData</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/* 存储坐标 */</span>
+</span></span><span class="line"><span class="cl">    <span class="n">saveData</span><span class="p">.</span><span class="n">characterPosDict</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="n">SerializableVector3</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">saveData</span><span class="p">.</span><span class="n">characterPosDict</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="n">GUID</span><span class="p">,</span> <span class="k">new</span> <span class="n">SerializableVector3</span><span class="p">(</span><span class="n">transform</span><span class="p">.</span><span class="n">position</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">saveData</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">void</span> <span class="n">RestoreData</span><span class="p">(</span><span class="n">GameSaveData</span> <span class="n">saveData</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">transform</span><span class="p">.</span><span class="n">position</span> <span class="p">=</span> <span class="n">saveData</span><span class="p">.</span><span class="n">characterPosDict</span><span class="p">[</span><span class="k">this</span><span class="p">.</span><span class="n">GUID</span><span class="p">].</span><span class="n">ToVector3</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="err">#</span><span class="n">endregion</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>保存背包数据</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">// inventoryManager.cs</span>
+</span></span><span class="line"><span class="cl"><span class="cp">#region 保存数据</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="kt">string</span> <span class="n">GUID</span> <span class="p">=&gt;</span> <span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">DataGUID</span><span class="p">&gt;().</span><span class="n">guid</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="n">GameSaveData</span> <span class="n">GenerateSaveData</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">GameSaveData</span> <span class="n">saveData</span> <span class="p">=</span> <span class="k">new</span> <span class="n">GameSaveData</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">saveData</span><span class="p">.</span><span class="n">playerMoney</span> <span class="p">=</span> <span class="n">playerCash</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">saveData</span><span class="p">.</span><span class="n">inventoryDict</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">InventoryItem</span><span class="p">&gt;&gt;();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">saveData</span><span class="p">.</span><span class="n">inventoryDict</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">playerBag</span><span class="p">.</span><span class="n">name</span><span class="p">,</span> <span class="n">playerBag</span><span class="p">.</span><span class="n">inventoryItemList</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">boxData</span> <span class="k">in</span> <span class="n">_boxDataDict</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">saveData</span><span class="p">.</span><span class="n">inventoryDict</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">boxData</span><span class="p">.</span><span class="n">Key</span><span class="p">,</span> <span class="n">boxData</span><span class="p">.</span><span class="n">Value</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">saveData</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">void</span> <span class="n">RestoreData</span><span class="p">(</span><span class="n">GameSaveData</span> <span class="n">data</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">     <span class="k">this</span><span class="p">.</span><span class="n">playerCash</span> <span class="p">=</span> <span class="n">saveData</span><span class="p">.</span><span class="n">playerMoney</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="n">playerBag</span> <span class="p">=</span> <span class="n">Instantiate</span><span class="p">(</span><span class="n">playerBagTemp</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">playerBag</span><span class="p">.</span><span class="n">inventoryItemList</span> <span class="p">=</span> <span class="n">saveData</span><span class="p">.</span><span class="n">inventoryDict</span><span class="p">[</span><span class="n">playerBag</span><span class="p">.</span><span class="n">name</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">            
+</span></span><span class="line"><span class="cl">    <span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">boxData</span> <span class="k">in</span> <span class="n">data</span><span class="p">.</span><span class="n">inventoryDict</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">boxData</span><span class="p">.</span><span class="n">Key</span> <span class="p">==</span> <span class="n">playerBag</span><span class="p">.</span><span class="n">name</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">_boxDataDict</span><span class="p">.</span><span class="n">ContainsKey</span><span class="p">(</span><span class="n">boxData</span><span class="p">.</span><span class="n">Key</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">_boxDataDict</span><span class="p">[</span><span class="n">boxData</span><span class="p">.</span><span class="n">Key</span><span class="p">]</span> <span class="p">=</span> <span class="n">boxData</span><span class="p">.</span><span class="n">Value</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">EventHandler</span><span class="p">.</span><span class="n">CallUpdateInventoryUI</span><span class="p">(</span><span class="n">InventoryLocation</span><span class="p">.</span><span class="n">Player</span><span class="p">,</span> <span class="n">playerBag</span><span class="p">.</span><span class="n">inventoryItemList</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="err">#</span><span class="n">endregion</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>保存场景item数据</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">// itemManager.cs</span>
+</span></span><span class="line"><span class="cl"><span class="cp">#region 保存数据</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="kt">string</span> <span class="n">GUID</span> <span class="p">=&gt;</span> <span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">DataGUID</span><span class="p">&gt;()</span> <span class="p">?</span> <span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">DataGUID</span><span class="p">&gt;().</span><span class="n">guid</span> <span class="p">:</span> <span class="n">String</span><span class="p">.</span><span class="n">Empty</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="n">GameSaveData</span> <span class="n">GenerateSaveData</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">GameSaveData</span> <span class="n">saveData</span> <span class="p">=</span> <span class="k">new</span> <span class="n">GameSaveData</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 默认情况只有加载和卸载场景的时候才获得场景的item和家具，因此此时需要去获取</span>
+</span></span><span class="line"><span class="cl">    <span class="n">GetAllSceneFurniture</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">GetAllSceneItem</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">saveData</span><span class="p">.</span><span class="n">sceneItemDict</span> <span class="p">=</span> <span class="k">this</span><span class="p">.</span><span class="n">_sceneItemDict</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">saveData</span><span class="p">.</span><span class="n">sceneFurnitureDict</span> <span class="p">=</span> <span class="k">this</span><span class="p">.</span><span class="n">_sceneFurnitureDict</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">saveData</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">void</span> <span class="n">RestoreData</span><span class="p">(</span><span class="n">GameSaveData</span> <span class="n">data</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="n">_sceneItemDict</span> <span class="p">=</span> <span class="n">data</span><span class="p">.</span><span class="n">sceneItemDict</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="n">_sceneFurnitureDict</span> <span class="p">=</span> <span class="n">data</span><span class="p">.</span><span class="n">sceneFurnitureDict</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ReBuildSceneItems</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ReBuildSceneFurniture</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">   
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="err">#</span><span class="n">endregion</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>保存时间</strong></p>
+<blockquote>
+<p>注意由于时间需要进行更新，因此每次加载游戏就需要重新加载场景，而时间也在这时候更新</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">// TimeManager.cs</span>
+</span></span><span class="line"><span class="cl"><span class="cp">#region 保存数据</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="kt">string</span> <span class="n">GUID</span> <span class="p">=&gt;</span> <span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">DataGUID</span><span class="p">&gt;()</span> <span class="p">?</span> <span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">DataGUID</span><span class="p">&gt;().</span><span class="n">guid</span> <span class="p">:</span> <span class="n">String</span><span class="p">.</span><span class="n">Empty</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="n">GameSaveData</span> <span class="n">GenerateSaveData</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">GameSaveData</span> <span class="n">data</span> <span class="p">=</span> <span class="k">new</span> <span class="n">GameSaveData</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">data</span><span class="p">.</span><span class="n">timeDict</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="kt">int</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">data</span><span class="p">.</span><span class="n">timeDict</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="s">&#34;gameYear&#34;</span><span class="p">,</span> <span class="n">_gameYears</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">data</span><span class="p">.</span><span class="n">timeDict</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="s">&#34;gameSeason&#34;</span><span class="p">,</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">_currentSeason</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">data</span><span class="p">.</span><span class="n">timeDict</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="s">&#34;gameMonth&#34;</span><span class="p">,</span> <span class="n">_gameMonth</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">data</span><span class="p">.</span><span class="n">timeDict</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="s">&#34;gameDays&#34;</span><span class="p">,</span> <span class="n">_gameDays</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">data</span><span class="p">.</span><span class="n">timeDict</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="s">&#34;gameHours&#34;</span><span class="p">,</span> <span class="n">_gameHours</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">data</span><span class="p">.</span><span class="n">timeDict</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="s">&#34;gameMinutes&#34;</span><span class="p">,</span> <span class="n">_gameMinutes</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">data</span><span class="p">.</span><span class="n">timeDict</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="s">&#34;gameSeconds&#34;</span><span class="p">,</span> <span class="n">_gameSeconds</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">data</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">void</span> <span class="n">RestoreData</span><span class="p">(</span><span class="n">GameSaveData</span> <span class="n">data</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="n">_gameYears</span> <span class="p">=</span> <span class="n">data</span><span class="p">.</span><span class="n">timeDict</span><span class="p">[</span><span class="s">&#34;gameYear&#34;</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="n">_currentSeason</span> <span class="p">=</span> <span class="p">(</span><span class="n">Season</span><span class="p">)</span><span class="n">data</span><span class="p">.</span><span class="n">timeDict</span><span class="p">[</span><span class="s">&#34;gameSeason&#34;</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="n">_gameMonth</span> <span class="p">=</span> <span class="n">data</span><span class="p">.</span><span class="n">timeDict</span><span class="p">[</span><span class="s">&#34;gameMonth&#34;</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="n">_gameDays</span> <span class="p">=</span> <span class="n">data</span><span class="p">.</span><span class="n">timeDict</span><span class="p">[</span><span class="s">&#34;gameDays&#34;</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="n">_gameHours</span> <span class="p">=</span> <span class="n">data</span><span class="p">.</span><span class="n">timeDict</span><span class="p">[</span><span class="s">&#34;gameHours&#34;</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="n">_gameMinutes</span> <span class="p">=</span> <span class="n">data</span><span class="p">.</span><span class="n">timeDict</span><span class="p">[</span><span class="s">&#34;gameMinutes&#34;</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="n">_gameSeconds</span> <span class="p">=</span> <span class="n">data</span><span class="p">.</span><span class="n">timeDict</span><span class="p">[</span><span class="s">&#34;gameSeconds&#34;</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="err">#</span><span class="n">endregion</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>并且在加载场景后更新时间内容</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">OnAfterSceneLoadEvent</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_gameClockPause</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">EventHandler</span><span class="p">.</span><span class="n">CallGameMinuteEvent</span><span class="p">(</span><span class="n">_gameMinutes</span><span class="p">,</span> <span class="n">_gameHours</span><span class="p">,</span> <span class="n">_gameDays</span><span class="p">,</span> <span class="n">_currentSeason</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">EventHandler</span><span class="p">.</span><span class="n">CallGameDateEvent</span><span class="p">(</span><span class="n">_gameHours</span><span class="p">,</span> <span class="n">_gameDays</span><span class="p">,</span> <span class="n">_gameMonth</span><span class="p">,</span> <span class="n">_gameYears</span><span class="p">,</span> <span class="n">_currentSeason</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">EventHandler</span><span class="p">.</span><span class="n">CallLightShiftChangeEvent</span><span class="p">(</span><span class="n">_currentSeason</span><span class="p">,</span> <span class="n">GetCurrentLightShift</span><span class="p">(),</span> <span class="n">_timeDifference</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>地图数据</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">// gridManager.cs</span>
+</span></span><span class="line"><span class="cl"><span class="cp">#region 保存数据</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="kt">string</span> <span class="n">GUID</span> <span class="p">=&gt;</span> <span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">DataGUID</span><span class="p">&gt;()</span> <span class="p">?</span> <span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">DataGUID</span><span class="p">&gt;().</span><span class="n">guid</span> <span class="p">:</span> <span class="n">String</span><span class="p">.</span><span class="n">Empty</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="n">GameSaveData</span> <span class="n">GenerateSaveData</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">GameSaveData</span> <span class="n">saveData</span> <span class="p">=</span> <span class="k">new</span> <span class="n">GameSaveData</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">saveData</span><span class="p">.</span><span class="n">tileDetailsDict</span> <span class="p">=</span> <span class="n">_tileDetailsMap</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">saveData</span><span class="p">.</span><span class="n">firstLoadDict</span> <span class="p">=</span> <span class="n">_firstLoadDic</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">saveData</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">void</span> <span class="n">RestoreData</span><span class="p">(</span><span class="n">GameSaveData</span> <span class="n">saveData</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="n">_firstLoadDic</span> <span class="p">=</span> <span class="n">saveData</span><span class="p">.</span><span class="n">firstLoadDict</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="n">_tileDetailsMap</span> <span class="p">=</span> <span class="n">saveData</span><span class="p">.</span><span class="n">tileDetailsDict</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="err">#</span><span class="n">endregion</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="实现数据存储与加载">实现数据存储与加载</h2>
+<ul>
+<li>保存NPC的数据</li>
+</ul>
+<p>在游戏保存时，NPC可能正处于移动状态，因此我们需要需要保存其可能要前往的位置，即<code>NpcMovement</code></p>
+<p><strong>人物数据保存</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">// NpcMovement.cs</span>
+</span></span><span class="line"><span class="cl"><span class="cp">#region 保存数据</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="kt">string</span> <span class="n">GUID</span> <span class="p">=&gt;</span> <span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">DataGUID</span><span class="p">&gt;()</span> <span class="p">?</span> <span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">DataGUID</span><span class="p">&gt;().</span><span class="n">guid</span> <span class="p">:</span> <span class="n">String</span><span class="p">.</span><span class="n">Empty</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="n">GameSaveData</span> <span class="n">GenerateSaveData</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/* 保存人物坐标点，目标坐标点等 */</span>
+</span></span><span class="line"><span class="cl">    <span class="n">GameSaveData</span> <span class="n">saveData</span> <span class="p">=</span> <span class="k">new</span> <span class="n">GameSaveData</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">saveData</span><span class="p">.</span><span class="n">characterPosDict</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="n">SerializableVector3</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">saveData</span><span class="p">.</span><span class="n">characterPosDict</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="s">&#34;currentPosition&#34;</span><span class="p">,</span> <span class="k">new</span> <span class="n">SerializableVector3</span><span class="p">(</span><span class="n">transform</span><span class="p">.</span><span class="n">position</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="n">saveData</span><span class="p">.</span><span class="n">characterPosDict</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="s">&#34;targetGridPos&#34;</span><span class="p">,</span> <span class="k">new</span> <span class="n">SerializableVector3</span><span class="p">(</span><span class="n">_targetScenePos</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 保存场景</span>
+</span></span><span class="line"><span class="cl">    <span class="n">saveData</span><span class="p">.</span><span class="n">dataSceneName</span> <span class="p">=</span> <span class="n">currentScene</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">saveData</span><span class="p">.</span><span class="n">targetScene</span> <span class="p">=</span> <span class="n">_targetScene</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 停止的动画片段</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">_stopAnimationClip</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">saveData</span><span class="p">.</span><span class="n">animationInstanceID</span> <span class="p">=</span> <span class="n">_stopAnimationClip</span><span class="p">.</span><span class="n">GetInstanceID</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 是否可互动</span>
+</span></span><span class="line"><span class="cl">    <span class="n">saveData</span><span class="p">.</span><span class="n">npcInteractable</span> <span class="p">=</span> <span class="n">interactable</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">saveData</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">void</span> <span class="n">RestoreData</span><span class="p">(</span><span class="n">GameSaveData</span> <span class="n">saveData</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="n">currentScene</span> <span class="p">=</span> <span class="n">saveData</span><span class="p">.</span><span class="n">dataSceneName</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="n">_targetScene</span> <span class="p">=</span> <span class="n">saveData</span><span class="p">.</span><span class="n">targetScene</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">transform</span><span class="p">.</span><span class="n">position</span> <span class="p">=</span> <span class="n">saveData</span><span class="p">.</span><span class="n">characterPosDict</span><span class="p">[</span><span class="s">&#34;currentPosition&#34;</span><span class="p">].</span><span class="n">ToVector3</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_targetScenePos</span> <span class="p">=</span> <span class="p">(</span><span class="n">Vector3Int</span><span class="p">)</span><span class="n">saveData</span><span class="p">.</span><span class="n">characterPosDict</span><span class="p">[</span><span class="s">&#34;targetGridPos&#34;</span><span class="p">].</span><span class="n">ToVector2</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">saveData</span><span class="p">.</span><span class="n">animationInstanceID</span> <span class="p">!=</span> <span class="m">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_stopAnimationClip</span> <span class="p">=</span> <span class="n">Resources</span><span class="p">.</span><span class="n">InstanceIDToObject</span><span class="p">(</span><span class="n">saveData</span><span class="p">.</span><span class="n">animationInstanceID</span><span class="p">)</span> <span class="k">as</span> <span class="n">AnimationClip</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">interactable</span> <span class="p">=</span> <span class="n">saveData</span><span class="p">.</span><span class="n">npcInteractable</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 人物已经加载完成，因此不能继续加载</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_isInitialised</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="err">#</span><span class="n">endregion</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>实现存储逻辑</li>
+</ul>
+<p>在上述逻辑中，我们将需要存储的信息以<code>GameSaveData</code>的方法返回给了<code>SaveLoadManager</code>，因此多个<code>GameSaveData</code>共同组成一个存档数据，而游戏可以有多个存档数据。</p>
+<p>为了将存档与具体的存档栏对应，需要创建一个专门的数据结构<code>DataSlot</code>其将保存整个存档中所有的数据</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="k">namespace</span> <span class="nn">WFarm.Save</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [System.Serializable]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">class</span> <span class="nc">DataSlot</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/** 该类用于将存档与数据链接
+</span></span></span><span class="line"><span class="cl"><span class="cm">         */</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/* 将guid和saveData对应，从而做到唯一性 */</span>
+</span></span><span class="line"><span class="cl">        <span class="k">public</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="n">GameSaveData</span><span class="p">&gt;</span> <span class="n">dataDict</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="n">GameSaveData</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>每一个<code>DataSlot</code>对应了一个存档，每一个存档内部有一系列<code>GameSaveData</code></p>
+<ul>
+<li>对数据进行写入和读出</li>
+</ul>
+<p><strong>将得到的数据写入存档</strong></p>
+<p>调用该方法之前，需要会将所有需要存储数据的start中都挂载以下代码</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="n">ISavable</span> <span class="n">savable</span> <span class="p">=</span> <span class="k">this</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="n">savable</span><span class="p">.</span><span class="n">RegisterSavable</span><span class="p">();</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>保证<code>_savableList</code>能够找到对应数据，然后将数据写入存档栏中</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">// SaveLoadManager.cs</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// 将当前的数据，存放进入存档栏中</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;param name=&#34;index&#34;&gt;存档栏的序号&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">void</span> <span class="n">Save</span><span class="p">(</span><span class="kt">int</span> <span class="n">index</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">DataSlot</span> <span class="n">dataSlot</span> <span class="p">=</span> <span class="k">new</span> <span class="n">DataSlot</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">item</span> <span class="k">in</span> <span class="n">_savableList</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 将guid和每个manager生成的gameSaveData进行组合</span>
+</span></span><span class="line"><span class="cl">        <span class="n">dataSlot</span><span class="p">.</span><span class="n">dataDict</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">item</span><span class="p">.</span><span class="n">GUID</span><span class="p">,</span> <span class="n">item</span><span class="p">.</span><span class="n">GenerateSaveData</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">dataSlots</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="p">=</span> <span class="n">dataSlot</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kt">var</span> <span class="n">resultPath</span> <span class="p">=</span> <span class="n">_jsonFolder</span> <span class="p">+</span> <span class="s">&#34;SaveData&#34;</span> <span class="p">+</span> <span class="n">index</span> <span class="p">+</span> <span class="s">&#34;.json&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 将数据存为json格式，然后序列化排版</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">var</span> <span class="n">jsonData</span> <span class="p">=</span> <span class="n">JsonConvert</span><span class="p">.</span><span class="n">SerializeObject</span><span class="p">(</span><span class="n">dataSlot</span><span class="p">,</span> <span class="n">Formatting</span><span class="p">.</span><span class="n">Indented</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(!</span><span class="n">File</span><span class="p">.</span><span class="n">Exists</span><span class="p">(</span><span class="n">_jsonFolder</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Directory</span><span class="p">.</span><span class="n">CreateDirectory</span><span class="p">(</span><span class="n">_jsonFolder</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">File</span><span class="p">.</span><span class="n">WriteAllText</span><span class="p">(</span><span class="n">resultPath</span><span class="p">,</span> <span class="n">jsonData</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>接着将这些存档写入电脑</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">protected</span> <span class="k">override</span> <span class="k">void</span> <span class="n">Awake</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">base</span><span class="p">.</span><span class="n">Awake</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_jsonFolder</span> <span class="p">=</span> <span class="n">Application</span><span class="p">.</span><span class="n">persistentDataPath</span> <span class="p">+</span> <span class="s">&#34;/SAVE DATA/&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p><code>Application.persistentDataPath </code>在windows下，存放位置是C盘的<code>Appdata</code>内部</p>
+</blockquote>
+<p>读出存档内容</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">void</span> <span class="n">Load</span><span class="p">(</span><span class="kt">int</span> <span class="n">index</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 获得存档地址</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_currentDataIndex</span> <span class="p">=</span> <span class="n">index</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">var</span> <span class="n">resultPath</span> <span class="p">=</span> <span class="n">_jsonFolder</span> <span class="p">+</span> <span class="s">&#34;SaveData&#34;</span> <span class="p">+</span> <span class="n">index</span> <span class="p">+</span> <span class="s">&#34;.json&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(!</span><span class="n">File</span><span class="p">.</span><span class="n">Exists</span><span class="p">(</span><span class="n">_jsonFolder</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Directory</span><span class="p">.</span><span class="n">CreateDirectory</span><span class="p">(</span><span class="n">_jsonFolder</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 转化数据</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">var</span> <span class="n">stringData</span> <span class="p">=</span> <span class="n">File</span><span class="p">.</span><span class="n">ReadAllText</span><span class="p">(</span><span class="n">resultPath</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">DataSlot</span> <span class="n">jsonData</span> <span class="p">=</span> <span class="n">JsonConvert</span><span class="p">.</span><span class="n">DeserializeObject</span><span class="p">&lt;</span><span class="n">DataSlot</span><span class="p">&gt;(</span><span class="n">stringData</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// 读取数据内容</span>
+</span></span><span class="line"><span class="cl">    <span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">savable</span> <span class="k">in</span> <span class="n">_savableList</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">savable</span><span class="p">.</span><span class="n">RestoreData</span><span class="p">(</span><span class="n">jsonData</span><span class="p">.</span><span class="n">dataDict</span><span class="p">[</span><span class="n">savable</span><span class="p">.</span><span class="n">GUID</span><span class="p">]);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>将读取存档和UI联系起来，并实现场景切换</li>
+</ul>
+<p><strong>保存当前的游戏场景</strong></p>
+<p>注意在游戏打包以后，一开始只能显示一个场景，其他场景都是被加载出来的。因此UI场景应该是第一个被加载出来的，需要在awake中直接加载。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">Awake</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/* 开始游戏时启动UI场景 */</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/* 由于UI应该优先出现，因此不使用异步加载，并且需要以叠加的方式呈现 */</span>
+</span></span><span class="line"><span class="cl">    <span class="n">SceneManager</span><span class="p">.</span><span class="n">LoadScene</span><span class="p">(</span><span class="s">&#34;UI&#34;</span><span class="p">,</span> <span class="n">LoadSceneMode</span><span class="p">.</span><span class="n">Additive</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>制作读取游戏时，切换场景的代码</strong></p>
+<p>此处代码有渐入渐出效果，且如果是在游玩游戏的过程中加载游戏，那么需要卸载当前处于的游戏场景，且需要保证不是<code>PersistentScene</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">// TransitionManager.cs</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">void</span> <span class="n">RestoreData</span><span class="p">(</span><span class="n">GameSaveData</span> <span class="n">saveData</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 加载场景</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 不能直接使用Transition 因为Transition方法卸载当前场景，而加载存档的场景是persistentScene</span>
+</span></span><span class="line"><span class="cl">    <span class="n">StartCoroutine</span><span class="p">(</span><span class="n">LoadSaveScene</span><span class="p">(</span><span class="n">saveData</span><span class="p">.</span><span class="n">dataSceneName</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// 加载存档游戏场景</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;param name=&#34;sceneName&#34;&gt;&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;returns&gt;&lt;/returns&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="n">IEnumerator</span> <span class="n">LoadSaveScene</span><span class="p">(</span><span class="kt">string</span> <span class="n">sceneName</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">yield</span> <span class="k">return</span> <span class="n">SceneFader</span><span class="p">(</span><span class="m">1f</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 如果当前场景不是PersistentScene，则说明在运行游戏，需要卸载当前场景</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">SceneManager</span><span class="p">.</span><span class="n">GetActiveScene</span><span class="p">().</span><span class="n">name</span> <span class="p">!=</span> <span class="s">&#34;PersistentScene&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">EventHandler</span><span class="p">.</span><span class="n">CallBeforeSceneUnloadEvent</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="k">yield</span> <span class="k">return</span> <span class="n">SceneManager</span><span class="p">.</span><span class="n">UnloadSceneAsync</span><span class="p">(</span><span class="n">SceneManager</span><span class="p">.</span><span class="n">GetActiveScene</span><span class="p">().</span><span class="n">buildIndex</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">SceneManager</span><span class="p">.</span><span class="n">LoadSceneAsync</span><span class="p">(</span><span class="n">sceneName</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">EventHandler</span><span class="p">.</span><span class="n">CallAfterSceneLoadEvent</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">yield</span> <span class="k">return</span> <span class="n">SceneFader</span><span class="p">(</span><span class="m">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="完成加载游戏的具体逻辑">完成加载游戏的具体逻辑</h2>
+<p>将开始游戏UI和游戏连接起来</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">// SaveSlotUI.cs</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">OnEnable</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// 当该面板重新启动的时候（回到此处），就重新更新数据</span>
+</span></span><span class="line"><span class="cl">    <span class="n">SetupSlotUI</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="cp">#region 绑定本文</span>
+</span></span><span class="line"><span class="cl">   
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">SetupSlotUI</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">_dataSlot</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">dataTime</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="n">_dataSlot</span><span class="p">.</span><span class="n">DataTime</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">dataScene</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="n">_dataSlot</span><span class="p">.</span><span class="n">DataScene</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">dataTime</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;这个时间还未开始&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">dataScene</span><span class="p">.</span><span class="n">text</span> <span class="p">=</span> <span class="s">&#34;梦还未开始&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="err">#</span><span class="n">endregion</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>但是在游戏一开始<code>SaveLoadManager</code>并不能获得存档的相关信息，因此需要先获取所有在电脑中的存储的数据</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">// SaveLoadManager.cs</span>
+</span></span><span class="line"><span class="cl"><span class="cp">#region 从电脑中读取所有游戏存储数据</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">void</span> <span class="n">ReadSaveData</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">Directory</span><span class="p">.</span><span class="n">Exists</span><span class="p">(</span><span class="n">_jsonFolder</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">dataSlots</span><span class="p">.</span><span class="n">Count</span><span class="p">;</span> <span class="n">i</span><span class="p">++)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="kt">var</span> <span class="n">resultPath</span> <span class="p">=</span> <span class="n">_jsonFolder</span> <span class="p">+</span> <span class="s">&#34;SaveData&#34;</span> <span class="p">+</span> <span class="n">i</span> <span class="p">+</span> <span class="s">&#34;.json&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">File</span><span class="p">.</span><span class="n">Exists</span><span class="p">(</span><span class="n">resultPath</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">            <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="kt">var</span> <span class="n">stringData</span> <span class="p">=</span> <span class="n">File</span><span class="p">.</span><span class="n">ReadAllText</span><span class="p">(</span><span class="n">resultPath</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">DataSlot</span> <span class="n">jsonData</span> <span class="p">=</span> <span class="n">JsonConvert</span><span class="p">.</span><span class="n">DeserializeObject</span><span class="p">&lt;</span><span class="n">DataSlot</span><span class="p">&gt;(</span><span class="n">stringData</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                <span class="n">dataSlots</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">=</span> <span class="n">jsonData</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="err">#</span><span class="n">endregion</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>以上方法在<code>SaveLoadManager.cs</code>的<code>Awake</code>中调用即可</p>
+<p>在后在<code>SaveSlotUI.cs</code>通过点击加载游戏，如果当前游戏有数据，则直接读取，没有数据则触发一个事件，该事件将让所有管理器去处理新游戏开启的内容。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">// SaveSlotUI.cs</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">LoadGameData</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">_dataSlot</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">SaveLoadManager</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">Load</span><span class="p">(</span><span class="n">Index</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span>   <span class="c1">// 开启新的游戏</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">EventHandler</span><span class="p">.</span><span class="n">CallStartNewGameEvent</span><span class="p">(</span><span class="n">Index</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后将所有需要处理新游戏的开启的代码进行处理</p>
+<p><strong>player.cs</strong></p>
+<p>保证play在主界面的时候不能乱跑</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">OnStartNewGameEvent</span><span class="p">(</span><span class="kt">int</span> <span class="n">obj</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_inputDisable</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">transform</span><span class="p">.</span><span class="n">position</span> <span class="p">=</span> <span class="n">Settings</span><span class="p">.</span><span class="n">originPos</span><span class="p">;</span>    <span class="cm">/* 设置初始场景 */</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>InventoryManager.cs</strong></p>
+<p>使用一个背包模板，在新游戏的时候，让角色得到背包数据</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">///  开始新游戏</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;param name=&#34;obj&#34;&gt;&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">OnStartNewGameEvent</span><span class="p">(</span><span class="kt">int</span> <span class="n">obj</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">playerBag</span> <span class="p">=</span> <span class="n">Instantiate</span><span class="p">(</span><span class="n">playerBag</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">playerCash</span> <span class="p">=</span> <span class="n">Settings</span><span class="p">.</span><span class="n">PlayerStartMoney</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/* 清空储物箱等数据 */</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_boxDataDict</span><span class="p">.</span><span class="n">Clear</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">EventHandler</span><span class="p">.</span><span class="n">CallUpdateInventoryUI</span><span class="p">(</span><span class="n">InventoryLocation</span><span class="p">.</span><span class="n">Player</span><span class="p">,</span> <span class="n">playerBag</span><span class="p">.</span><span class="n">inventoryItemList</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>TimeManager.cs</strong></p>
+<p>加载游戏事件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// 开始新游戏</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;param name=&#34;obj&#34;&gt;&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">OnStartNewGameEvent</span><span class="p">(</span><span class="kt">int</span> <span class="n">obj</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/*初始化游戏事件*/</span>
+</span></span><span class="line"><span class="cl">    <span class="n">NewGameTime</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_gameClockPause</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>ItemManager.cs</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// 开始新游戏</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;param name=&#34;obj&#34;&gt;&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">OnStartNewGameEvent</span><span class="p">(</span><span class="kt">int</span> <span class="n">obj</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/*情况场景中原有的家具和item*/</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_sceneItemDict</span><span class="p">.</span><span class="n">Clear</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_sceneFurnitureDict</span><span class="p">.</span><span class="n">Clear</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>TransitionManager.cs</strong></p>
+<p>在设置早期，为了保证每次开始游戏执行顺序的正确性，将<code>TransitionManager</code>的<code>start</code>改为了协程的方式，以保证先加载场景，再执行加载场景后的事件函数。</p>
+<p>此时由于有新开始游戏事件，因此可以再该事件中呼叫加载场景后的事件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">OnStartNewGameEvent</span><span class="p">(</span><span class="kt">int</span> <span class="n">obj</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">StartCoroutine</span><span class="p">(</span><span class="n">LoadSaveScene</span><span class="p">(</span><span class="n">startSceneName</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>由于<code>LoadSaveScene</code>含有加载场景后事件，因此可以直接修改<code>start</code>内容，使其不再是IEumerator</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">// 将IEnumerator进行了修改</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">Start</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">ISavable</span> <span class="n">savable</span> <span class="p">=</span> <span class="k">this</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">savable</span><span class="p">.</span><span class="n">RegisterSavable</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">sceneFaderCanvasGroup</span> <span class="p">=</span> <span class="n">FindObjectOfType</span><span class="p">&lt;</span><span class="n">CanvasGroup</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>NPCManager.cs</strong></p>
+<p>给所有NPC指定的位置和初始场景</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">// npcManager.cs</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">OnStartNewGameEvent</span><span class="p">(</span><span class="kt">int</span> <span class="n">obj</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">npcCharacter</span> <span class="k">in</span> <span class="n">npcPositions</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// NpcPosition中存放了npc的transform</span>
+</span></span><span class="line"><span class="cl">        <span class="n">npcCharacter</span><span class="p">.</span><span class="n">npc</span><span class="p">.</span><span class="n">position</span> <span class="p">=</span> <span class="n">npcCharacter</span><span class="p">.</span><span class="n">startPos</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">npcCharacter</span><span class="p">.</span><span class="n">npc</span><span class="p">.</span><span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">NpcMovement</span><span class="p">&gt;().</span><span class="n">StartScene</span> <span class="p">=</span> <span class="n">npcCharacter</span><span class="p">.</span><span class="n">startScene</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong><code>LightManager.cs</code></strong></p>
+<p>保证开始的灯光不为空</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">OnStartNewGameEvent</span><span class="p">(</span><span class="kt">int</span> <span class="n">obj</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_currentLightShift</span> <span class="p">=</span> <span class="n">LightShift</span><span class="p">.</span><span class="n">Morning</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>将数据保存到对应的<code>SaveSlot</code>中</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">OnStartNewGameEvent</span><span class="p">(</span><span class="kt">int</span> <span class="n">index</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_currentDataIndex</span> <span class="p">=</span> <span class="n">index</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="解决加载后的bug">解决加载后的BUG</h2>
+<ul>
+<li>解决背包问题</li>
+</ul>
+<p>由于玩家的背包是通过模板生成的，因此其并没有初始化，当再次加载游戏的时候，此时背包为空，无法从存档中得到数据，因此每次加载的时候，都要重新生成一个背包，然后将背包的数据从存档中取得</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">void</span> <span class="n">RestoreData</span><span class="p">(</span><span class="n">GameSaveData</span> <span class="n">saveData</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="n">playerCash</span> <span class="p">=</span> <span class="n">saveData</span><span class="p">.</span><span class="n">playerMoney</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">this</span><span class="p">.</span><span class="n">playerBag</span> <span class="p">=</span> <span class="n">Instantiate</span><span class="p">(</span><span class="n">playerBagTemp</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">playerBag</span><span class="p">.</span><span class="n">inventoryItemList</span> <span class="p">=</span> <span class="n">saveData</span><span class="p">.</span><span class="n">inventoryDict</span><span class="p">[</span><span class="n">playerBag</span><span class="p">.</span><span class="n">name</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ....</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>光照问题</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="k">private</span> <span class="kt">float</span> <span class="n">_timeDifferent</span> <span class="p">=</span> <span class="n">Settings</span><span class="p">.</span><span class="n">LightChangeDuration</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>Npc移动目标丢失</li>
+</ul>
+<p>NPC在移动的过程中保存场景的话，会导致加载存档后，NPC丢失了原本的行程，导致不会再执行行程内容，因此需要在加载场景后，让NPC根据已有信息再次执行行程。</p>
+<p>因此只要不是第一次加载游戏，那么就让NPC恢复数据的时候，重新加载行程</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">// NpcMovement.cs</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">OnAfterSceneLoadEvent</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">//....</span>
+</span></span><span class="line"><span class="cl">   
+</span></span><span class="line"><span class="cl">    <span class="cm">/* 如果不是第一次加载人物，那么就重新生成路径 */</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(!</span><span class="n">_isFirstLoad</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_currentScenePos</span> <span class="p">=</span> <span class="n">_gird</span><span class="p">.</span><span class="n">WorldToCell</span><span class="p">(</span><span class="n">transform</span><span class="p">.</span><span class="n">position</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 直接生成一个新的行程，然后建立一个路径即可</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">var</span> <span class="n">schedule</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ScheduleDetails</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="n">_currentSeason</span><span class="p">,</span> <span class="n">_targetScene</span><span class="p">,</span> <span class="p">(</span><span class="n">Vector2Int</span><span class="p">)</span><span class="n">_nextGridPosition</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">_stopAnimationClip</span><span class="p">,</span> <span class="n">interactable</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">BuildPath</span><span class="p">(</span><span class="n">schedule</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_isFirstLoad</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>在恢复数据的时候设置</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">// NpcMovement.cs</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">void</span> <span class="n">RestoreData</span><span class="p">(</span><span class="n">GameSaveData</span> <span class="n">saveData</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ..</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_isFirstLoad</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ..</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>同时在每次新创建游戏的时候需要将其设置为true</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">// NpcMovement.cs</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">OnStartNewGameEvent</span><span class="p">(</span><span class="kt">int</span> <span class="n">obj</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_isInitialised</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_isFirstLoad</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="暂停菜单和音量控制">暂停菜单和音量控制</h2>
+<ul>
+<li>制作一个在游戏中暂停的菜单</li>
+</ul>
+<p>制作了菜单以后为了便于控制UI逻辑，将<code>UIManager</code>代码挂载到<code>MainCanvas</code>上，并设置其点击功能</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span><span class="lnt">84
+</span><span class="lnt">85
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="k">public</span> <span class="k">class</span> <span class="nc">UIManager</span> <span class="p">:</span> <span class="n">MonoBehaviour</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="na">    [CanBeNull]</span> <span class="k">private</span> <span class="n">GameObject</span> <span class="n">_menuCanvas</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">GameObject</span> <span class="n">menuPrefab</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">Button</span> <span class="n">settingBtn</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">GameObject</span> <span class="n">pausePanel</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="n">Slider</span> <span class="n">volumeSlider</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">Awake</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">settingBtn</span><span class="p">.</span><span class="n">onClick</span><span class="p">.</span><span class="n">AddListener</span><span class="p">(</span><span class="n">TogglePausePanel</span><span class="p">);</span> 
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">OnEnable</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">EventHandler</span><span class="p">.</span><span class="n">AfterSceneLoadEvent</span> <span class="p">+=</span> <span class="n">OnAfterSceneLoadEvent</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">OnDisable</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">EventHandler</span><span class="p">.</span><span class="n">AfterSceneLoadEvent</span> <span class="p">-=</span> <span class="n">OnAfterSceneLoadEvent</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">Start</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_menuCanvas</span> <span class="p">=</span> <span class="n">GameObject</span><span class="p">.</span><span class="n">FindWithTag</span><span class="p">(</span><span class="s">&#34;MenuCanvas&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="n">Instantiate</span><span class="p">(</span><span class="n">menuPrefab</span><span class="p">,</span> <span class="n">_menuCanvas</span><span class="p">.</span><span class="n">transform</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cp">#region 注册事件</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// 加载场景后关闭主菜单</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">OnAfterSceneLoadEvent</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 有子物体，则需要删去对应的prefab</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">_menuCanvas</span><span class="p">.</span><span class="n">transform</span><span class="p">.</span><span class="n">childCount</span> <span class="p">&gt;</span> <span class="m">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Destroy</span><span class="p">(</span><span class="n">_menuCanvas</span><span class="p">.</span><span class="n">transform</span><span class="p">.</span><span class="n">GetChild</span><span class="p">(</span><span class="m">0</span><span class="p">).</span><span class="n">gameObject</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="err">#</span><span class="n">endregion</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// 呼出暂停面板</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="k">void</span> <span class="n">TogglePausePanel</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">bool</span> <span class="n">isOpen</span> <span class="p">=</span> <span class="n">pausePanel</span><span class="p">.</span><span class="n">activeInHierarchy</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">isOpen</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">pausePanel</span><span class="p">.</span><span class="n">SetActive</span><span class="p">(</span><span class="k">false</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Time</span><span class="p">.</span><span class="n">timeScale</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">System</span><span class="p">.</span><span class="n">GC</span><span class="p">.</span><span class="n">Collect</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">            <span class="n">pausePanel</span><span class="p">.</span><span class="n">SetActive</span><span class="p">(</span><span class="k">true</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Time</span><span class="p">.</span><span class="n">timeScale</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// btn的点击事件注册内容</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">public</span> <span class="k">void</span> <span class="n">ReturnMenuCanvas</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Time</span><span class="p">.</span><span class="n">timeScale</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">StartCoroutine</span><span class="p">(</span><span class="n">BackToMenu</span><span class="p">());</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// 逐步返回</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="cs">/// &lt;returns&gt;&lt;/returns&gt;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">private</span> <span class="n">IEnumerator</span> <span class="n">BackToMenu</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">pausePanel</span><span class="p">.</span><span class="n">SetActive</span><span class="p">(</span><span class="k">false</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">yield</span> <span class="k">return</span> <span class="k">new</span> <span class="n">WaitForSeconds</span><span class="p">(</span><span class="m">1f</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Instantiate</span><span class="p">(</span><span class="n">menuPrefab</span><span class="p">,</span> <span class="n">_menuCanvas</span><span class="p">.</span><span class="n">transform</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>由于UI是通过Button控制，因此许多代码可以直接为btn添加点击事件而执行。</p>
+<p>为了保证在主菜单中的时候玩家不能操作，只能在加载场景以后才能移动</p>
+<p>在<code>Player.cs</code>的awake中添加</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="n">_inputDisable</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>添加音量控制</li>
+</ul>
+<p>由于在设置<code>AudioMixer</code>的时候有将相关的变量暴露出来，因此可以通过对暴露出的变量进行控制的音量</p>
+<p>在<code>AudioManager.cs</code>中这是主音量的交方法</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">//AudioManager.cs</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// 设置主音量</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;param name=&#34;value&#34;&gt;&lt;/param&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span> <span class="k">void</span> <span class="n">SetMasterVolume</span><span class="p">(</span><span class="kt">float</span> <span class="k">value</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">gameAudioMixer</span><span class="p">.</span><span class="n">SetFloat</span><span class="p">(</span><span class="s">&#34;MasterVolume&#34;</span><span class="p">,</span> <span class="n">ConvertSoundVolume</span><span class="p">(</span><span class="k">value</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后在<code>UIManager</code>中设置滑动条的监听</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">// UIManager.cs</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">Awake</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">settingBtn</span><span class="p">.</span><span class="n">onClick</span><span class="p">.</span><span class="n">AddListener</span><span class="p">(</span><span class="n">TogglePausePanel</span><span class="p">);</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">volumeSlider</span><span class="p">.</span><span class="n">onValueChanged</span><span class="p">.</span><span class="n">AddListener</span><span class="p">(</span><span class="n">AudioManager</span><span class="p">.</span><span class="n">Instance</span><span class="p">.</span><span class="n">SetMasterVolume</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="结束游戏">结束游戏</h2>
+<p>设置一个结束游戏的事件，在返回主菜单以后调用</p>
+<p>需要给player设置在结束游戏时不能移动</p>
+<p>在<code>NPCMovement</code>中设置当游戏结束时关闭正在移动的协程</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c#" data-lang="c#"><span class="line"><span class="cl"><span class="c1">// NPCMovement</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// 结束游戏</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">OnEndGameEvent</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_loadedScene</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_npcMove</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">_npcMovementRoutine</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">StopCoroutine</span><span class="p">(</span><span class="n">_npcMovementRoutine</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>在<code>TimeManager</code>中设置当游戏结束时停止计时。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">// TimeManager.cs</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// 游戏返回主菜单，停止时间</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">OnEndGameEvent</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_gameClockPause</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>在<code>AudioManager</code>中设置停止游戏静音</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// 返回主菜单后静音</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">OnEndGameEvent</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">_soundRoutine</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">StopCoroutine</span><span class="p">(</span><span class="n">_soundRoutine</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">muteSnapshot</span><span class="p">.</span><span class="n">TransitionTo</span><span class="p">(</span><span class="m">1f</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>在<code>SaveLoadManager.cs</code>中设置返回主菜单的时候保存游戏进度</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">// SaveLoadManager.cs</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="k">void</span> <span class="n">OnEndGameEvent</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Save</span><span class="p">(</span><span class="n">_currentDataIndex</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>在<code>TransitionManager</code>中关闭当前场景，并卸载，因为有渐进渐出效果，因此需要使用协程</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="cs">/// &lt;summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// 返回主菜单的时候卸载所有场景</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;/summary&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="cs">/// &lt;returns&gt;&lt;/returns&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="n">IEnumerator</span> <span class="n">UnloadScene</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">EventHandler</span><span class="p">.</span><span class="n">CallBeforeSceneUnloadEvent</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">yield</span> <span class="k">return</span> <span class="n">SceneFader</span><span class="p">(</span><span class="m">1f</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">yield</span> <span class="k">return</span> <span class="n">SceneManager</span><span class="p">.</span><span class="n">UnloadSceneAsync</span><span class="p">(</span><span class="n">SceneManager</span><span class="p">.</span><span class="n">GetActiveScene</span><span class="p">().</span><span class="n">buildIndex</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">yield</span> <span class="k">return</span> <span class="n">SceneFader</span><span class="p">(</span><span class="m">0f</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>检测鼠标位置是否有已经建造的家具</li>
+</ul>
+<p>思路在于获得当前鼠标的位置以及当前建造物品的碰撞体大小，然后去以鼠标点为起点，碰撞体大小为范围检测该范围内是否有碰撞体，如果有碰撞体，继续检测碰撞体是否有家具组件。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-C#" data-lang="C#"><span class="line"><span class="cl"><span class="c1">// CursorManager.cs</span>
+</span></span><span class="line"><span class="cl"><span class="k">private</span> <span class="kt">bool</span> <span class="n">HaveFurnitureInRadius</span><span class="p">(</span><span class="n">BluePrintDetails</span> <span class="n">bluePrintDetails</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">var</span> <span class="n">buildItem</span> <span class="p">=</span> <span class="n">bluePrintDetails</span><span class="p">.</span><span class="n">buildPrefab</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Vector2</span> <span class="n">point</span> <span class="p">=</span> <span class="n">_mouseWorldPos</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">var</span> <span class="n">size</span> <span class="p">=</span> <span class="n">buildItem</span><span class="p">.</span><span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">BoxCollider2D</span><span class="p">&gt;().</span><span class="n">size</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="kt">var</span> <span class="n">otherColl</span> <span class="p">=</span> <span class="n">Physics2D</span><span class="p">.</span><span class="n">OverlapBox</span><span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="m">0</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">otherColl</span> <span class="k">is</span> <span class="n">not</span> <span class="k">null</span> <span class="p">&amp;&amp;</span> <span class="n">otherColl</span><span class="p">.</span><span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">Furniture</span><span class="p">&gt;();</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>注意：<code>OverlapBox</code>方法不仅能检测碰撞体，也能检测<code>trigger</code>，而每个场景都有一个巨大的边界<code>trigger</code>，因此需要将这些边界的图层设置为<code>Ignore Raycast</code></p>
+<img src="/WFImg/image-20230304234533101.png" alt="image-20230304234533101" style="zoom:50%;" />
+<h2 id="后记">后记</h2>
+<ol>
+<li>注意动画是否有退出时间</li>
+<li>不同脚本的各自的<code>awake</code>和<code>start</code>的执行顺序不能确定，但是一定都是先执行完所有的<code>awake</code>在执行<code>start</code>。</li>
+<li>切换动画（设置为<code>AniatorOverrideController</code>），一个基本的<code>AnimatorController</code>可以通过上转来交由<code>AniatorOverrideController</code>控制，从而实现动画的替换。</li>
+<li>构建路径的时候使用的是栈，所以在跨场景移动的时候，需要先写入从当前位置到目标位置。NPC跨场景移动的时候先将当前任意位置到当前场景的传送区域的位置压入栈，然后再写下一场景的传送区域到目标位置。</li>
+<li>时间变化量是<code>deltaTime</code>（Time和FixTime）</li>
+<li>自适应UI的三个组件</li>
+<li>由于event事件是在<code>OnEnable</code>中声明的，因此这些时间触发的实际也是在<code>OnEnable</code>的生命周期中，即在<code>Start</code>和<code>Update</code>之前</li>
+<li>不在同一个场景的内容可以通过标签查找</li>
+<li>将代码的类型改写为<code>IEnumerator</code>，可以控制代码内部的执行顺序，比如先异步加载场景，然后执行场景加载后呼叫的事件；<code>start</code>是唯一一个可以将返回类型改写为<code>IEnumerator</code>的声明周期函数。</li>
+</ol>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/tags/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD/">麦田物语</a>
+        
+            <a href="/tags/%E5%AD%98%E6%A1%A3%E7%B3%BB%E7%BB%9F/">存档系统</a>
+        
+    </section>
+
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">Related content</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E5%8D%81%E4%BA%8C/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="/img/story_of_wheat_field/wheatField.jpg" loading="lazy" data-key="" data-hash="/img/story_of_wheat_field/wheatField.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">麦田物语开发日记(十二)</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E5%8D%81%E4%B8%80/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="/img/story_of_wheat_field/wheatField.jpg" loading="lazy" data-key="" data-hash="/img/story_of_wheat_field/wheatField.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">麦田物语开发日记(十一)</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E5%8D%81%E4%B8%89/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="/img/story_of_wheat_field/wheatField.jpg" loading="lazy" data-key="" data-hash="/img/story_of_wheat_field/wheatField.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">麦田物语开发日记(十三)</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E5%8D%81%E5%9B%9B/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="/img/story_of_wheat_field/wheatField.jpg" loading="lazy" data-key="" data-hash="/img/story_of_wheat_field/wheatField.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">麦田物语开发日记(十四)</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/p/%E9%BA%A6%E7%94%B0%E7%89%A9%E8%AF%AD%E5%BC%80%E5%8F%91%E6%97%A5%E8%AE%B0%E5%8D%81/">
+        
+        
+            <div class="article-image">
+                
+                    <img src="/img/story_of_wheat_field/wheatField.jpg" loading="lazy" data-key="" data-hash="/img/story_of_wheat_field/wheatField.jpg"/>
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">麦田物语开发日记(十)</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2023 Ruizumoe&#39;Blog
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.16.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
